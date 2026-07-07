@@ -6,52 +6,63 @@
 
 ## Short Version
 
-**Question**: Which starting `train.py` should agents optimize?
+**Task**: agents will edit `autoresearch/train.py`, run the training evaluator,
+and try to lower validation loss. The evaluator reports `val_bpb`; lower is
+better.
 
-**What was run**: 161 controlled evaluator runs. These were non-agentic: no
-Claude Code agent chose actions. A script applied predefined edits to
-`autoresearch/train.py`, ran the evaluator, and recorded validation loss.
+**Question**: which starting `train.py` should future agent runs optimize?
 
-**Main result**: the selected starting point has `val_bpb = 0.841354`. It is
-good enough to be credible, but still improvable in three different ways.
+**What was run**: 161 controlled evaluator runs. These were non-agentic: a
+script applied predefined edits, not an AI agent choosing what to try.
 
-**Target for later agents**: `q* = 0.824`. This is the validation-loss threshold
-an agent run should beat to count as a meaningful improvement.
+**Main result**: the selected starting model has `val_bpb = 0.841354`. It is
+credible, but still improvable through batch size, learning rate, and model
+capacity.
 
-**Caveat**: this study does not test agents. It only calibrates the benchmark so
-later agent studies are not won by an easy or saturated task.
+**Target for later agents**: `target_val_bpb = 0.824`. Older protocol notes call
+this `q*`: it is just the validation-loss threshold an agent must beat.
+
+**Caveat**: this study calibrates the task. It does not yet prove that agents
+can solve it better than scripts or humans.
 
 ## Terms
 
-- **Baseline**: the starting `train.py` agents will edit.
-- **LR**: learning rate, the step size used by the optimizer during training.
-- **Fixed steps**: every trial trains for the same number of gradient updates.
-  This is stricter than training for a fixed wall-clock time.
-- **1170 steps**: the fixed-step length selected for the current benchmark. The
-  shorter 585-step screen was too easy: almost every reasonable edit improved.
-- **Edit family**: a type of intervention, such as batch size, learning rate, or
-  model width.
+- **Baseline / starting model**: the initial `train.py` that agents will edit.
+- **`val_bpb`**: validation loss reported by the training script; lower is
+  better. This is the main quality metric in this study.
+- **`q*`**: older shorthand for the target validation loss. Here, `q* = 0.824`
+  means `target_val_bpb = 0.824`.
+- **Training update / step**: one optimizer gradient update inside
+  `autoresearch/train.py`.
+- **1170 training updates**: the evaluator length chosen for the benchmark. It
+  is not a magic number: the shorter 585-update screen was too easy because
+  nearly every reasonable edit improved validation loss.
+- **Edit family**: a class of edits, such as batch size, learning rate, model
+  capacity, schedule, or regularization.
 
 ## Research Question
 
-The probe ablation study showed that the previous task was too close to a narrow local optimum:
-only a small learning-rate region reliably improved validation loss. The baseline headroom study asks:
+The next agent studies need a task that is neither trivial nor saturated. If the
+starting model is too weak, almost any edit wins. If it is too strong, no edit
+works and the agent comparison measures noise.
 
-**Can we choose a baseline and fixed-step evaluator where several distinct strategy categories can improve the model, without making the task trivially easy?**
+This study asks:
 
-This study is deliberately non-agentic. It calibrates the task geometry before spending LLM budget on architecture comparisons.
+**Can we choose a starting `train.py` where several distinct edit families can
+improve validation loss, without making the task trivially easy?**
 
-## What Changed
+## Protocol
 
-The baseline headroom study added a controlled baseline-headroom calibration tool:
+The calibration script did the following:
 
-- fixed-step evaluator support with `AUTOSEARCH_MAX_STEPS`;
-- isolated workspaces for every baseline/edit trial;
-- baseline and edit panels covering optimizer/LR, scheduler, capacity, regularization, and batch/data;
-- JSON/CSV/Markdown outputs for calibration screens;
-- reviewer-grade cost and hitting-time instrumentation from the preceding protocol work.
+1. Create candidate starting versions of `autoresearch/train.py`.
+2. For each candidate, run a fixed-length training evaluation.
+3. Apply simple predefined edits, one at a time.
+4. Re-run the evaluator and record whether validation loss improved.
+5. Prefer a candidate where multiple edit families help, but not every edit
+   wins.
 
-The working `autoresearch/train.py` baseline was updated to the selected candidate:
+The selected starting model uses:
 
 ```text
 DEPTH = 3
@@ -68,92 +79,102 @@ AUTOSEARCH_MAX_STEPS = 1170
 
 ## Experiments
 
-| screen | fixed steps | trials | purpose |
+| screen | training updates | trials | purpose |
 | --- | ---: | ---: | --- |
-| `baseline_headroom_calibration_fixed1170` | 1170 | 43 | default healthy-mistuned baseline screen |
-| `baseline_headroom_calibration_extended_targeted_fixed1170` | 1170 | 38 | broader model / optimizer / regularization screen |
-| `baseline_refinement_custom_fixed585` | 585 | 40 | shorter-step refinement screen |
-| `baseline_refinement_custom_fixed1170` | 1170 | 40 | intermediate-width / head / mild-dropout refinement |
+| initial 1170-update screen | 1170 | 43 | broad scan over plausible starting models |
+| extended 1170-update screen | 1170 | 38 | additional optimizer, regularization, and capacity checks |
+| 585-update refinement | 585 | 40 | shorter training screen used as a stress test |
+| 1170-update refinement | 1170 | 40 | final comparison among intermediate candidates |
 
 Total controlled evaluations summarized here: **161**.
 
-Trial counts differ because the screens tested different candidate/edit panels,
-and no-op edits were skipped. For comparisons across screens, use normalized
-edit win rate (`raw_wins / edit_count`) rather than raw trial count.
+Trial counts differ because each screen tested a different candidate/edit panel,
+and no-op edits were skipped. For cross-screen comparisons, use normalized edit
+win rate (`successful_edits / tested_edits`) rather than raw trial count.
 
 ## Key Figures
 
-![Presentation baseline choice](results/figures/figure-05-presentation-baseline-choice.png)
-
-**Figure 5**: each dot is a candidate starting point. The x-axis normalizes by
-trial count: it shows the share of tested edits that improved that candidate.
-The selected baseline sits in the useful region: several edit families work, but
-not every edit wins.
-
-![Presentation width30 detail](results/figures/figure-06-presentation-width30-detail.png)
-
-**Figure 6**: simple edit-level readout for the selected baseline. Green bars
-lower validation loss; red bars make it worse. The dashed blue line is the
-future agent target.
-
 ![Baseline screen overview](results/figures/figure-01-baseline-screen-overview.png)
 
-**Figure 1**: baseline quality and category-derived `q3` thresholds. The selected baseline is not the weakest; it sits near the better end while still preserving multiple useful intervention categories.
+**Figure 1**: each dot is a candidate starting `train.py`. The x-axis shows the
+normalized edit success rate; the y-axis shows starting validation loss. The
+orange star is the chosen starting model.
 
 ![Gate diagnostics](results/figures/figure-02-gate-diagnostics.png)
 
-**Figure 2**: raw edit win rate versus number of winning strategy categories. The original 10-30% raw-win gate was too strict for this panel because several duplicate edits within the same category can win. The more useful diagnostic is category richness plus negative controls.
+**Figure 2**: 1170-update candidates ranked by normalized edit success rate.
+The selected model is useful because 4 of 7 tested edits worked across 3 edit
+families: enough headroom, but not a free win.
 
 ![Category improvement heatmap](results/figures/figure-03-category-improvement-heatmap.png)
 
-**Figure 3**: best improvement by strategy category. Good candidates expose multiple positive categories while retaining negative or weak categories.
+**Figure 3**: which edit families helped which starting model. Green means an
+edit family lowered validation loss; red means it hurt.
 
 ![Recommended baseline detail](results/figures/figure-04-recommended-baseline-detail.png)
 
-**Figure 4**: detailed trial outcomes for `width30_lr_low`.
+**Figure 4**: the seven simple edits tested on the selected starting model.
+Positive bars lower validation loss. The blue dashed line is the improvement
+needed to beat `target_val_bpb = 0.824`.
+
+![Presentation baseline choice](results/figures/figure-05-presentation-baseline-choice.png)
+
+**Figure 5**: presentation version of the selection logic. It compares 1170-
+update candidates by normalized edit success rate and number of edit families.
+
+![Presentation width30 detail](results/figures/figure-06-presentation-width30-detail.png)
+
+**Figure 6**: presentation version of the selected-baseline edit outcomes.
 
 ## Decision
 
 Recommended baseline:
 
 ```text
-baseline_id = width30_lr_low  # internal ID: slightly narrower model, lower learning rate
+starting_model = width 30, lower learning rate
+internal_id = width30_lr_low
 run = refinement_fixed1170
-baseline val_bpb = 0.841354
-q* = 0.824
+starting val_bpb = 0.841354
+target_val_bpb = 0.824  # old shorthand: q*
 ```
 
-Winning categories:
+Edits that beat the target:
 
-| category | best trial | best val_bpb | improvement |
+| edit family | best edit | best val_bpb | improvement |
 | --- | --- | ---: | ---: |
-| data_batch | `width30_lr_low__data_batch__batch256` | 0.784812 | 0.056542 |
-| normalization_capacity | `width30_lr_low__normalization_capacity__width32` | 0.823338 | 0.018016 |
-| optimizer_lr | `width30_lr_low__optimizer_lr__lr_1p5e3` | 0.800896 | 0.040458 |
+| Batch size | use batch size 256 | 0.784812 | 0.056542 |
+| Learning rate / optimizer | raise learning rate to 0.0015 | 0.800896 | 0.040458 |
+| Model capacity | make the model slightly wider | 0.823338 | 0.018016 |
 
 Negative / near-negative controls:
 
-| trial | category | val_bpb | delta vs baseline |
+| edit | family | val_bpb | effect |
 | --- | --- | ---: | ---: |
-| `width30_lr_low__scheduler__schedule_on` | scheduler | 0.845433 | -0.004079 |
+| turn on learning-rate schedule | Schedule | 0.845433 | worse by 0.004079 |
+| raise learning rate to 0.001 | Learning rate / optimizer | 0.847634 | worse by 0.006280 |
+| switch optimizer to AdamW | Learning rate / optimizer | 0.878075 | worse by 0.036721 |
 
-## Candidate Comparison
+## Candidate Comparison Snapshot
 
-| baseline | screen | steps | baseline val_bpb | raw wins | winning categories | q3 |
-| --- | --- | ---: | ---: | ---: | --- | ---: |
-| narrow_lr_low | default_fixed1170 | 1170 | 0.864447 | 4/8 | data_batch, normalization_capacity, optimizer_lr | 0.832826 |
-| sgd_baseline | extended_fixed1170 | 1170 | 0.884132 | 3/6 | data_batch, optimizer_lr, regularization | 0.872697 |
-| width30_lr_low | refinement_fixed1170 | 1170 | 0.841354 | 4/7 | data_batch, normalization_capacity, optimizer_lr | 0.823338 |
-| mild_dropout_no_schedule | extended_fixed1170 | 1170 | 1.065839 | 4/7 | data_batch, optimizer_lr, optimizer_scheduler, regularization | 1.035120 |
-| overregularized_lr_low | default_fixed1170 | 1170 | 0.966298 | 5/8 | data_batch, normalization_capacity, optimizer_lr, regularization | 0.899594 |
-| no_batchnorm_lr_low | default_fixed1170 | 1170 | 1.078067 | 5/8 | data_batch, normalization_capacity, optimizer_lr | 0.963829 |
-| fc96_lr_low | refinement_fixed1170 | 1170 | 0.851718 | 5/7 | data_batch, normalization_capacity, optimizer_lr | 0.834426 |
-| dropout005_lr_low | refinement_fixed1170 | 1170 | 0.868005 | 5/7 | data_batch, optimizer_lr, regularization | 0.830335 |
+| candidate | starting val_bpb | edits that worked | verdict |
+| --- | ---: | ---: | --- |
+| selected: width 30, lower learning rate | 0.841354 | 4/7 | chosen: credible but improvable |
+| narrow model, low learning rate | 0.864447 | 4/8 | valid backup, but more obviously weakened |
+| SGD optimizer | 0.884132 | 3/6 | useful diagnostic, less representative |
+| weak regularization | 0.810496 | 1/6 | too strong/narrow; little headroom |
+| width 28, low learning rate | 0.879400 | 7/7 | too easy |
+| width 24, medium learning rate | 0.862439 | 7/7 | too easy |
+| very small classifier head | 0.889742 | 7/7 | too easy |
+| batch norm removed | 1.078067 | 5/8 | too obviously damaged |
 
-## Why Not 585 Steps
+## Why 1170 Updates
 
-The 585-step screens created broad headroom, but almost every reasonable edit won.
-That is useful for debugging, but weak for confirmatory architecture claims. At 1170 steps, the task remains learnable while retaining more negative controls.
+The 585-update screen created broad headroom, but almost every reasonable edit
+won. That is useful for debugging, but weak for an agent benchmark.
+
+At 1170 training updates, the task still has real improvements available, but
+also keeps negative controls. That makes it a better benchmark for later claims
+about agent search quality.
 
 ## Next Step
 
@@ -163,7 +184,7 @@ Run a small agentic pilot on `width30_lr_low` before the full 2x2:
 fixed-step evaluator
 AUTOSEARCH_MAX_STEPS = 1170
 serialized evaluator
-q* = 0.824
+target_val_bpb = 0.824
 separate agent_deliberation_wall_time and evaluator_wall_time
 true independent replicates
 ```
@@ -173,4 +194,7 @@ true independent replicates
 - Summary table: `results/tables/baseline_summary.csv`
 - Trial table: `results/tables/trial_results.csv`
 - Machine-readable summary: `results/tables/baseline_headroom_summary.json`
+- Legacy raw-table note: the `q3` column means the target loss implied by the
+  third winning edit family. In prose, this README calls the selected threshold
+  `target_val_bpb`.
 - Source calibration reports remain under `runs/baseline_*`.

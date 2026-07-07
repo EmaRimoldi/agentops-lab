@@ -4,14 +4,16 @@ Generated after the baseline-headroom screens run on April 14, 2026.
 
 ## Studies Run
 
-| run | fixed steps | trials | purpose |
+| run | training updates | trials | purpose |
 | --- | ---: | ---: | --- |
 | `runs/baseline_headroom_calibration_fixed1170` | 1170 | 43 | default healthy-mistuned baseline screen |
 | `runs/baseline_headroom_calibration_extended_targeted_fixed1170` | 1170 | 38 | broader model / optimizer / regularization screen |
 | `runs/baseline_refinement_custom_fixed585` | 585 | 40 | shorter-step refinement screen |
 | `runs/baseline_refinement_custom_fixed1170` | 1170 | 40 | intermediate-width / head / mild-dropout refinement |
 
-Total controlled training evaluations: 161.
+Total controlled training evaluations: 161. These were non-agentic calibration
+runs: a script applied predefined edits to `autoresearch/train.py`; no agent
+chose the edits.
 
 ## Main Finding
 
@@ -19,10 +21,11 @@ The 585-step task is too permissive for confirmatory architecture studies.
 It creates broad headroom, but many reasonable edits win, so it is less useful
 for testing whether agentic architecture improves search quality.
 
-The best current candidate is:
+The best current candidate is the starting model now described as "width 30,
+lower learning rate":
 
 ```text
-baseline_id = width30_lr_low
+internal_id = width30_lr_low
 DEPTH = 3
 BASE_CHANNELS = 30
 FC_HIDDEN = 128
@@ -41,14 +44,14 @@ only mildly mis-tuned through width, learning rate, and schedule.
 
 ## Recommended Candidate
 
-`width30_lr_low` at 1170 fixed steps:
+`width30_lr_low` at 1170 training updates:
 
 | metric | value |
 | --- | ---: |
 | baseline val_bpb | 0.841354 |
 | edit wins | 4 / 7 |
 | winning categories | 3 |
-| q* from third winning category | 0.823338 |
+| target loss from third winning family | 0.823338 |
 
 Winning categories:
 
@@ -69,7 +72,7 @@ Negative / near-negative controls:
 Recommended target for the next pilot:
 
 ```text
-q* = 0.824
+target_val_bpb = 0.824
 ```
 
 This includes the third winning category (`width32`, 0.823338) while still
@@ -85,7 +88,7 @@ narrow_lr_low:
 baseline = 0.864447
 winning categories = optimizer_lr, normalization_capacity, data_batch
 raw wins = 4 / 8
-q* = 0.832826
+target_val_bpb = 0.832826
 ```
 
 `overregularized_lr_low`, `mild_dropout_no_schedule`, `small_fc_lr_low`, and
@@ -109,7 +112,7 @@ too easy and too dominated by broad early-training improvements.
 Before the final 2x2, run a small agentic pilot on `width30_lr_low` with:
 
 ```text
-q* = 0.824
+target_val_bpb = 0.824
 fixed-step evaluator
 serialized evaluator
 separate evaluator_wall_time and agent_deliberation_wall_time

@@ -1,13 +1,14 @@
 # Baseline Headroom Calibration
 
-Use this before any reviewer-grade 2x2 run. The goal is to choose a baseline
-and `q*` from controlled calibration evidence, not from the confirmatory 2x2.
+Use this before any reviewer-grade 2x2 run. The goal is to choose a starting
+`train.py` and `target_val_bpb` from controlled calibration evidence, not from
+the confirmatory 2x2.
 
 The calibration is intentionally non-agentic:
 
 - define healthy but mildly mis-tuned baseline candidates;
 - apply a fixed edit panel across several strategy categories;
-- run fixed-step `train.py` evaluations in isolated workspaces;
+- run fixed-length `train.py` evaluations in isolated workspaces;
 - select a baseline only if multiple categories can beat it.
 
 ## Command
@@ -43,7 +44,8 @@ uv run agentops baseline-calibration \
 ```
 
 The full default panel runs 5 baseline candidates and 10 controlled edits per
-candidate, minus no-op edits. On CPU this can take hours at 1170 steps. Use
+candidate, minus no-op edits. On CPU this can take hours at 1170 training
+updates. Use
 `--baseline-ids` and `--edit-ids` for a smaller screen when iterating.
 
 Broader follow-up screen:
@@ -88,9 +90,10 @@ A candidate qualifies only if:
 - at least 3 distinct strategy categories beat the baseline by `min_delta`;
 - the completed-edit success rate is in the default 10-30% band.
 
-If a candidate qualifies, the script proposes `q*` as the strictest threshold that
-is still hit by the required number of winning categories. If no candidate
-qualifies, do not proceed to the confirmatory 2x2; revise the task/baseline first.
+If a candidate qualifies, the script proposes `target_val_bpb` as the strictest
+threshold that is still hit by the required number of winning categories. If no
+candidate qualifies, do not proceed to the confirmatory 2x2; revise the
+task/baseline first.
 
 ## Default Baseline Candidates
 

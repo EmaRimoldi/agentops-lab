@@ -49,7 +49,7 @@ Key examples:
 
 | Evidence | What it shows | Start here |
 |---|---|---|
-| Baseline headroom | 161 controlled non-agentic evaluations selected a benchmark baseline: `width30_lr_low`, baseline `val_bpb = 0.841354`, threshold `q* = 0.824` | [`studies/baseline_headroom/README.md`](studies/baseline_headroom/README.md) |
+| Baseline headroom | 161 controlled non-agentic evaluations selected the starting `train.py`: validation loss `val_bpb = 0.841354`, future agent target `target_val_bpb = 0.824` | [`studies/baseline_headroom/README.md`](studies/baseline_headroom/README.md) |
 | Shared memory effect | P12 shared-memory exploration found better and more stable results than P11 high-temperature exploration without memory: best `0.914` vs `0.934`, mean `1.049` vs `1.816` | [`studies/bp_probe_ablation/results/probe_ablation_summary.md`](studies/bp_probe_ablation/results/probe_ablation_summary.md) |
 | Deterministic evaluator | Five baseline runs produced identical `val_bpb = 0.811222`, removing training noise as the main explanation | [`studies/calibration_design/results/calibration_design_summary.md`](studies/calibration_design/results/calibration_design_summary.md) |
 | Early pilot | First 2x2 pilot built the instrumentation and exposed why the task and estimators needed redesign | [`studies/bp_implementation/results/implementation_pilot_summary.md`](studies/bp_implementation/results/implementation_pilot_summary.md) |

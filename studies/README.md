@@ -49,11 +49,12 @@ Read the studies in this order if you want the cleanest narrative:
 spending agent budget on mode comparisons?
 
 **What was run**: 161 controlled non-agentic evaluations across baseline/edit
-panels at fixed evaluator lengths, including the selected 1170-step screen.
+panels at fixed evaluator lengths, including the selected 1170-update screen.
 
-**Main result**: `width30_lr_low` was selected as the current baseline:
-`val_bpb = 0.841354`, with reviewer threshold `q* = 0.824`. It preserves
-multiple useful improvement categories while keeping negative controls.
+**Main result**: the selected starting model is "width 30, lower learning
+rate" (internal ID `width30_lr_low`): `val_bpb = 0.841354`, with future agent
+target `target_val_bpb = 0.824`. It preserves multiple useful improvement
+categories while keeping negative controls.
 
 **Caveat**: This is not an agent result. It calibrates the task geometry so the
 agent studies have meaningful headroom.

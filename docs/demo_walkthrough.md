@@ -25,8 +25,9 @@ This gives the repo a concrete experimental question:
    [`studies/baseline_headroom/README.md`](../studies/baseline_headroom/README.md).
 
    The current baseline was chosen after 161 controlled non-agentic evaluations.
-   The selected candidate is `width30_lr_low`, with baseline `val_bpb = 0.841354`
-   and reviewer threshold `q* = 0.824`.
+   The selected starting model is "width 30, lower learning rate" (internal ID
+   `width30_lr_low`), with `val_bpb = 0.841354` and future agent target
+   `target_val_bpb = 0.824`.
 
 2. Read the strongest agent-workflow finding:
    [`studies/bp_probe_ablation/results/probe_ablation_summary.md`](../studies/bp_probe_ablation/results/probe_ablation_summary.md).

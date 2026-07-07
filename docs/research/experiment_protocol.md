@@ -50,10 +50,11 @@ The current calibrated baseline comes from
 [`../../studies/baseline_headroom/README.md`](../../studies/baseline_headroom/README.md):
 
 ```text
-baseline_id = width30_lr_low
-baseline val_bpb = 0.841354
-target q* = 0.824
-fixed-step evaluator = AUTOSEARCH_MAX_STEPS=1170
+starting_model = width 30, lower learning rate
+internal_id = width30_lr_low
+starting val_bpb = 0.841354
+target_val_bpb = 0.824
+fixed-length evaluator = AUTOSEARCH_MAX_STEPS=1170
 ```
 
 Use this baseline for new reviewer-grade comparisons unless a newer calibration
