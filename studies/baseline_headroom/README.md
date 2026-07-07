@@ -4,6 +4,32 @@
 **Period**: April 14, 2026
 **Objective**: Find a healthy but non-trivial AutoResearch baseline before running the reviewer-grade BP 2x2.
 
+## Study Rhythm
+
+**Question**: Can we pick an AutoResearch baseline that agents can improve in
+several distinct ways, without making the task so weak that almost every edit
+wins?
+
+**What was actually run**: 161 controlled evaluator runs. These were
+non-agentic: no Claude Code agent chose actions, used memory, or coordinated
+with other agents. A script applied predefined baseline/edit configurations to
+`autoresearch/train.py`, ran the fixed-step evaluator, and recorded `val_bpb`.
+
+**Main result**: `width30_lr_low` is the best current baseline. It starts at
+`val_bpb = 0.841354`, keeps three independent improvement paths open, and sets
+a reviewer target `q* = 0.824`.
+
+**Caveat**: This study does not prove an agent workflow works. It calibrates the
+benchmark so later agentic studies are not won by a trivial or saturated task.
+
+**Presentation takeaways**:
+
+1. The selected baseline is deliberately healthy-but-mistuned, not broken.
+2. Three different edit categories beat it: batch/data, optimizer/LR, and
+   normalization/capacity.
+3. The 585-step evaluator was rejected because it was too permissive; at 1170
+   steps, the task keeps useful headroom and still has negative controls.
+
 ## Research Question
 
 The probe ablation study showed that the previous task was too close to a narrow local optimum:
@@ -50,6 +76,18 @@ AUTOSEARCH_MAX_STEPS = 1170
 Total controlled evaluations summarized here: **161**.
 
 ## Key Figures
+
+![Presentation baseline choice](results/figures/figure-05-presentation-baseline-choice.png)
+
+**Figure 5**: presentation summary of why `width30_lr_low` was chosen. It is not
+the weakest candidate, and it avoids the high-win-rate region where the task
+becomes too permissive for confirmatory claims.
+
+![Presentation width30 detail](results/figures/figure-06-presentation-width30-detail.png)
+
+**Figure 6**: controlled edits around the selected baseline. Green bars are
+real headroom; red bars are negative or near-negative controls. The `q* = 0.824`
+target is tied to the third distinct winning category.
 
 ![Baseline screen overview](results/figures/figure-01-baseline-screen-overview.png)
 
