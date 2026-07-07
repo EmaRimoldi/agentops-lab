@@ -1,10 +1,5 @@
 """Estimate reviewer-facing T_wall and T_cost from experiment logs.
 
-Source provenance:
-    Integrated from remote branch `origin/bp-2x2-instrumentation`,
-    file `src/agentops_lab/certified_time.py`, commit
-    `b3b690d`.
-
 This module treats each mode directory as one independent replicate. Within a
 replicate it pools all agents and asks: at what elapsed critical-path wall time
 did the system first produce a candidate whose latent-loss proxy crossed q*?

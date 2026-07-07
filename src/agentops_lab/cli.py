@@ -44,7 +44,7 @@ def main(argv=None) -> None:
         from scripts.run_merge_phase import main as merge_main
         merge_main(rest)
     elif args.command == "certified-time":
-        from agentops_lab.certified_time import main as certified_time_main
+        from agentops_lab.instrumentation.certified_time import main as certified_time_main
         certified_time_main(rest)
     elif args.command == "baseline-calibration":
         from agentops_lab.baseline_calibration import main as baseline_calibration_main

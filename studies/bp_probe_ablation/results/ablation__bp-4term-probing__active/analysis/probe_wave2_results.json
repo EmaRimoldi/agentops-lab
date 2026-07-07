@@ -40,7 +40,7 @@
     "experiment_id": "probe_P10",
     "name": "homo_fixed",
     "description": "Parallel homogeneous, 60s training (comparable P01 control)",
-    "variable": "P01 control with fixed template",
+    "variable": "P01 control with fixed baseline script",
     "status": "ok",
     "returncode": 0,
     "elapsed_seconds": 904.0,

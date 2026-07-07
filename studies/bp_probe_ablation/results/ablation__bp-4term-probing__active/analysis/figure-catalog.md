@@ -8,7 +8,7 @@
 - **Color coding**: Gray=single no-memory, Blue=single+memory, Green=parallel, Purple=shared memory, Pink=full stack
 - **Key observation**: Below-baseline successes (gold stars) appear only in P01, P05, P07, P12, P15. The vast majority of runs cluster above baseline. P11 and P13 show high variance and extreme degradation.
 - **Interpretation**: The task has a strong ceiling effect. Most agent modifications harm performance. Only a few specific configurations occasionally break through. The broken-memory probes (P05-P08) are functionally equivalent to no-memory probes.
-- **Caption requirements**: Must note that * marks broken-memory probes. Must include baseline value. Must note that P04 used 30s training and P01 had template bug.
+- **Caption requirements**: Must note that * marks broken-memory probes. Must include baseline value. Must note that P04 used 30s training and P01 had baseline-script bug.
 - **Known caveats**: Mixed budgets across probes (15-45 min). Visual comparison across different n values may be misleading.
 
 ## Figure 2: Memory Effect (figure-02-memory-effect.pdf)

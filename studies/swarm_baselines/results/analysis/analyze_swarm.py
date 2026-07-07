@@ -13,7 +13,7 @@ and extends it with swarm-specific visualisations:
   Fig 5  — Cumulative improvement attribution  (who moved the frontier)
 
 Usage:
-    python results/imported_swarms/analysis/analyze_swarm.py [--exp EXP_ID] [--runs-dir results/imported_swarms/runs/]
+    python results/swarm/analysis/analyze_swarm.py [--exp EXP_ID] [--runs-dir results/swarm/runs/]
 """
 
 from __future__ import annotations
@@ -36,8 +36,8 @@ import pandas as pd
 
 # ─── constants ────────────────────────────────────────────────────────────────
 CURRENT_REPO_ROOT = Path(__file__).resolve().parents[3]
-IMPORTED_RESULTS_ROOT = CURRENT_REPO_ROOT / "results" / "imported_swarms"
-IMPORTED_RUNS_ROOT = IMPORTED_RESULTS_ROOT / "runs"
+SWARM_RESULTS_ROOT = CURRENT_REPO_ROOT / "results" / "swarm"
+IMPORTED_RUNS_ROOT = SWARM_RESULTS_ROOT / "runs"
 
 DPI = 150
 AGENT_COLORS = {"atlas": "#1f77b4", "ember": "#ff7f0e"}   # blue / orange
@@ -1013,9 +1013,9 @@ def main() -> None:
     parser.add_argument("--exp",      default=None,
                         help="Experiment ID (e.g. exp_20260405_022850)")
     parser.add_argument("--runs-dir", default=str(IMPORTED_RUNS_ROOT),
-                        help="Root directory for imported swarm experiment runs")
+                        help="Root directory for swarm experiment runs")
     parser.add_argument("--out-dir",  default=None,
-                        help="Output directory for figures (default: results/imported_swarms/analysis/<exp_id>)")
+                        help="Output directory for figures (default: results/swarm/analysis/<exp_id>)")
     args = parser.parse_args()
 
     runs_dir = Path(args.runs_dir).expanduser()

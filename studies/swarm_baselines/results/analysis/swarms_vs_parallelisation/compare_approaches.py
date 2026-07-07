@@ -2,10 +2,10 @@
 
 Loads trajectory data from:
   - Parallelisation: runs/experiment_exp_20260401_013535
-  - Swarm exp1:      results/imported_swarms/runs/experiment_exp_20260405_022850
-  - Swarm exp2:      results/imported_swarms/runs/experiment_exp_20260405_124604
+  - Swarm exp1:      results/swarm/runs/experiment_exp_20260405_022850
+  - Swarm exp2:      results/swarm/runs/experiment_exp_20260405_124604
 
-Generates 5 figures in results/imported_swarms/analysis/swarms_vs_parallelisation/:
+Generates 5 figures in results/swarm/analysis/swarms_vs_parallelisation/:
   fig1_trajectories.png       — all agent runs, coloured by approach
   fig2_system_best.png        — system-level best over run index
   fig3_best_achieved.png      — bar chart: best val_bpb per experiment
@@ -30,9 +30,9 @@ from scipy.stats import pearsonr
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
-IMPORTED_RESULTS_ROOT = REPO_ROOT / "results" / "imported_swarms"
-IMPORTED_RUNS_ROOT = IMPORTED_RESULTS_ROOT / "runs"
-OUT_DIR = IMPORTED_RESULTS_ROOT / "analysis" / "swarms_vs_parallelisation"
+SWARM_RESULTS_ROOT = REPO_ROOT / "results" / "swarm"
+IMPORTED_RUNS_ROOT = SWARM_RESULTS_ROOT / "runs"
+OUT_DIR = SWARM_RESULTS_ROOT / "analysis" / "swarms_vs_parallelisation"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # ---------------------------------------------------------------------------

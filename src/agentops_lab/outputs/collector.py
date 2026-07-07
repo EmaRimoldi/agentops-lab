@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Optional
 
 from agentops_lab.outputs.schema import AgentResult, ExperimentSummary, TrajectoryEntry
-from agentops_lab.snapshotting import SnapshotManager
-from agentops_lab.reasoning_trace import ReasoningTracer
+from agentops_lab.instrumentation.snapshotting import SnapshotManager
+from agentops_lab.instrumentation.reasoning_trace import ReasoningTracer
 
 
 def collect_agent_result(

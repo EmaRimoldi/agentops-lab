@@ -1,7 +1,7 @@
 {
   "created_at": "2026-04-13T18:58:14.089256",
   "purpose": "Fixed-step CPU contention follow-up to the Pass 01 fixed-time resource contention benchmark.",
-  "source_workspace": "passes/pass_03__calibration-design__superseded/runs/calibration__2x2-diversity-memory__superseded/d00/rep1/mode_single_long/agent_0/workspace",
+  "source_workspace": "studies/calibration_design/runs/calibration__2x2-diversity-memory__superseded/d00/rep1/mode_single_long/agent_0/workspace",
   "device": "cpu",
   "max_steps": 300,
   "conditions": [

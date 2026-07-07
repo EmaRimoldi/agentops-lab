@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from agentops_lab.certified_time import (
+from agentops_lab.instrumentation.certified_time import (
     collect_training_events,
     estimate_certified_times,
 )

@@ -1,10 +1,4 @@
-"""Diversity metrics consolidated from `Agent_parallelisation`.
-
-Source provenance:
-    Adapted from:
-    - `Agent_parallelisation/analysis/measure_h_prior.py`
-    - `Agent_parallelisation/analysis/measure_h_post_trajectory.py`
-    - `Agent_parallelisation/analysis/measure_h_post_weights.py`
+"""Diversity metrics for prompts, trajectories, and model weights.
 
 The optional embedding and weight-space metrics import heavy dependencies
 inside their functions so the canonical CLI and lightweight tests do not require

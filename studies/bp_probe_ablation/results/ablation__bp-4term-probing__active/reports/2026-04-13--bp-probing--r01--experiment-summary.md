@@ -287,7 +287,7 @@ Tassi di successo per categoria strategica:
 2. **Budget confuso**: I probe spaziano da 15 a 45 minuti. Budget più lunghi producono meccanicamente più run. I confronti cross-budget sono confusi.
 3. **Singolo modello**: Tutti gli esperimenti usano Claude Haiku. I risultati potrebbero non generalizzare a Sonnet/Opus.
 4. **Singolo task**: Un'architettura, un dataset. La sensibilità al LR è task-specifica.
-5. **P01 template bug**: P01 ha usato 315s/run di training (bug nel template originale). Non direttamente comparabile.
+5. **P01 baseline-script bug**: P01 ha usato 315s/run di training (bug nel template originale). Non direttamente comparabile.
 6. **P13 qualità dati**: 7 run con val_bpb nullo (training failures) — potenzialmente dovuti a modifiche eccessivamente aggressive dall'agente ad alta temperatura senza memoria.
 
 ---

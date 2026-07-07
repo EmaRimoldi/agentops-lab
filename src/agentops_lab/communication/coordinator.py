@@ -1,13 +1,7 @@
-"""Local shim implementing the autoresearch-at-home Coordinator API.
+"""Local coordinator API backed by the AgentOps Lab blackboard.
 
-Source provenance:
-    Adapted from `agents-swarms/src/agent_swarms/coordinator_local.py` at
-    commit `3cec68457f46305af406d5567b0d83a544e41ac4`.
-
-Provides the same `Coordinator` class interface as the Ensue-based
-coordinator.py from https://github.com/mutable-state-inc/autoresearch-at-home,
-but backed by a local append-only JSONL blackboard (SharedMemory) instead of
-the Ensue network.
+Provides a `Coordinator` class interface backed by local append-only JSONL
+storage instead of a networked coordination service.
 
 Agents use it exactly as documented in collab.md:
     from coordinator import Coordinator

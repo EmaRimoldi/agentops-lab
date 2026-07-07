@@ -1,10 +1,4 @@
-"""Swarm orchestrator with a shared JSONL blackboard.
-
-This is a port of ``agents-swarms/src/agent_swarms/swarm_orchestrator.py`` into
-the current package namespace. It intentionally uses a distinct
-``mode_swarm`` directory so it does not alter the native
-``parallel_shared`` implementation.
-"""
+"""Swarm orchestrator with a shared JSONL blackboard."""
 
 from __future__ import annotations
 
@@ -185,4 +179,3 @@ def _render_swarm_first_message(
         .replace("{{WORKSPACE}}", str(workspace))
         .replace("{{BRANCH}}", f"swarm/{experiment_id}/{agent_config.agent_id}")
     )
-

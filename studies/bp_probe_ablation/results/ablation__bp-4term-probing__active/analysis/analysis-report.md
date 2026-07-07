@@ -108,7 +108,7 @@ The model is capable of the task. The bottleneck is **task headroom**: 60s train
 
 - Protocol: 84% explore mode (expected for iterative search)
 - All runs have git commits, strategy categories, and evaluation metadata
-- Training time: mean=66.3s, std=42.6s (P01 had 362s due to original template bug, now fixed)
+- Training time: mean=66.3s, std=42.6s (P01 had 362s due to original baseline-script bug, now fixed)
 - Model: claude-haiku-4-5-20251001 across all probes
 
 No tool usage inconsistencies found.

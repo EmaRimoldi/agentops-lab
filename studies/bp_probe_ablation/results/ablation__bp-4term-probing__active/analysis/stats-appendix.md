@@ -72,7 +72,7 @@
 - **Result**: U=189.0, **p<0.001**
 - **Effect size**: Rank-biserial r=0.581 (large)
 - **Direction**: Homo has LOWER mean val_bpb (better)
-- **Caveat**: Pooling across budgets (15m and 30m). P01 had template bug (315s training).
+- **Caveat**: Pooling across budgets (15m and 30m). P01 had baseline-script bug (315s training).
 
 ### Test 4: Degradation trend in P11
 
@@ -113,4 +113,4 @@
 3. **Missing P14**: The planned private-memory-only test at high temperature did not execute. Cannot assess private memory's correction effect.
 4. **Budget confound**: Probes range from 15-45 min. Longer budgets mechanically produce more runs. Not corrected.
 5. **Baseline variability**: Baseline runs range from 0.880 to 1.103 (P04 with 30s training). Baseline is not fixed.
-6. **P01 template bug**: P01 used 315s/run training (pre-fix). Not directly comparable to 60s probes.
+6. **P01 baseline-script bug**: P01 used 315s/run training (pre-fix). Not directly comparable to 60s probes.

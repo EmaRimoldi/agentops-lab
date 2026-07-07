@@ -90,8 +90,8 @@ Requirement satisfied:
 Files:
 
 - `src/agentops_lab/agents/claude_agent_runner.py`
-- `src/agentops_lab/snapshotting.py`
-- `templates/agent_system_prompt.md`
+- `src/agentops_lab/instrumentation/snapshotting.py`
+- `prompts/agent_system_prompt.md`
 
 Added observable fields:
 

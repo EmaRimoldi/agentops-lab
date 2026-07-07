@@ -1,10 +1,5 @@
 """Structured reasoning trace for agent decision dynamics.
 
-Source provenance:
-    Integrated from the base repository module
-    `src/agentops_lab/reasoning_trace.py` at
-    commit `d82dd28bf8e53ba2ba9e4c18bcc71b36cd539ac1`.
-
 For each agent step the trace records:
   - the hypothesis / intended improvement
   - evidence from prior runs that motivated the change

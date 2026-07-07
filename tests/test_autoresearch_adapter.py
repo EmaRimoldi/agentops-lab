@@ -1,4 +1,4 @@
-"""Tests for compatibility/original_repo_adapter.py."""
+"""Tests for runtime/autoresearch_adapter.py."""
 
 import json
 import tempfile
@@ -7,17 +7,17 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.compatibility.original_repo_adapter import (
-    read_original_trajectory,
-    read_all_original_trajectories,
-    find_best_original_result,
+from agentops_lab.runtime.autoresearch_adapter import (
+    read_autoresearch_trajectory,
+    read_all_autoresearch_trajectories,
+    find_best_autoresearch_result,
     write_results_tsv_row,
     RESULTS_TSV_HEADER,
 )
 
 
-def _make_original_results(base: Path) -> None:
-    """Create fake original-repo result files."""
+def _make_autoresearch_results(base: Path) -> None:
+    """Create fake AutoResearch result files."""
     traj_dir = base / "trajectories" / "exp_test_001"
     traj_dir.mkdir(parents=True)
 
@@ -30,12 +30,12 @@ def _make_original_results(base: Path) -> None:
     )
 
 
-def test_reads_original_jsonl_format():
+def test_reads_autoresearch_jsonl_format():
     with tempfile.TemporaryDirectory() as tmpdir:
         base = Path(tmpdir)
-        _make_original_results(base)
+        _make_autoresearch_results(base)
 
-        entries = read_original_trajectory(base, "exp_test_001", "agent_0")
+        entries = read_autoresearch_trajectory(base, "exp_test_001", "agent_0")
         assert len(entries) == 2
         assert entries[0].step == 350
         assert entries[0].val_bpb == 1.15
@@ -45,16 +45,16 @@ def test_reads_original_jsonl_format():
 def test_returns_empty_for_missing_file():
     with tempfile.TemporaryDirectory() as tmpdir:
         base = Path(tmpdir)
-        entries = read_original_trajectory(base, "nonexistent_run", "agent_0")
+        entries = read_autoresearch_trajectory(base, "nonexistent_run", "agent_0")
         assert entries == []
 
 
 def test_reads_all_trajectories():
     with tempfile.TemporaryDirectory() as tmpdir:
         base = Path(tmpdir)
-        _make_original_results(base)
+        _make_autoresearch_results(base)
 
-        all_traj = read_all_original_trajectories(base)
+        all_traj = read_all_autoresearch_trajectories(base)
         assert ("exp_test_001", "agent_0") in all_traj
         assert ("exp_test_001", "agent_1") in all_traj
         assert len(all_traj[("exp_test_001", "agent_0")]) == 2
@@ -63,9 +63,9 @@ def test_reads_all_trajectories():
 def test_find_best_result():
     with tempfile.TemporaryDirectory() as tmpdir:
         base = Path(tmpdir)
-        _make_original_results(base)
+        _make_autoresearch_results(base)
 
-        result = find_best_original_result(base)
+        result = find_best_autoresearch_result(base)
         assert result is not None
         run_id, agent_id, val_bpb = result
         assert val_bpb == 1.12  # best across all entries

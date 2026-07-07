@@ -14,7 +14,7 @@ agentops CLI
   -> single-memory        -> agentops_lab.launcher.main_single_memory
   -> modes.merge          -> agentops_lab.merger.MergeOrchestrator
   -> modes.swarm          -> blackboard surface and swarm runtime
-  -> certified-time       -> agentops_lab.certified_time
+  -> certified-time       -> agentops_lab.instrumentation.certified_time
   -> baseline-calibration -> agentops_lab.baseline_calibration
 
 agentops_lab.communication

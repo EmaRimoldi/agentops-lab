@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentops_lab.snapshotting import (
+from agentops_lab.instrumentation.snapshotting import (
     SnapshotManager,
     SnapshotMetadata,
     generate_save_snapshot_py,

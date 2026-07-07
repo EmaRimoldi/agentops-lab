@@ -1,13 +1,13 @@
-"""Map original repo contracts to the new system.
+"""Map AutoResearch result files into AgentOps Lab structures.
 
-The original repo writes results to:
+AutoResearch runs write results to:
   results/trajectories/<RUN_ID>/<agent_id>.jsonl
   results/snapshots/<RUN_ID>/<agent_id>/iter*.py
   results/diffs/<RUN_ID>/agent_N_changes.diff
   results/weights/<RUN_ID>/<agent_id>/model.pt
   results.tsv  (tab-separated: commit, val_bpb, memory_gb, status, description)
 
-This adapter reads those formats and maps them to new-system structures.
+This adapter reads those formats and maps them into AgentOps Lab result objects.
 """
 
 from __future__ import annotations
@@ -22,8 +22,8 @@ from agentops_lab.outputs.schema import AgentResult, TrajectoryEntry
 
 RESULTS_TSV_HEADER = "commit\tval_bpb\tmemory_gb\tstatus\tdescription"
 
-# Best known result from original system
-ORIGINAL_BEST = {
+# Best known result from reference system
+REFERENCE_BEST = {
     "val_bpb": 1.1020746984708296,
     "run_id": "exp_smart_20260330_063836",
     "agent_id": "agent_0",
@@ -38,13 +38,13 @@ ORIGINAL_BEST = {
 }
 
 
-def read_original_trajectory(
-    original_results_root: Path,
+def read_autoresearch_trajectory(
+    results_root: Path,
     run_id: str,
     agent_id: str,
 ) -> list[TrajectoryEntry]:
-    """Read trajectory from original repo format: results/trajectories/<run_id>/<agent_id>.jsonl"""
-    traj_path = original_results_root / "trajectories" / run_id / f"{agent_id}.jsonl"
+    """Read trajectory from AutoResearch format: results/trajectories/<run_id>/<agent_id>.jsonl"""
+    traj_path = results_root / "trajectories" / run_id / f"{agent_id}.jsonl"
     if not traj_path.exists():
         return []
     entries = []
@@ -59,11 +59,11 @@ def read_original_trajectory(
     return entries
 
 
-def read_all_original_trajectories(
-    original_results_root: Path,
+def read_all_autoresearch_trajectories(
+    results_root: Path,
 ) -> dict[tuple[str, str], list[TrajectoryEntry]]:
-    """Read all trajectory files from original repo. Returns {(run_id, agent_id): entries}."""
-    traj_root = original_results_root / "trajectories"
+    """Read all trajectory files from AutoResearch. Returns {(run_id, agent_id): entries}."""
+    traj_root = results_root / "trajectories"
     if not traj_root.exists():
         return {}
     results = {}
@@ -86,11 +86,11 @@ def read_all_original_trajectories(
     return results
 
 
-def find_best_original_result(
-    original_results_root: Path,
+def find_best_autoresearch_result(
+    results_root: Path,
 ) -> Optional[tuple[str, str, float]]:
     """Scan all trajectory files and return (run_id, agent_id, best_val_bpb)."""
-    all_traj = read_all_original_trajectories(original_results_root)
+    all_traj = read_all_autoresearch_trajectories(results_root)
     best = None
     best_key = None
     for key, entries in all_traj.items():
@@ -136,7 +136,7 @@ def write_results_tsv_row(
     status: str,
     description: str,
 ) -> None:
-    """Append one row to results.tsv, preserving original schema."""
+    """Append one row to results.tsv, preserving results.tsv schema."""
     if not tsv_path.exists():
         tsv_path.write_text(RESULTS_TSV_HEADER + "\n")
     row = f"{commit}\t{val_bpb:.6f}\t{memory_gb:.1f}\t{status}\t{description}\n"

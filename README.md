@@ -142,9 +142,9 @@ Start here:
 - [Baseline headroom calibration](docs/evals/baseline_headroom_calibration.md)
 - [Experiment protocol](docs/research/experiment_protocol.md)
 
-## Release Profile
+## Repository Scope
 
-This tree is intended as a clean public showcase release. Historical provenance,
-legacy imports, and prompt/task-process history are excluded from this export
-profile while the tested runtime, evaluation docs, experiment summaries, and
-source code remain available.
+AgentOps Lab keeps the runnable runtime, evaluation protocols, curated study
+summaries, and AutoResearch substrate in one repository. Raw run logs, local
+data, transient agent workspaces, and private process notes are intentionally
+out of scope.

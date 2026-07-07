@@ -59,7 +59,7 @@ Deep statistical analysis of the 2x2 experiment identified **5 confounds**:
 
 ### Critical Fix: Training Time Enforcement
 
-The template `train.py` used fixed `MAX_STEPS=585` which took ~315s on this CPU. Changed to time-based stopping via `AUTOSEARCH_TIME_BUDGET` env var. P01 used old template (315s/run), P02-P06 used fixed template (60s/run).
+The baseline `train.py` used fixed `MAX_STEPS=585` which took ~315s on this CPU. Changed to time-based stopping via `AUTOSEARCH_TIME_BUDGET` env var. P01 used old template (315s/run), P02-P06 used fixed baseline script (60s/run).
 
 ### Wave 1 Results (COMPLETE)
 
@@ -250,7 +250,7 @@ results/figures/phase_04_probes/             # Phase 04 figures (3 PDFs)
 
 ### Modified files:
 - `autoresearch/train.py` (MAX_STEPS -> time-based stopping via AUTOSEARCH_TIME_BUDGET)
-- `src/agentops_lab/compatibility/training_harness.py` (export AUTOSEARCH_TIME_BUDGET)
+- `src/agentops_lab/runtime/training_harness.py` (export AUTOSEARCH_TIME_BUDGET)
 - `src/agentops_lab/agents/claude_agent_runner.py` (CRITICAL: 3 memory fixes)
   1. Shared memory: results.tsv → training_runs.jsonl-based population
   2. Private memory: results.tsv → training_runs.jsonl-based context building

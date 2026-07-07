@@ -6,7 +6,7 @@ Provides two SLURM strategies:
       start_gpu_worker.sh  — allocate GPU for full agent budget
       run_on_worker.sh     — drop trigger, block until result
       stop_gpu_worker.sh   — signal worker to exit, cancel job
-  - One-shot (legacy): one sbatch per train.py run.
+  - One-shot: one sbatch per train.py run.
       submit_training.sh + check_training.sh
 
 Local (non-SLURM) scripts remain available for development without a cluster:
@@ -504,7 +504,7 @@ def generate_snapshot_helpers(
     These are called by the sub-agent after each train.py modification and
     after each training evaluation to persist snapshots and reasoning traces.
     """
-    from agentops_lab.snapshotting import (
+    from agentops_lab.instrumentation.snapshotting import (
         generate_save_snapshot_py,
         generate_update_snapshot_py,
     )

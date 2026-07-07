@@ -13,9 +13,9 @@ import numpy as np
 from collections import defaultdict
 
 CURRENT_REPO_ROOT = Path(__file__).resolve().parents[4]
-IMPORTED_RESULTS_ROOT = CURRENT_REPO_ROOT / "results" / "imported_swarms"
-IMPORTED_RUNS_ROOT = IMPORTED_RESULTS_ROOT / "runs"
-OUTPUT_DIR = IMPORTED_RESULTS_ROOT / "analysis" / "model_comparison_20260406"
+SWARM_RESULTS_ROOT = CURRENT_REPO_ROOT / "results" / "swarm"
+IMPORTED_RUNS_ROOT = SWARM_RESULTS_ROOT / "runs"
+OUTPUT_DIR = SWARM_RESULTS_ROOT / "analysis" / "model_comparison_20260406"
 
 # Experiment definitions
 EXPERIMENTS = {

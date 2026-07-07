@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-from agentops_lab.compatibility.training_harness import (
+from agentops_lab.runtime.training_harness import (
     generate_check_training_sh,
     generate_run_on_worker_sh,
     generate_run_training_sh,

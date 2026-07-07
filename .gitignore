@@ -16,11 +16,6 @@ studies/*/logs/
 # External repos
 autoresearch/data/
 
-# Legacy paths (compatibility symlinks)
-workflow/logs/
-workflow/artifacts/
-workflow/scripts
-
 # Jupyter
 .ipynb_checkpoints/
 

@@ -1,11 +1,6 @@
 """Shared blackboard for swarm agent coordination.
 
-Source provenance:
-    Adapted from `agents-swarms/src/agent_swarms/shared_memory.py` at
-    commit `3cec68457f46305af406d5567b0d83a544e41ac4`.
-
-Implements the AutoResearch at Home coordination primitives on top of a
-local append-only JSONL file:
+Implements coordination primitives on top of a local append-only JSONL file:
 
   - result / hypothesis / insight / status  — event log (existing)
   - claim / claim_release                   — work reservation with TTL
@@ -271,7 +266,7 @@ class SharedMemory:
 
         Scans the log in reverse to find the most recent ENTRY_BEST entry.
         Reads train_py_src from the sidecar file if present, falls back to
-        inline 'train_py_src' for backwards compatibility.
+        inline 'train_py_src' from the older inline payload format.
         Returns None if no best has been published yet.
         """
         for e in reversed(self._read_all_raw()):
@@ -289,7 +284,7 @@ class SharedMemory:
                 except OSError:
                     pass
             else:
-                # Backwards compatibility: source stored inline
+                # Older inline payload format: source stored inline
                 train_py_src = c.get("train_py_src", "")
 
             return {

@@ -45,8 +45,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from agentops_lab.snapshotting import SnapshotManager, SnapshotMetadata
-from agentops_lab.reasoning_trace import (
+from agentops_lab.instrumentation.snapshotting import SnapshotManager, SnapshotMetadata
+from agentops_lab.instrumentation.reasoning_trace import (
     ReasoningEntry,
     collect_all_traces,
     summarize_all_traces,
@@ -71,7 +71,7 @@ _HYPERPARAM_RE = re.compile(
 )
 
 # Auto-detect TUNABLE_PARAMS from any UPPERCASE line — filled lazily per file.
-# Kept as a set for backward compatibility with produce_merged_candidate internals.
+# Kept as a set for backward training runtime with produce_merged_candidate internals.
 TUNABLE_PARAMS: set[str] = set()
 
 

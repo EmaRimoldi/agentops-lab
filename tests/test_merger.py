@@ -13,7 +13,7 @@ from agentops_lab.merger import (
     apply_hyperparams,
     TUNABLE_PARAMS,
 )
-from agentops_lab.snapshotting import SnapshotManager, SnapshotMetadata
+from agentops_lab.instrumentation.snapshotting import SnapshotManager, SnapshotMetadata
 
 
 # ------------------------------------------------------------------ fixtures
