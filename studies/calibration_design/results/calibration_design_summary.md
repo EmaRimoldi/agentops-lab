@@ -1,26 +1,26 @@
-# Pass 03 — Calibration & Design: Experiment Summary
+# Calibration Design Study
 
-**Status**: Superseded (by Pass 04)
-**Period**: April 2026 (third AI pass)
-**Objective**: Fix the verifier noise problem discovered in Pass 02, calibrate the d00-d10 contrast to determine if the full 2x2 is worth running, and discover what actually drives agent performance on this substrate.
+**Status**: Superseded (by the probe ablation study)
+**Period**: April 2026 (third study)
+**Objective**: Fix the verifier noise problem discovered in the theory validation study, calibrate the d00-d10 contrast to determine if the full 2x2 is worth running, and discover what actually drives agent performance on this substrate.
 
 ---
 
 ## Research Question
 
-Pass 02 showed that single-shot val_bpb has std ~0.04-0.05, comparable to the inter-cell differences we're trying to measure. Can we eliminate this noise floor and establish a reliable signal before investing in the full 2x2?
+The theory validation study showed that single-shot val_bpb has std ~0.04-0.05, comparable to the inter-cell differences we're trying to measure. Can we eliminate this noise floor and establish a reliable signal before investing in the full 2x2?
 
-Pass 03 asks three specific questions:
+The calibration design study asks three specific questions:
 
 1. **Can we make evaluation deterministic?** If the same train.py always produces the same val_bpb, the noise floor becomes zero and any observed difference is real.
 2. **Is the d00-d10 contrast large enough to justify the full 2x2?** Run 5 replicates of each cell with deterministic evaluation and compute the effect size.
 3. **What drives success on this substrate?** Beyond the 2x2 factors, what agent behaviors predict improvement?
 
-## What Pass 03 Changed
+## What Changed
 
-### 1. Deterministic evaluation (Phases 01-01b)
+### 1. Deterministic evaluation
 
-**The problem**: Pass 01-02 used `seed = int(time.time() * 1000) % (2**32)` in train.py, making every training run non-deterministic. The same agent-written code could produce val_bpb ranging from 0.78 to 0.87 (noise assay, Pass 02). This noise floor was comparable to the signal.
+**The problem**: the implementation pilot and theory validation study used `seed = int(time.time() * 1000) % (2**32)` in train.py, making every training run non-deterministic. The same agent-written code could produce val_bpb ranging from 0.78 to 0.87 in the noise assay. This noise floor was comparable to the signal.
 
 **The fix** (three changes):
 1. Fixed seed: `SEED = 42` with `torch.manual_seed`, `np.random.seed`, `random.seed`
@@ -35,7 +35,7 @@ Pass 03 asks three specific questions:
 
 ## Experimental Design
 
-### Phase 02: Power calibration (d00 vs d10)
+### 2. Power calibration (d00 vs d10)
 
 | Parameter | Value |
 |-----------|-------|
@@ -75,7 +75,7 @@ This is a focused two-cell calibration, not the full 2x2. The goal is to determi
 
 **Figure 1 interpretation**: Panel A shows the best-of-rep distributions. d00 has wider spread (range 0.824-0.926) but lower mean — its best reps (0.824, 0.856) substantially beat d10's best (0.875). d10 is more consistent (4/5 reps at 0.923-0.926, near the baseline) but rarely improves. Panel B shows all 116 individual training runs: both cells have similar bulk distributions, but d00 has a longer left tail (better outliers). Panel C reveals the throughput story: d10 consistently produces more iterations (mean 13.8 vs 9.4), but more attempts don't translate to better results — they're faster but stuck.
 
-**Key surprise**: Memory makes things WORSE, not better. This directly contradicts Pass 01-02's tentative finding that d10 was the best cell. With deterministic evaluation (no noise floor), d00 clearly outperforms d10 on best-of-rep.
+**Key surprise**: Memory makes things WORSE, not better. This directly contradicts the implementation pilot and theory validation study's tentative finding that d10 was the best cell. With deterministic evaluation (no noise floor), d00 clearly outperforms d10 on best-of-rep.
 
 ### 2. The run-9 wall: minimum exploration threshold
 
@@ -135,13 +135,13 @@ The full 2x2 launched d01 (parallel, no memory) and d11 (parallel, shared memory
 | d01 | Completed | Completed | Completed |
 | d11 | Completed | Completed | **Interrupted (SIGTERM)** |
 
-d11/rep3 was killed by signal 15 during agent execution. No analysis of the d01/d11 data was performed before the pass was superseded. The calibration d00/d10 results remain the primary deliverable.
+d11/rep3 was killed by signal 15 during agent execution. No analysis of the d01/d11 data was performed before the study was superseded. The calibration d00/d10 results remain the primary deliverable.
 
 ---
 
 ## Hypothesis Verdicts
 
-Pass 03 did not formally test H1-H6 (the full 2x2 was not completed). However, the calibration produced three empirical findings that directly inform the hypotheses:
+The calibration design study did not formally test H1-H6 (the full 2x2 was not completed). However, the calibration produced three empirical findings that directly inform the hypotheses:
 
 | Finding | Implication for hypotheses |
 |---------|---------------------------|
@@ -151,11 +151,11 @@ Pass 03 did not formally test H1-H6 (the full 2x2 was not completed). However, t
 
 ## Conclusions
 
-### What Pass 03 achieved
+### What the calibration design study achieved
 
-1. **Deterministic evaluation eliminates noise floor**: val_bpb = 0.811222 perfectly reproducible. Any observed difference is real signal, not noise. This is the single most important methodological fix across all passes.
+1. **Deterministic evaluation eliminates noise floor**: val_bpb = 0.811222 perfectly reproducible. Any observed difference is real signal, not noise. This is the single most important methodological fix across all studies.
 
-2. **Memory effect is real but negative**: Cohen's d = 0.66 with deterministic evaluation. Memory stabilizes cost (lower Jensen gap, lower CV) but creates anchoring that prevents bold exploration. This inverts the Pass 01-02 finding and shows the earlier "d10 is best" was partly noise.
+2. **Memory effect is real but negative**: Cohen's d = 0.66 with deterministic evaluation. Memory stabilizes cost (lower Jensen gap, lower CV) but creates anchoring that prevents bold exploration. This inverts the implementation pilot and theory validation study finding and shows the earlier "d10 is best" was partly noise.
 
 3. **Exploration diversity is the key predictor**: rho = -0.685 (p = 0.029). Replicates that explored 4-5 strategy categories improved; those stuck on 1-2 did not. This is the strongest empirical signal for the G term in the decomposition.
 
@@ -163,19 +163,19 @@ Pass 03 did not formally test H1-H6 (the full 2x2 was not completed). However, t
 
 5. **Strategy win rates are highly unequal**: fc_hidden changes succeed 100% of the time; learning rate changes succeed 7%. The agent's default strategy (tweak the learning rate) is its worst one on this substrate.
 
-### What Pass 03 did NOT achieve
+### What the calibration design study did NOT achieve
 
 1. **Full 2x2 not completed**: d01/d11 data collected but not analyzed. The interaction between parallelism and memory remains untested.
 2. **Decomposition not computed**: The corrected 4-term decomposition was not run on the calibration data.
 3. **Mode labeling upgrade not applied**: The two-level mode scheme was designed but not used in analysis.
 
-### Why this pass was superseded
+### Why this study was superseded
 
-The calibration was successful and the decision gate was passed, but the full 2x2 execution was interrupted (d11/rep3 killed by SIGTERM). More importantly, the discoveries about exploration diversity, the run-9 wall, and the negative memory effect suggested that the original 2x2 design needed further revision — not just more data. Pass 04 incorporated these findings into a redesigned experiment with better confound controls.
+The calibration was successful and the decision gate was passed, but the full 2x2 execution was interrupted (d11/rep3 killed by SIGTERM). More importantly, the discoveries about exploration diversity, the run-9 wall, and the negative memory effect suggested that the original 2x2 design needed further revision — not just more data. The probe ablation study incorporated these findings into a redesigned experiment with better confound controls.
 
-## Implications for Later Passes
+## Implications for Later Studies
 
-The three discoveries from Pass 03 directly shaped Pass 04's design:
+The three discoveries from the calibration design study directly shaped the probe ablation study's design:
 
 - **Deterministic evaluation** became standard for all future experiments
 - **Budget extension** (45min → 60min+) to ensure agents cross the run-9 threshold
@@ -183,4 +183,4 @@ The three discoveries from Pass 03 directly shaped Pass 04's design:
 - **Memory redesign**: if memory anchors, can we restructure it to promote diversity instead?
 - **Training time control**: MAX_STEPS capping to eliminate the confound
 
-The key insight from Pass 03: **the bottleneck is exploration diversity, not memory or parallelism per se**. Agents that try many different types of changes succeed; agents that anchor on one strategy type fail. The 2x2 design should test whether parallel agents naturally diversify more (G term), and whether memory helps or hinders that diversification.
+The key insight from the calibration design study: **the bottleneck is exploration diversity, not memory or parallelism per se**. Agents that try many different types of changes succeed; agents that anchor on one strategy type fail. The 2x2 design should test whether parallel agents naturally diversify more (G term), and whether memory helps or hinders that diversification.

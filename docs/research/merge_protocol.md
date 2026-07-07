@@ -165,7 +165,7 @@ The merge orchestrator reads reasoning traces to:
    automatically evaluate it unless `--evaluate` is passed. Evaluation requires a
    pre-configured workspace with `submit_training.sh` and `check_training.sh`.
 
-4. **Single-pass merge** — the current algorithm does one pass of parameter-level
+4. **Single-round merge** — the current algorithm does one round of parameter-level
    merging. It does not iterate or search the space of merged candidates. If the
    merged candidate performs worse, this is recorded in `merge_results.json` for
    analysis.

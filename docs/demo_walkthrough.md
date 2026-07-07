@@ -29,7 +29,7 @@ This gives the repo a concrete experimental question:
    and reviewer threshold `q* = 0.824`.
 
 2. Read the strongest agent-workflow finding:
-   [`studies/bp_probe_ablation/results/pass_04_summary.md`](../studies/bp_probe_ablation/results/pass_04_summary.md).
+   [`studies/bp_probe_ablation/results/probe_ablation_summary.md`](../studies/bp_probe_ablation/results/probe_ablation_summary.md).
 
    The most informative comparison is P11 vs P12:
 
@@ -42,16 +42,16 @@ This gives the repo a concrete experimental question:
    like a random walk, while shared memory reduces catastrophic repeats.
 
 3. Read why the task had to be calibrated:
-   [`studies/calibration_design/results/pass_03_summary.md`](../studies/calibration_design/results/pass_03_summary.md).
+   [`studies/calibration_design/results/calibration_design_summary.md`](../studies/calibration_design/results/calibration_design_summary.md).
 
-   This pass made evaluation deterministic. Five consecutive baseline runs
+   This study made evaluation deterministic. Five consecutive baseline runs
    produced identical `val_bpb = 0.811222`, which means differences can be
    attributed to agent edits rather than training noise.
 
 4. Read the earliest pilot only as historical context:
-   [`studies/bp_implementation/results/pass_01_summary.md`](../studies/bp_implementation/results/pass_01_summary.md).
+   [`studies/bp_implementation/results/implementation_pilot_summary.md`](../studies/bp_implementation/results/implementation_pilot_summary.md).
 
-   This pass built the instrumentation, but it also exposed estimator and task
+   This study built the instrumentation, but it also exposed estimator and task
    design weaknesses that later studies fixed.
 
 ## What To Look At Visually

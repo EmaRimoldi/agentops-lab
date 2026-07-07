@@ -2,14 +2,14 @@
 
 ## Purpose
 
-Pass 01 already included a resource-contention benchmark that ran identical `train.py` jobs under a fixed 2-second wall-clock budget. That benchmark answered one important question: when multiple training jobs share the same CPU budget, do parallel jobs complete fewer gradient updates and therefore produce worse validation loss?
+The implementation pilot already included a resource-contention benchmark that ran identical `train.py` jobs under a fixed 2-second wall-clock budget. That benchmark answered one important question: when multiple training jobs share the same CPU budget, do parallel jobs complete fewer gradient updates and therefore produce worse validation loss?
 
 This follow-up benchmark answers the complementary question: if each training job is forced to complete the same number of gradient updates, how much wall-clock time is lost to CPU contention? This distinction matters for interpreting the 2x2 agent experiments. Under a fixed-time evaluator, parallel agents can be penalized because each `train.py` receives less CPU time and completes fewer steps. Under a fixed-step evaluator, the number of gradient updates is equalized, so contention appears as slower evaluations rather than lower-quality evaluations.
 
 ## Method
 
 - Source workspace: `studies/calibration_design/runs/calibration__2x2-diversity-memory__superseded/d00/rep1/mode_single_long/agent_0/workspace`
-- Training substrate: deterministic CIFAR-10 CNN training script from the Pass 03 calibration workspace
+- Training substrate: deterministic CIFAR-10 CNN training script from the calibration-design workspace
 - Device: CPU
 - Fixed training length: 300 steps per worker
 - Conditions:

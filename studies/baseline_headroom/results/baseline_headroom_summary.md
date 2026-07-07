@@ -1,4 +1,4 @@
-# Pass 05 - Baseline Headroom Calibration
+# Baseline Headroom Study
 
 **Status**: Active
 **Period**: April 14, 2026
@@ -6,16 +6,16 @@
 
 ## Research Question
 
-Pass 04 showed that the previous task was too close to a narrow local optimum:
-only a small learning-rate region reliably improved validation loss. Pass 05 asks:
+The probe ablation study showed that the previous task was too close to a narrow local optimum:
+only a small learning-rate region reliably improved validation loss. The baseline headroom study asks:
 
 **Can we choose a baseline and fixed-step evaluator where several distinct strategy categories can improve the model, without making the task trivially easy?**
 
-This pass is deliberately non-agentic. It calibrates the task geometry before spending LLM budget on architecture comparisons.
+This study is deliberately non-agentic. It calibrates the task geometry before spending LLM budget on architecture comparisons.
 
 ## What Changed
 
-Pass 05 added a controlled baseline-headroom calibration tool:
+The baseline headroom study added a controlled baseline-headroom calibration tool:
 
 - fixed-step evaluator support with `AUTOSEARCH_MAX_STEPS`;
 - isolated workspaces for every baseline/edit trial;
@@ -127,5 +127,5 @@ true independent replicates
 
 - Summary table: `tables/baseline_summary.csv`
 - Trial table: `tables/trial_results.csv`
-- Machine-readable summary: `tables/pass_05_summary.json`
+- Machine-readable summary: `tables/baseline_headroom_summary.json`
 - Source calibration reports remain under `runs/baseline_*`.

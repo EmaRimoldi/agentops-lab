@@ -27,7 +27,7 @@ It performed:
 
 Shortest path to the current conclusion:
 
-1. [`pass_02_summary.md`](pass_02_summary.md)
+1. [`theory_validation_summary.md`](theory_validation_summary.md)
 2. [`analysis/final_verdict.md`](analysis/final_verdict.md)
 3. [`analysis/reanalysis_summary.md`](analysis/reanalysis_summary.md)
 4. [`analysis/formal_theory_audit.md`](analysis/formal_theory_audit.md)

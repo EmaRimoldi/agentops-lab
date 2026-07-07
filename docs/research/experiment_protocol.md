@@ -75,7 +75,7 @@ uv run agentops single-long \
   --serialized-evaluator \
   --target-val-bpb 0.824 \
   --success-confidence 0.80 \
-  --experiment-id pass06_single_long
+  --experiment-id study06_single_long
 ```
 
 ### Independent parallel
@@ -90,7 +90,7 @@ uv run agentops parallel \
   --serialized-evaluator \
   --target-val-bpb 0.824 \
   --success-confidence 0.80 \
-  --experiment-id pass06_parallel
+  --experiment-id study06_parallel
 ```
 
 ### Shared-memory parallel
@@ -105,7 +105,7 @@ uv run agentops parallel-shared \
   --serialized-evaluator \
   --target-val-bpb 0.824 \
   --success-confidence 0.80 \
-  --experiment-id pass06_parallel_shared
+  --experiment-id study06_parallel_shared
 ```
 
 ### Swarm
@@ -117,14 +117,14 @@ uv run agentops swarm \
   --time-budget 30 \
   --train-budget 300 \
   --n-agents 2 \
-  --experiment-id pass06_swarm
+  --experiment-id study06_swarm
 ```
 
 The current swarm surface delegates to the integrated swarm runtime. Its
 blackboard can also be initialized independently:
 
 ```bash
-uv run agentops swarm --blackboard-dir runs/pass06_swarm_blackboard
+uv run agentops swarm --blackboard-dir runs/study06_swarm_blackboard
 ```
 
 ## Output Structure
@@ -152,7 +152,7 @@ runs/
         experiment_report.txt
 ```
 
-## Analysis Pass
+## Analysis Workflow
 
 After runs finish:
 

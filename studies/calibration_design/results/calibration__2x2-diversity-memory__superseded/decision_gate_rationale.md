@@ -1,4 +1,4 @@
-# Phase 02b: Decision Gate Rationale
+# Decision Gate Rationale
 
 **Date**: 2026-04-13
 

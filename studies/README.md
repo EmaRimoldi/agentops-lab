@@ -13,6 +13,18 @@ The public tree keeps curated summaries, result tables, and figures. Raw run
 directories, transient agent workspaces, and large local logs are intentionally
 left out.
 
+## Vocabulary
+
+- **Study**: a complete evidence bundle under `studies/`.
+- **Pilot**: an early feasibility study used to build instrumentation or expose
+  design problems.
+- **Probe**: one configuration inside the probe ablation matrix. Labels such as
+  `P11` and `P12` are retained because they identify exact experimental cells.
+- **Wave**: an execution batch inside a study. It is scheduling metadata, not a
+  public milestone.
+- **Reviewer-grade run**: a run that uses fixed-step evaluation, preserved logs,
+  and a pre-registered success threshold.
+
 ## Reading Order
 
 Read the studies in this order if you want the cleanest narrative:
@@ -23,7 +35,7 @@ Read the studies in this order if you want the cleanest narrative:
    design audit that motivated the probe redesign.
 4. [`theory_validation/`](theory_validation/) - theorem, estimator, and protocol
    audit.
-5. [`bp_implementation/`](bp_implementation/) - first implementation pass and
+5. [`bp_implementation/`](bp_implementation/) - first implementation study and
    instrumentation pilot.
 6. [`swarm_baselines/`](swarm_baselines/) - historical swarm context.
 
@@ -70,7 +82,7 @@ than a confirmatory benchmark. It also exposed that the task ceiling was still
 tight: only 1.9 percent of non-baseline runs beat baseline.
 
 **Read first**:
-[`bp_probe_ablation/results/pass_04_summary.md`](bp_probe_ablation/results/pass_04_summary.md).
+[`bp_probe_ablation/results/probe_ablation_summary.md`](bp_probe_ablation/results/probe_ablation_summary.md).
 
 ### `calibration_design/`
 
@@ -89,10 +101,10 @@ memory was worse on best-of-rep (`Cohen's d = 0.66` against d10).
 
 **Caveat**: The study found design problems rather than a final result:
 run-count thresholds, memory anchoring, training-time confounds, and a task
-ceiling. Those findings directly motivated Pass 04.
+ceiling. Those findings directly motivated the probe ablation study.
 
 **Read first**:
-[`calibration_design/results/pass_03_summary.md`](calibration_design/results/pass_03_summary.md).
+[`calibration_design/results/calibration_design_summary.md`](calibration_design/results/calibration_design_summary.md).
 
 ### `theory_validation/`
 
@@ -119,7 +131,7 @@ the reading path unclear.
 
 ### `bp_implementation/`
 
-**Status**: archived first pass.
+**Status**: archived first study.
 
 **Question**: Can a 2x2 agent experiment be instrumented end-to-end, and can the
 BP decomposition be measured on real LLM-driven AutoResearch runs?
@@ -137,7 +149,7 @@ the later deterministic evaluator, baseline calibration, and probe ablation were
 needed.
 
 **Read first**:
-[`bp_implementation/results/pass_01_summary.md`](bp_implementation/results/pass_01_summary.md).
+[`bp_implementation/results/implementation_pilot_summary.md`](bp_implementation/results/implementation_pilot_summary.md).
 
 ### `swarm_baselines/`
 

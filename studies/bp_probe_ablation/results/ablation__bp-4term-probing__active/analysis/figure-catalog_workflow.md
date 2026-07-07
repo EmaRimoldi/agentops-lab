@@ -1,6 +1,6 @@
-# Phase 02a: Figure Catalog
+# Workflow Calibration Figure Catalog
 
-Canonical figure directory: [`../../results/figures/pass_02_workflow_calibration/`](../../results/figures/pass_02_workflow_calibration/)
+This is a historical figure catalog from the workflow-calibration analysis.
 
 ## Figure 1: Main Comparison (`figure-01-main-comparison.png`)
 

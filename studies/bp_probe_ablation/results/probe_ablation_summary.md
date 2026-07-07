@@ -1,14 +1,14 @@
-# Pass 04 — BP 4-Term Probing: Experiment Summary
+# Probe Ablation Study
 
-**Status**: Active (current pass)
-**Period**: April 2026 (fourth AI pass)
-**Objective**: Rapid probing study to test the BP four-term decomposition on a redesigned experimental substrate, fixing the five confounds identified in Pass 03's design audit and discovering what actually drives (or blocks) agent performance.
+**Status**: Active (current study)
+**Period**: April 2026 (fourth study)
+**Objective**: Rapid probing study to test the BP four-term decomposition on a redesigned experimental substrate, fixing the five confounds identified in the calibration design study's design audit and discovering what actually drives (or blocks) agent performance.
 
 ---
 
 ## Research Question
 
-Passes 01-03 established the infrastructure, fixed the theory, and calibrated the d00-d10 contrast, but never successfully identified the full phi + G - epsilon decomposition. Pass 03's design audit revealed five systematic confounds that invalidated the original 2x2 experiment. Pass 04 asks:
+The implementation pilot, theory validation study, and calibration design study established the infrastructure, fixed the theory, and calibrated the d00-d10 contrast, but never successfully identified the full phi + G - epsilon decomposition. The calibration design study's design audit revealed five systematic confounds that invalidated the original 2x2 experiment. The probe ablation study asks:
 
 **With confounds controlled, can we detect the individual BP terms — and what empirical picture emerges when we do?**
 
@@ -18,13 +18,13 @@ Specifically:
 3. Is the **task substrate** capable of supporting measurable improvements?
 4. Do the BP terms interact as the theory predicts (G without epsilon = random walk)?
 
-## What Pass 04 Changed
+## What Changed
 
-### Design audit: 5 confounds from Pass 03
+### Design audit: 5 confounds from the calibration design study
 
-Before running new experiments, Pass 04 audited the Pass 03 calibration data and identified five systematic problems:
+Before running new experiments, the probe ablation study audited the calibration design data and identified five systematic problems:
 
-| Confound | Severity | Evidence | Fix in Pass 04 |
+| Confound | Severity | Evidence | Fix in the probe ablation study |
 |----------|----------|----------|-----------------|
 | **CPU contention** | Critical | d11 median 3.2x slower than d10 (H=56.3, p<0.001) | Sequential execution (one probe at a time) |
 | **Agent homogeneity** | Critical | Jaccard 0.75-1.00 across parallel agents | Temperature diversity (0.3 vs 1.2) and seeding |
@@ -34,7 +34,7 @@ Before running new experiments, Pass 04 audited the Pass 03 calibration data and
 
 ### Experimental redesign: 18-probe matrix
 
-Instead of repeating the 2x2, Pass 04 uses a **rapid probing** approach: 18 configurations (P01-P18), one replicate each, executed sequentially in 4 waves. Each probe isolates or combines specific BP factors:
+Instead of repeating the 2x2, the probe ablation study uses a **rapid probing** approach: 18 configurations (P01-P18), one replicate each, executed sequentially in 4 waves. Each probe isolates or combines specific BP factors:
 
 | Factor | Probes testing it | BP term |
 |--------|-------------------|---------|
@@ -77,9 +77,9 @@ Additionally, a **symlink fragility bug** was discovered in P12: `git checkout` 
 
 ### Task and metrics
 
-- **Task**: Autonomous neural network optimization on CIFAR-10 (same substrate as Passes 01-03, but with 60s training budget instead of 120s)
+- **Task**: Autonomous neural network optimization on CIFAR-10 (same substrate as the three earlier studies, but with 60s training budget instead of 120s)
 - **Model**: claude-haiku-4-5-20251001 (all probes)
-- **Baseline val_bpb**: 0.925845 (deterministic, from Pass 03)
+- **Baseline val_bpb**: 0.925845 (deterministic, from the calibration design study)
 - **Execution**: Sequential (eliminates CPU contention confound)
 - **Replication**: 1 run per probe (signal detection, not confirmatory)
 
@@ -100,7 +100,7 @@ Additionally, a **symlink fragility bug** was discovered in P12: `git checkout` 
 
 ![Task ceiling](ablation__bp-4term-probing__active/figures/design_audit/figure-04-task-ceiling.png)
 
-**Figure interpretation**: Panel A shows the val_bpb distribution across all 293 runs. The mass sits between 0.95 and 1.25, with a heavy right tail extending to 7.88. The baseline (dashed red line at 0.926) is at the left edge of the distribution — almost all agent modifications make things worse. Panel B confirms this per-cell: d00 (single/no-memory) has the highest success rate (~25%) but this is from the Pass 03 calibration with longer training budgets. Panel C shows strategy win rates: only `optimization` changes occasionally succeed; `architecture`, `data_pipeline`, and `regularization` changes never beat baseline in 60s training.
+**Figure interpretation**: Panel A shows the val_bpb distribution across all 293 runs. The mass sits between 0.95 and 1.25, with a heavy right tail extending to 7.88. The baseline (dashed red line at 0.926) is at the left edge of the distribution — almost all agent modifications make things worse. Panel B confirms this per-cell: d00 (single/no-memory) has the highest success rate (~25%) but this comes from the calibration design study, which used longer training budgets. Panel C shows strategy win rates: only `optimization` changes occasionally succeed; `architecture`, `data_pipeline`, and `regularization` changes never beat baseline in 60s training.
 
 **Root cause**: The default train.py is near-optimal for 60s training. The optimal LR is ~1.5e-3 (50% above default 1e-3), and this is essentially the only change that reliably helps. The search space is dominated by harmful configurations. This is a property of the task substrate, not a failure of the agents.
 
@@ -133,7 +133,7 @@ All three tests survive Bonferroni correction (alpha=0.0083).
 
 ![Memory anchoring](ablation__bp-4term-probing__active/figures/design_audit/figure-03-memory-anchoring.png)
 
-**Figure interpretation**: Panel A shows strategy switching probability over time — memory cells (d10, d11) show lower switching rates, indicating the anchoring effect from Pass 03 is still present. Panel B plots val_bpb vs memory context depth (d10): no correlation (r=0.04, p=0.747). Accumulating more history does not improve performance. Panel C shows exploration breadth over time — all cells plateau at 3-5 unique strategy categories by run 15, regardless of memory.
+**Figure interpretation**: Panel A shows strategy switching probability over time — memory cells (d10, d11) show lower switching rates, indicating the anchoring effect from the calibration design study is still present. Panel B plots val_bpb vs memory context depth (d10): no correlation (r=0.04, p=0.747). Accumulating more history does not improve performance. Panel C shows exploration breadth over time — all cells plateau at 3-5 unique strategy categories by run 15, regardless of memory.
 
 **P12 vs P17 paradox**: P12 (shared memory only, 2 successes) outperforms P17 (shared + private memory, 0 successes). Adding private memory on top of shared memory did NOT help — it may have over-constrained exploration.
 
@@ -237,9 +237,9 @@ High temperature produces more iterations per agent (mean 17.2 vs 9.2) but each 
 
 ## Conclusions
 
-### What Pass 04 achieved
+### What the probe ablation study achieved
 
-1. **Strongest evidence for BP decomposition**: The P11 vs P12 comparison (G without epsilon = random walk vs G with epsilon = controlled exploration) is the clearest empirical demonstration that the BP terms interact as predicted. This is the single most important finding across all four passes.
+1. **Strongest evidence for BP decomposition**: The P11 vs P12 comparison (G without epsilon = random walk vs G with epsilon = controlled exploration) is the clearest empirical demonstration that the BP terms interact as predicted. This is the single most important finding across all four studies.
 
 2. **Memory effect quantified with clean test**: After fixing three bugs, P12 shows that shared memory significantly reduces val_bpb (p<0.001, r=0.647 vs P09; p<0.001, r=0.917 vs P13). Memory implements epsilon (routing correction), preventing catastrophic exploration.
 
@@ -247,11 +247,11 @@ High temperature produces more iterations per agent (mean 17.2 vs 9.2) but each 
 
 4. **Counterintuitive finding: homogeneity beats diversity**: Temperature diversity does NOT produce strategy diversity (Jaccard paradox). Homogeneous agents outperform diverse agents (p<0.001, r=0.581). The G term is not effectively controlled by temperature alone.
 
-5. **Five confounds from Pass 03 addressed**: Sequential execution (no CPU contention), temperature diversity (attempted homogeneity fix), memory bug fixes (valid epsilon test), shorter training (headroom test), extended budgets (sufficient iterations).
+5. **Five confounds from the calibration design study addressed**: Sequential execution (no CPU contention), temperature diversity (attempted homogeneity fix), memory bug fixes (valid epsilon test), shorter training (headroom test), extended budgets (sufficient iterations).
 
 6. **Three critical memory bugs discovered and fixed**: The memory system was silently non-functional in P05-P08. Without discovering these bugs, the memory effect would have been incorrectly reported as null.
 
-### What Pass 04 did NOT achieve
+### What the probe ablation study did NOT achieve
 
 1. **No replication**: Each probe ran once. The statistics are run-level (within-probe), not probe-level. Cannot make inferential claims about configuration effects with confidence.
 
@@ -261,20 +261,20 @@ High temperature produces more iterations per agent (mean 17.2 vs 9.2) but each 
 
 4. **Single model, single task**: All probes use Claude Haiku 4.5 on CIFAR-10 with 60s training. Results may not generalize.
 
-### The emerging empirical picture (across all 4 passes)
+### The emerging empirical picture (across all four studies)
 
-| Pass | Key discovery | Implication |
-|------|--------------|-------------|
-| Pass 01 | Infrastructure works; resource contention confounds parallel cells | Need sequential execution for clean comparison |
-| Pass 02 | Estimators were broken; noise floor ~0.04-0.05 std | Need deterministic evaluation |
-| Pass 03 | Determinism achieved; memory anchors; diversity predicts success | Need to control memory structure and promote exploration breadth |
-| Pass 04 | G without epsilon = random walk; task has 1.9% ceiling; LR is the only lever | BP decomposition is supported, but the substrate limits what can be demonstrated |
+| Study | Key discovery | Implication |
+|---|---|---|
+| Implementation pilot | Infrastructure works; resource contention confounds parallel cells | Need sequential execution for clean comparison |
+| Theory validation study | Estimators were broken; noise floor ~0.04-0.05 std | Need deterministic evaluation |
+| Calibration design study | Determinism achieved; memory anchors; diversity predicts success | Need to control memory structure and promote exploration breadth |
+| Probe ablation study | G without epsilon = random walk; task has 1.9% ceiling; LR is the only lever | BP decomposition is supported, but the substrate limits what can be demonstrated |
 
-The strongest supported claim across all passes:
+The strongest supported claim across all studies:
 
 > **The epsilon term (routing correction via memory) is necessary for the G term (information generation via exploration) to produce improvement rather than noise. Without epsilon, G produces a random walk that degrades performance.**
 
-This is supported by P11 vs P12 (p<0.001, r=0.917), is consistent with Pass 03's finding that exploration diversity predicts success (rho=-0.685), and explains why Pass 01-02's memory effects were ambiguous (the memory system was broken, so epsilon was effectively zero).
+This is supported by P11 vs P12 (p<0.001, r=0.917), is consistent with the calibration design study's finding that exploration diversity predicts success (rho=-0.685), and explains why the implementation pilot and theory validation study's memory effects were ambiguous (the memory system was broken, so epsilon was effectively zero).
 
 ### Open questions for future work
 

@@ -55,9 +55,9 @@ H6: d11 only clearly dominates when both delta_wall and delta_token stay positiv
 
 ## Figures
 
-- results/figures/pass_01_pilot/best_so_far_curves.png
-- results/figures/pass_01_pilot/kappa_by_context_bin.png
-- results/figures/pass_01_pilot/decomposition_bar_chart.png
+- results/figures/implementation_pilot/best_so_far_curves.png
+- results/figures/implementation_pilot/kappa_by_context_bin.png
+- results/figures/implementation_pilot/decomposition_bar_chart.png
 
 ## Notes
 

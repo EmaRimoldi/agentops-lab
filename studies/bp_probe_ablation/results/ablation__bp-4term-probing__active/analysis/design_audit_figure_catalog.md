@@ -1,6 +1,6 @@
-# Phase 03: Design Audit Figure Catalog
+# Design Audit Figure Catalog
 
-Canonical figure directory: `results/figures/pass_03_design_audit/`
+Canonical figure directory: `figures/design_audit/`
 
 ## Figure 1: CPU Contention Evidence (`figure-01-cpu-contention.{png,pdf}`)
 

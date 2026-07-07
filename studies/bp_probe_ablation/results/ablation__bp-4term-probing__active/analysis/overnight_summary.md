@@ -39,7 +39,7 @@ Wave 1 probes (6 experiments, 56 runs) + Wave 2 partial results reveal:
 
 ---
 
-## Phase 03 Design Audit (COMPLETE)
+## Design Audit (Complete)
 
 Deep statistical analysis of the 2x2 experiment identified **5 confounds**:
 
@@ -55,7 +55,7 @@ Deep statistical analysis of the 2x2 experiment identified **5 confounds**:
 
 ---
 
-## Phase 04: Rapid Probing
+## Rapid Probing
 
 ### Critical Fix: Training Time Enforcement
 
@@ -202,11 +202,11 @@ ALL 3 successful runs were **learning rate increases**:
 ## Where to Find Things
 
 ```
-# Phase 03 audit
-results/figures/pass_03_design_audit/        # All audit figures + PDF report
-workflow/artifacts/pass_03_*.md              # Analysis reports
+# Design audit
+figures/design_audit/                        # Audit figures
+analysis/design_audit_*.md                   # Analysis reports
 
-# Phase 04 probes
+# Rapid probing
 workflow/artifacts/probe_wave1_2_analysis.md # Wave 1+2 analysis report
 workflow/artifacts/probe_wave1_2_results.json# Wave 1+2 metrics (JSON)
 configs/probe_P*.yaml                        # All probe configurations (P01-P14)
@@ -216,7 +216,7 @@ workflow/scripts/plot_probes.py              # Figure generation
 workflow/logs/probe_wave1_full.log           # Wave 1 execution log
 workflow/logs/probe_wave2_full.log           # Wave 2 execution log
 runs/experiment_probe_P*/                    # All probe data
-results/figures/phase_04_probes/             # Phase 04 figures (3 PDFs)
+results/figures/rapid_probes/                # Rapid-probing figures
 ```
 
 ---
@@ -246,7 +246,7 @@ results/figures/phase_04_probes/             # Phase 04 figures (3 PDFs)
 - `workflow/artifacts/probe_wave1_2_analysis.md`
 - `workflow/artifacts/probe_wave1_2_results.json`
 - `workflow/artifacts/overnight_summary.md` (this file)
-- `results/figures/phase_04_probes/` (3+ PDF figures)
+- `results/figures/rapid_probes/` (3+ PDF figures)
 
 ### Modified files:
 - `autoresearch/train.py` (MAX_STEPS -> time-based stopping via AUTOSEARCH_TIME_BUDGET)

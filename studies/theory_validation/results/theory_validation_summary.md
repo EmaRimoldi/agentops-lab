@@ -1,30 +1,30 @@
-# Pass 02 — Theory Validation: Experiment Summary
+# Theory Validation Study
 
-**Status**: Superseded (by Pass 03)
-**Period**: April 2026 (second AI pass)
+**Status**: Superseded (by the calibration design study)
+**Period**: April 2026 (second study)
 **Objective**: Tighten the BP four-term decomposition theorem, fix broken estimators, and test whether the corrected framework can identify non-trivial decomposition terms on the existing CIFAR-10 substrate.
 
 ---
 
 ## Research Question
 
-Pass 01 built the experimental infrastructure and ran a first pilot, but found that the decomposition collapsed to a single term (cost only): phi, G, and epsilon were all zero or NaN. Was this because the *theory* is wrong, or because the *implementation* was broken?
+The implementation pilot built the experimental infrastructure and ran a first pilot, but found that the decomposition collapsed to a single term (cost only): phi, G, and epsilon were all zero or NaN. Was this because the *theory* is wrong, or because the *implementation* was broken?
 
-Pass 02 is a theory-validation pass. It asks three specific questions:
+This theory validation study asks three specific questions:
 
 1. **Is the theorem statement defensible?** The original two-axis shared decomposition had hidden assumptions. Can we narrow it to something rigorous?
 2. **Are the estimators structurally sound?** phi was hardcoded to zero, G used an entropy-difference placeholder, epsilon compared against the wrong distribution. Can we fix them?
 3. **With corrected estimators, does the pilot data now produce non-trivial decomposition terms?**
 
-**Background from Pass 01**: The BP four-term decomposition is:
+**Background from the implementation pilot**: The BP four-term decomposition is:
 
 ```
 Delta = log(kappa_0 / kappa) + phi + G - epsilon
 ```
 
-Pass 01 measured log(kappa_0/kappa) but found phi = G = epsilon = 0 across all cells. Two possible explanations: (a) the framework genuinely doesn't apply (negative result), or (b) the estimators were broken and the pilot was too underpowered to produce signal. Pass 02 investigates (b).
+The implementation pilot measured log(kappa_0/kappa) but found phi = G = epsilon = 0 across all cells. Two possible explanations: (a) the framework genuinely doesn't apply (negative result), or (b) the estimators were broken and the pilot was too underpowered to produce signal. The theory validation study investigates (b).
 
-## What Pass 02 Changed
+## What Changed
 
 ### 1. Theorem refactoring
 
@@ -37,7 +37,7 @@ This is the strongest statement that stays within what is actually justified. Th
 
 ### 2. Protocol upgrades
 
-The experimental framework now logs four new observables that Pass 01 lacked:
+The experimental framework now logs four new observables that the implementation pilot lacked:
 
 | New feature | What it enables |
 |-------------|-----------------|
@@ -61,7 +61,7 @@ The key structural improvement: the estimators can now produce non-zero values f
 
 ## Experimental Design
 
-Pass 02 ran three targeted follow-up experiments on the existing pilot data, plus one new data collection:
+The theory validation study ran three targeted follow-up experiments on the existing pilot data, plus one new data collection:
 
 ### Experiment 1: Replicated incumbent re-evaluation
 
@@ -149,7 +149,7 @@ With the redesigned estimators applied to the same pilot data:
 
 **Figure 3 interpretation**: Only the cost term is computable, and even it is unstable — d10 and d01 flip sign across reps on both axes. phi is NaN everywhere because no cell has overlapping accepted modes with the baseline (d00 had zero accepted edits). G is non-NaN only for d01 reps 1-2 (where the single accepted mode matched the global prior exactly, yielding G=0). epsilon = 0.693 (= ln(2)) appears in d01 reps 1-2 because the accepted distribution is concentrated on one mode while the proposed distribution has two modes — this is the only non-trivial non-cost term in the entire decomposition, and it is a degenerate case.
 
-**Bottom line**: The corrected estimators are *structurally capable* of producing non-zero phi, G, epsilon (unlike Pass 01 where they were hardcoded to zero), but the pilot data is still too sparse to compute them. The data-limitation is: too few accepted edits, too little mode diversity, and zero overlap between cells.
+**Bottom line**: The corrected estimators are *structurally capable* of producing non-zero phi, G, epsilon (unlike the implementation pilot where they were hardcoded to zero), but the pilot data is still too sparse to compute them. The data-limitation is: too few accepted edits, too little mode diversity, and zero overlap between cells.
 
 ### 4. Noise assay: verifier noise is substantial
 
@@ -190,15 +190,15 @@ With the redesigned estimators applied to the same pilot data:
 | H5: context pressure dominant | — | — | — | **Untestable** (observational only) |
 | H6: d11 dominates d00 on both axes | No | No | No | **0/3 — no support** |
 
-Hypothesis test results are essentially unchanged from Pass 01. The corrected estimators did not improve the empirical picture because the underlying data is still too sparse.
+Hypothesis test results are essentially unchanged from the implementation pilot. The corrected estimators did not improve the empirical picture because the underlying data is still too sparse.
 
 ## Conclusions
 
-### What Pass 02 achieved
+### What the theory validation study achieved
 
 1. **Theorem is tighter and more honest**: The single-axis form with explicit Jensen remainder is a genuine improvement. Every claim is now tagged with its epistemic status (proved, assumed, or empirical). The two-axis shared version is correctly downgraded.
 
-2. **Protocol captures re-evaluation and cost variance**: The framework now supports the observables needed for the revised theorem (candidate identity, re-evaluation events, turn-level costs). This is infrastructure that future passes can build on.
+2. **Protocol captures re-evaluation and cost variance**: The framework now supports the observables needed for the revised theorem (candidate identity, re-evaluation events, turn-level costs). This is infrastructure that future studies can build on.
 
 3. **Estimators are no longer structurally broken**: phi, G, epsilon can now produce non-zero values. The old code *forced* a cost-only decomposition; the new code honestly reports NaN when data is insufficient, which is the correct behavior.
 
@@ -206,7 +206,7 @@ Hypothesis test results are essentially unchanged from Pass 01. The corrected es
 
 5. **Noise floor quantified**: Single-shot val_bpb has std ~0.04-0.05, comparable to inter-cell differences. Any future experiment must use repeated evaluation and threshold-based success criteria.
 
-### What Pass 02 did NOT achieve
+### What the theory validation study did NOT achieve
 
 1. **The decomposition is still not identified**: phi, G, epsilon remain NaN in 7/9 cell-rep combinations. The corrected estimators prove the code isn't the bottleneck — the data is.
 
@@ -228,9 +228,9 @@ The narrowest honest statement:
 2. Some cells have no accepted posterior, so G and epsilon are undefined
 3. Context pressure not experimentally controllable (H5 needs intervention)
 
-## Implications for Later Passes
+## Implications for Later Studies
 
-- **Pass 03** introduced phased execution (execution, monitoring, analysis), probe-based experiments, and configuration routing to address the data sparsity problem.
-- **Pass 04** redesigned the 2x2 with confound controls (fixed seeds, CPU pinning, task headroom) informed by Pass 01-02 findings.
+- **The calibration design study** introduced phased execution (execution, monitoring, analysis), probe-based experiments, and configuration routing to address the data sparsity problem.
+- **The probe ablation study** redesigned the 2x2 with confound controls (fixed seeds, CPU pinning, task headroom) informed by the implementation pilot and theory validation study findings.
 
-The key insight from Pass 02: the bottleneck is **data quality** (too few accepted edits, too little mode diversity, too noisy a verifier), not theory or code. Future passes must generate more diverse, successful agent edits before the decomposition can be meaningfully tested.
+The key insight from the theory validation study: the bottleneck is **data quality** (too few accepted edits, too little mode diversity, too noisy a verifier), not theory or code. Future studies must generate more diverse, successful agent edits before the decomposition can be meaningfully tested.

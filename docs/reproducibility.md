@@ -104,7 +104,7 @@ Recommended practice:
 
 ## Minimal Agent Smoke Run
 
-After local tests pass and Claude Code is authenticated, start with a short run:
+After local tests succeed and Claude Code is authenticated, start with a short run:
 
 ```bash
 uv run agentops single-long \
@@ -158,7 +158,7 @@ Use these settings when the output will support a claim:
 - `--serialized-evaluator` when multiple agents share a machine.
 - A pinned Claude model in `configs/experiment.yaml`.
 - A pre-registered `--target-val-bpb` when computing certified hitting time.
-- A clean `--experiment-id` that names the study, pass, and date.
+- A clean `--experiment-id` that names the study and date.
 
 Example:
 
@@ -172,7 +172,7 @@ uv run agentops parallel \
   --serialized-evaluator \
   --target-val-bpb 0.824 \
   --success-confidence 0.80 \
-  --experiment-id pass06_parallel_d01
+  --experiment-id study06_parallel_d01
 ```
 
 ## Output To Preserve

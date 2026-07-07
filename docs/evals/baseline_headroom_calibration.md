@@ -57,7 +57,7 @@ PYTHONPATH=src python -m agentops_lab.baseline_calibration \
   --out-dir runs/baseline_headroom_calibration_extended_fixed1170
 ```
 
-For custom screens, pass JSON lists of spec objects:
+For custom screens, provide JSON lists of spec objects:
 
 ```json
 [
@@ -82,15 +82,15 @@ The script writes:
 
 ## Gate
 
-A candidate passes only if:
+A candidate qualifies only if:
 
 - its baseline run completes;
 - at least 3 distinct strategy categories beat the baseline by `min_delta`;
 - the completed-edit success rate is in the default 10-30% band.
 
-If a candidate passes, the script proposes `q*` as the strictest threshold that
+If a candidate qualifies, the script proposes `q*` as the strictest threshold that
 is still hit by the required number of winning categories. If no candidate
-passes, do not proceed to the confirmatory 2x2; revise the task/baseline first.
+qualifies, do not proceed to the confirmatory 2x2; revise the task/baseline first.
 
 ## Default Baseline Candidates
 

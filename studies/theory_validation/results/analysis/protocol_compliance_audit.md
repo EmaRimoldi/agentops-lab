@@ -23,7 +23,7 @@ This audit is separate from the formal audit:
 ### What is missing or materially weakened
 
 1. **Mode labels were not assigned to all pilot experiments**
-   The pilot protocol required mode labels for all experiments before declaring Phase 3 complete.
+   The pilot protocol required mode labels for all experiments before declaring the analysis complete.
    In practice, several pilot runs have snapshots but no `mode_labels.jsonl`.
 
 2. **`phi`, `G`, and `epsilon` are effectively degenerate**

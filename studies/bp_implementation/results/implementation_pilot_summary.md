@@ -1,7 +1,7 @@
-# Pass 01 — BP Implementation: Experiment Summary
+# Implementation Pilot Study
 
 **Status**: Archived
-**Period**: April 2026 (first AI pass)
+**Period**: April 2026 (first study)
 **Objective**: Build the experimental infrastructure and run a first pilot to test whether the Beneventano-Poggio (BP) four-term decomposition framework applies to LLM-driven autonomous agents.
 
 ---
@@ -16,7 +16,7 @@ Can we empirically measure how parallelism and memory affect the performance of 
 Delta = log(kappa_0 / kappa) + phi + G - epsilon
 ```
 
-Each term has a specific empirical estimator used in Pass 01:
+Each term has a specific empirical estimator used in the implementation pilot:
 
 - **log(kappa_0 / kappa)** — cost efficiency. kappa is the mean cost per LLM turn, measured in two units:
   - *Token axis*: kappa_token = mean tokens per turn (input + output). Tokens are read from the Claude API `usage` response; if unavailable, estimated as total_characters / 4, calibrated against turns that do have API counts (median ratio correction).
@@ -35,7 +35,7 @@ This decomposition was developed for theoretical analysis. The question is wheth
 
 **Experimental approach**: We use a 2x2 factorial design crossing parallelism (1 vs 2 agents) with memory (none vs external/shared), where the agents autonomously train CNNs on CIFAR-10. The baseline cell d00 (single agent, no memory) anchors the decomposition: each other cell's performance is decomposed into the four terms relative to d00.
 
-**Pass 01 goal**: Build the full instrumentation pipeline (token tracking, mode labeling, decomposition computation) and run a minimal pilot (3 reps per cell) to check whether (a) the infrastructure works end-to-end, (b) the decomposition terms are measurable above noise, and (c) any of six pre-registered hypotheses about parallelism and memory show consistent direction. This is explicitly a feasibility study, not a confirmatory experiment.
+**Goal**: Build the full instrumentation pipeline (token tracking, mode labeling, decomposition computation) and run a minimal pilot (3 reps per cell) to check whether (a) the infrastructure works end-to-end, (b) the decomposition terms are measurable above noise, and (c) any of six pre-registered hypotheses about parallelism and memory show consistent direction. This is explicitly a feasibility study, not a confirmatory experiment.
 
 **Six pre-registered hypotheses**:
 - **H1**: Parallelism helps wall-clock efficiency but not token efficiency (agents run faster but don't use fewer tokens)
@@ -47,7 +47,7 @@ This decomposition was developed for theoretical analysis. The question is wheth
 
 ## Experimental Design
 
-Pass 01 tested the 2x2 factorial design:
+The implementation pilot tested the 2x2 factorial design:
 
 |              | No Memory (0) | Memory (1)     |
 |--------------|---------------|----------------|
@@ -108,7 +108,7 @@ This lets each agent see what the other has tried, ideally reducing duplicated e
 
 **No memory (d00, d01)**: The agent receives only its current budget status and task description. Previous attempts are visible only through the growing conversation context, which degrades as the context window fills up.
 
-Three experiment classes were run in the original pass, and one fixed-step follow-up benchmark was later added to clarify the CPU contention interpretation:
+Three experiment classes were run in the original study, and one fixed-step follow-up benchmark was later added to clarify the CPU contention interpretation:
 
 ### 1. Pilot 2x2 feasibility — 12 runs (4 cells x 3 reps)
 
@@ -134,7 +134,7 @@ A later follow-up benchmark was added to answer the complementary question that 
 
 This matters because the 2x2 agent design can be run with either fixed-time or fixed-step evaluators. Under a fixed-time evaluator, parallel jobs can produce worse results simply because each job completes fewer gradient steps in the same wall-clock budget. Under a fixed-step evaluator, the gradient-update count is equalized, so any remaining contention appears as wall-clock overhead instead of a direct quality penalty.
 
-The follow-up used the deterministic Pass 03 training workspace, CPU-only execution, and `MAX_STEPS = 300` for every worker. Results are stored in `resource_contention__fixed-step-followup__20260413/`.
+The follow-up used the deterministic calibration-design training workspace, CPU-only execution, and `MAX_STEPS = 300` for every worker. Results are stored in `resource_contention__fixed-step-followup__20260413/`.
 
 | Condition | Group wall time | Mean worker time | Steps | Mean val_bpb |
 |-----------|-----------------|------------------|-------|--------------|
@@ -212,7 +212,7 @@ All exploratory runs use claude-haiku-4-5, 10-minute budget, 120s per training a
 3 of 5 single-long runs produced no usable metrics (agent failed to complete a training run within budget).
 
 **Observations**:
-- The best result across all Pass 01 experiments was a single-agent + memory run (0.739), substantially beating the pilot mean.
+- The best result across the implementation pilot was a single-agent + memory run (0.739), substantially beating the pilot mean.
 - Parallel configurations consistently underperformed single-agent setups, reinforcing the resource contention finding.
 - 3/8 exploratory runs produced no data, highlighting infrastructure fragility at shorter budgets.
 
@@ -294,8 +294,8 @@ The decomposition terms phi, G, and epsilon depend on classifying each agent edi
 
 5. **Infrastructure validated**: The full pipeline works end-to-end: agent runner, token tracking, mode labeling, decomposition computation, and aggregation. Key issues found: resource contention not controlled, initial val_bpb not standardized across runs, phi/G/epsilon terms not yet producing signal.
 
-## Implications for Later Passes
+## Implications for Later Studies
 
-- Pass 02 addressed the theoretical decomposition framework.
-- Pass 03 introduced phased execution and config routing.
-- Pass 04 redesigned the 2x2 with confound controls (fixed seeds, CPU pinning, task headroom) informed directly by Pass 01 findings.
+- The theory validation study addressed the theoretical decomposition framework.
+- The calibration design study introduced phased execution and config routing.
+- The probe ablation study redesigned the 2x2 with confound controls (fixed seeds, CPU pinning, task headroom) informed directly by the implementation pilot findings.

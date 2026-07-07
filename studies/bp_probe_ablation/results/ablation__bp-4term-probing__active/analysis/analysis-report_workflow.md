@@ -1,4 +1,4 @@
-# Phase 02a: Calibration Analysis Report
+# Workflow Calibration Analysis Report
 
 **Date**: 2026-04-13
 **Experiment**: BP 2x2 Power Calibration (d00 vs d10)
@@ -79,7 +79,7 @@ The initial hypothesis was that memory (d10) would improve optimization by enabl
 
 ## Decision Gate Inputs
 
-For Phase 02b:
+For the decision gate:
 - **Cohen's d**: +0.66 (medium effect, but in wrong direction for d10)
 - **Mode diversity**: 5 categories per cell, 4 with ≥2 runs each (d00), 4 with ≥2 runs each (d10)
 - **Sample size**: d00=47 runs, d10=69 runs (>50 for d10, <50 for d00)
