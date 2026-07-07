@@ -29,7 +29,7 @@ left out.
 
 Read the studies in this order if you want the cleanest narrative:
 
-1. [`baseline_headroom/`](baseline_headroom/) - current benchmark calibration.
+1. [`baseline_headroom/`](baseline_headroom/) - current starting model calibration.
 2. [`bp_probe_ablation/`](bp_probe_ablation/) - strongest current agentic signal.
 3. [`calibration_design/`](calibration_design/) - deterministic evaluator and
    design audit that motivated the probe redesign.
@@ -43,10 +43,10 @@ Read the studies in this order if you want the cleanest narrative:
 
 ### `baseline_headroom/`
 
-**Status**: active benchmark calibration.
+**Status**: active starting model calibration.
 
-**Question**: Is the AutoResearch task neither too easy nor too saturated before
-spending agent budget on mode comparisons?
+**Question**: which `autoresearch/train.py` should every future agent workflow
+start from?
 
 **What was run**: 161 controlled non-agentic evaluations across baseline/edit
 panels at fixed evaluator lengths, including the selected 1170-update screen.
@@ -56,8 +56,8 @@ rate" (internal ID `width30_lr_low`): `val_bpb = 0.841354`, with future agent
 target `target_val_bpb = 0.824`. It preserves multiple useful improvement
 categories while keeping negative controls.
 
-**Caveat**: This is not an agent result. It calibrates the task geometry so the
-agent studies have meaningful headroom.
+**Caveat**: This is not an agent result. It chooses the common starting point so
+later agent comparisons are fair.
 
 **Read first**:
 [`baseline_headroom/README.md`](baseline_headroom/README.md).

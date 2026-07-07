@@ -1,15 +1,15 @@
-# Baseline Headroom Calibration
+# Starting Model Calibration
 
-Use this before any reviewer-grade 2x2 run. The goal is to choose a starting
-`train.py` and `target_val_bpb` from controlled calibration evidence, not from
-the confirmatory 2x2.
+Use this before comparing agent workflows. The goal is to choose a starting
+`train.py` and success threshold from controlled calibration evidence, not after
+seeing agent results.
 
 The calibration is intentionally non-agentic:
 
-- define healthy but mildly mis-tuned baseline candidates;
+- define plausible but mildly improvable starting candidates;
 - apply a fixed edit panel across several strategy categories;
 - run fixed-length `train.py` evaluations in isolated workspaces;
-- select a baseline only if multiple categories can beat it.
+- select a starting point only if multiple edit families can improve it.
 
 ## Command
 
@@ -66,7 +66,7 @@ For custom screens, provide JSON lists of spec objects:
   {
     "id": "custom_lr_low",
     "category": "baseline",
-    "description": "Custom healthy baseline.",
+    "description": "Custom plausible starting point.",
     "changes": {"LEARNING_RATE": 0.0005, "USE_LR_SCHEDULE": false}
   }
 ]
@@ -80,20 +80,20 @@ The script writes:
 - `baseline_headroom_plan.json`: exact trial plan;
 - `baseline_headroom_results.json`: machine-readable results and gate decision;
 - `baseline_headroom_trials.tsv`: flat table for quick inspection;
-- `baseline_headroom_report.md`: reviewer-facing report.
+- `baseline_headroom_report.md`: report generated from the calibration screen.
 
 ## Gate
 
 A candidate qualifies only if:
 
-- its baseline run completes;
-- at least 3 distinct strategy categories beat the baseline by `min_delta`;
+- its starting-point run completes;
+- at least 3 distinct strategy categories beat the starting point by `min_delta`;
 - the completed-edit success rate is in the default 10-30% band.
 
 If a candidate qualifies, the script proposes `target_val_bpb` as the strictest
 threshold that is still hit by the required number of winning categories. If no
 candidate qualifies, do not proceed to the confirmatory 2x2; revise the
-task/baseline first.
+task/starting point first.
 
 ## Default Baseline Candidates
 
@@ -103,8 +103,8 @@ task/baseline first.
 - `no_batchnorm_lr_low`
 - `overregularized_lr_low`
 
-Add `--include-current-control` to evaluate the current repo baseline as a
-diagnostic control. It is not intended as the headroom candidate.
+Add `--include-current-control` to evaluate the current repo starting point as a
+diagnostic control. It is not intended as the final selected candidate.
 
 ## Default Edit Categories
 
@@ -114,5 +114,6 @@ diagnostic control. It is not intended as the headroom candidate.
 - `regularization`
 - `data_batch`
 
-These categories are intentionally coarse. They are meant to test whether the
-task has multi-modal headroom, not to optimize the final model.
+These categories are intentionally coarse. They are meant to test whether
+multiple types of edits can improve the starting point, not to optimize the
+final model.

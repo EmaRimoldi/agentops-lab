@@ -1,12 +1,12 @@
-# Baseline Headroom Experiment Summary
+# Starting Model Calibration Summary
 
-Generated after the baseline-headroom screens run on April 14, 2026.
+Generated after the starting-model calibration screens run on April 14, 2026.
 
 ## Studies Run
 
 | run | training updates | trials | purpose |
 | --- | ---: | ---: | --- |
-| `runs/baseline_headroom_calibration_fixed1170` | 1170 | 43 | default healthy-mistuned baseline screen |
+| `runs/baseline_headroom_calibration_fixed1170` | 1170 | 43 | initial screen over plausible starting points |
 | `runs/baseline_headroom_calibration_extended_targeted_fixed1170` | 1170 | 38 | broader model / optimizer / regularization screen |
 | `runs/baseline_refinement_custom_fixed585` | 585 | 40 | shorter-step refinement screen |
 | `runs/baseline_refinement_custom_fixed1170` | 1170 | 40 | intermediate-width / head / mild-dropout refinement |
@@ -17,9 +17,9 @@ chose the edits.
 
 ## Main Finding
 
-The 585-step task is too permissive for confirmatory architecture studies.
-It creates broad headroom, but many reasonable edits win, so it is less useful
-for testing whether agentic architecture improves search quality.
+The 585-update task is too permissive for later agent comparisons. Many
+reasonable edits win, so it is less useful for testing whether an agent workflow
+actually improves search quality.
 
 The best current candidate is the starting model now described as "width 30,
 lower learning rate":
@@ -38,7 +38,7 @@ BATCH_SIZE = 128
 AUTOSEARCH_MAX_STEPS = 1170
 ```
 
-This baseline is not obviously broken: it keeps the original depth, batchnorm,
+This starting point is not obviously broken: it keeps the original depth, batchnorm,
 optimizer family, classifier head, weight decay, dropout, and batch size. It is
 only mildly mis-tuned through width, learning rate, and schedule.
 
@@ -92,7 +92,7 @@ target_val_bpb = 0.832826
 ```
 
 `overregularized_lr_low`, `mild_dropout_no_schedule`, `small_fc_lr_low`, and
-`shallow_lr_low` expose multi-category headroom, but they are too easy or too
+`shallow_lr_low` expose multiple winning edit families, but they are too easy or too
 obviously damaged. They are useful diagnostics, not the best confirmatory
 baseline.
 
@@ -103,8 +103,8 @@ were too permissive.
 
 ## Decision
 
-Use `width30_lr_low` with `AUTOSEARCH_MAX_STEPS = 1170` for the next agentic
-pilot.
+Use the `width30_lr_low` starting point with `AUTOSEARCH_MAX_STEPS = 1170` for
+the next agent pilot.
 
 Do not use the 585-step evaluator for the confirmatory 2x2. It makes the task
 too easy and too dominated by broad early-training improvements.

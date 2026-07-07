@@ -49,7 +49,7 @@ Key examples:
 
 | Evidence | What it shows | Start here |
 |---|---|---|
-| Baseline headroom | 161 controlled non-agentic evaluations selected the starting `train.py`: validation loss `val_bpb = 0.841354`, future agent target `target_val_bpb = 0.824` | [`studies/baseline_headroom/README.md`](studies/baseline_headroom/README.md) |
+| Starting model calibration | 161 controlled non-agentic evaluations selected the starting `train.py`: validation loss `val_bpb = 0.841354`, future agent target `val_bpb <= 0.824` | [`studies/baseline_headroom/README.md`](studies/baseline_headroom/README.md) |
 | Shared memory effect | P12 shared-memory exploration found better and more stable results than P11 high-temperature exploration without memory: best `0.914` vs `0.934`, mean `1.049` vs `1.816` | [`studies/bp_probe_ablation/results/probe_ablation_summary.md`](studies/bp_probe_ablation/results/probe_ablation_summary.md) |
 | Deterministic evaluator | Five baseline runs produced identical `val_bpb = 0.811222`, removing training noise as the main explanation | [`studies/calibration_design/results/calibration_design_summary.md`](studies/calibration_design/results/calibration_design_summary.md) |
 | Early pilot | First 2x2 pilot built the instrumentation and exposed why the task and estimators needed redesign | [`studies/bp_implementation/results/implementation_pilot_summary.md`](studies/bp_implementation/results/implementation_pilot_summary.md) |
@@ -81,7 +81,7 @@ Key examples:
 | Mode comparison | `single_long`, `parallel`, `swarm`, and `merge` execution surfaces |
 | Swarm coordination | Shared JSONL blackboard, claims, deduplication, global-best tracking |
 | Certified time | `T_wall` and `T_cost` hitting-time analysis from run logs |
-| Baseline headroom | Calibration before confirmatory studies so easy baselines do not dominate |
+| Starting model calibration | Choose one controlled `train.py` so easy or impossible tasks do not dominate |
 | Diversity metrics | `H_prior` / `H_post` style prompt, trajectory, and weight-space diversity |
 | Reproducible substrate | CPU-oriented AutoResearch task with deterministic fixed-step evaluation |
 | Operational traces | Snapshots, reasoning traces, training run logs, collector/reporting pipeline |
@@ -121,7 +121,7 @@ studies/
   theory_validation/            theorem/protocol validation evidence
   calibration_design/           evaluator and design calibration evidence
   bp_probe_ablation/            BP four-term probing evidence
-  baseline_headroom/            baseline headroom calibration evidence
+  baseline_headroom/            starting model calibration evidence
 
 autoresearch/
   CIFAR-10 train.py optimization task used by the agents
@@ -209,7 +209,7 @@ Start here:
 
 - [Architecture](docs/engineering/architecture.md)
 - [Reviewer-grade evaluation protocol](docs/evals/reviewer_grade_protocol.md)
-- [Baseline headroom calibration](docs/evals/baseline_headroom_calibration.md)
+- [Starting model calibration](docs/evals/baseline_headroom_calibration.md)
 - [Experiment protocol](docs/research/experiment_protocol.md)
 - [Reproducibility setup](docs/reproducibility.md)
 
