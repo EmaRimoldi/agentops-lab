@@ -1,17 +1,21 @@
 # AgentOps Lab
 
-AgentOps Lab is a research-grade framework for measuring when AI agent systems
-should run as a single agent, parallel agents, coordinated swarms, or post-hoc
-merge workflows.
+AgentOps Lab is an experimental harness for comparing AI-agent work patterns on
+a concrete ML optimization task.
 
-The goal is practical: make agentic workflows auditable before they are trusted
-with expensive or long-running work. The repo focuses on reliability,
-evaluation, cost, wall-clock time, coordination, and reproducibility.
+The built-in benchmark is `autoresearch/`: agents edit a CIFAR-10 `train.py`,
+run evaluations, and try to reduce `val_bpb` (validation loss; lower is better).
+The repo then compares whether the search works better as one long-running
+agent, independent parallel agents, memory-augmented agents, a blackboard swarm,
+or a post-hoc merge.
 
-## Why This Exists
+Start with the guided walkthrough:
+[`docs/demo_walkthrough.md`](docs/demo_walkthrough.md).
 
-Most agent demos answer "can an agent do the task?" AgentOps Lab asks harder
-operational questions:
+## What This Is For
+
+Most agent demos answer "can an agent do the task?" AgentOps Lab asks whether a
+workflow is worth running:
 
 - Does parallelization improve quality, or only spend more tokens?
 - When does swarm communication create signal instead of coordination overhead?
@@ -20,6 +24,20 @@ operational questions:
 - Are improvements caused by better search, better coordination, or evaluator
   noise?
 - Can an agent run be replayed, inspected, and defended?
+
+## Concrete Evidence In This Repo
+
+The checked-in `studies/` directory is the demo surface. It contains curated
+summaries, figures, and result tables from agent-workflow experiments.
+
+Key examples:
+
+| Evidence | What it shows | Start here |
+|---|---|---|
+| Baseline headroom | 161 controlled non-agentic evaluations selected a benchmark baseline: `width30_lr_low`, baseline `val_bpb = 0.841354`, threshold `q* = 0.824` | [`studies/baseline_headroom/README.md`](studies/baseline_headroom/README.md) |
+| Shared memory effect | P12 shared-memory exploration found better and more stable results than P11 high-temperature exploration without memory: best `0.914` vs `0.934`, mean `1.049` vs `1.816` | [`studies/bp_probe_ablation/results/pass_04_summary.md`](studies/bp_probe_ablation/results/pass_04_summary.md) |
+| Deterministic evaluator | Five baseline runs produced identical `val_bpb = 0.811222`, removing training noise as the main explanation | [`studies/calibration_design/results/pass_03_summary.md`](studies/calibration_design/results/pass_03_summary.md) |
+| Early pilot | First 2x2 pilot built the instrumentation and exposed why the task and estimators needed redesign | [`studies/bp_implementation/results/pass_01_summary.md`](studies/bp_implementation/results/pass_01_summary.md) |
 
 ## Core Capabilities
 
@@ -33,6 +51,20 @@ operational questions:
 | Reproducible substrate | CPU-oriented AutoResearch task with deterministic fixed-step evaluation |
 | Operational traces | Snapshots, reasoning traces, training run logs, collector/reporting pipeline |
 
+## What Is `autoresearch/`?
+
+`autoresearch/` is the benchmark task used by the agent runtime. It is not a
+separate product.
+
+- `autoresearch/train.py`: the file agents are allowed to modify.
+- `autoresearch/prepare.py`: data loading and evaluation harness.
+- `autoresearch/program.md`: task instructions given to agents.
+- `val_bpb`: the validation-loss proxy parsed by the runtime.
+
+The point of this substrate is controlled comparison: all modes optimize the
+same file under the same evaluator, so differences can be attributed to the
+agent workflow rather than to changing tasks.
+
 ## Repository Layout
 
 ```text
@@ -41,8 +73,9 @@ src/
 
 docs/
   research/                     BP decomposition and experiment protocols
-  engineering/                  architecture and workflow design
+  engineering/                  architecture and runtime design
   evals/                        certified time, calibration, capacity docs
+  demo_walkthrough.md           guided reading path through concrete results
   positioning/                  public narrative for project framing
 
 studies/
@@ -54,7 +87,7 @@ studies/
   baseline_headroom/            baseline headroom calibration evidence
 
 autoresearch/
-  deterministic CPU optimization substrate
+  CIFAR-10 train.py optimization task used by the agents
 
 configs/
   runnable experiment configs
