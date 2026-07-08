@@ -15,7 +15,7 @@ from collections import defaultdict
 CURRENT_REPO_ROOT = Path(__file__).resolve().parents[4]
 SWARM_RESULTS_ROOT = CURRENT_REPO_ROOT / "results" / "swarm"
 IMPORTED_RUNS_ROOT = SWARM_RESULTS_ROOT / "runs"
-OUTPUT_DIR = SWARM_RESULTS_ROOT / "analysis" / "model_comparison_20260406"
+OUTPUT_DIR = Path(__file__).resolve().parent
 
 # Experiment definitions
 EXPERIMENTS = {

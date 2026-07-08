@@ -65,6 +65,8 @@ The most useful result figures are:
 - [`studies/calibration_design/results/calibration__2x2-diversity-memory__superseded/figures/figure-01-main-comparison.png`](../studies/calibration_design/results/calibration__2x2-diversity-memory__superseded/figures/figure-01-main-comparison.png)
 - [`studies/compute_allocation_calibration/results/figures/figure-01-fixed-time-compute-loss.png`](../studies/compute_allocation_calibration/results/figures/figure-01-fixed-time-compute-loss.png)
 - [`studies/compute_allocation_calibration/results/figures/figure-02-fixed-step-latency-cost.png`](../studies/compute_allocation_calibration/results/figures/figure-02-fixed-step-latency-cost.png)
+- [`studies/swarm_baselines/results/figures/figure-02-performance-comparison.png`](../studies/swarm_baselines/results/figures/figure-02-performance-comparison.png)
+- [`studies/swarm_baselines/results/figures/figure-04-swarm-memory-architecture.png`](../studies/swarm_baselines/results/figures/figure-04-swarm-memory-architecture.png)
 
 ## Runnable Surface
 

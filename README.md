@@ -51,6 +51,7 @@ Key examples:
 |---|---|---|
 | Starting model calibration | 161 controlled evaluations selected the common starting `train.py`: validation loss before edits `val_bpb = 0.841354`, success threshold `val_bpb <= 0.824` | [`studies/baseline_headroom/README.md`](studies/baseline_headroom/README.md) |
 | Shared memory effect | P12 shared-memory exploration found better and more stable results than P11 high-temperature exploration without memory: best `0.914` vs `0.934`, mean `1.049` vs `1.816` | [`studies/bp_probe_ablation/results/probe_ablation_summary.md`](studies/bp_probe_ablation/results/probe_ablation_summary.md) |
+| Historical swarm baseline | Blackboard-style swarm runs reached lower validation BPB than an independent-parallel baseline: `1.041477` vs `1.113130` | [`studies/swarm_baselines/README.md`](studies/swarm_baselines/README.md) |
 | Deterministic evaluator | Five baseline runs produced identical `val_bpb = 0.811222`, removing training noise as the main explanation | [`studies/calibration_design/results/calibration_design_summary.md`](studies/calibration_design/results/calibration_design_summary.md) |
 | Compute allocation calibration | Fixed-time parallel training completed fewer optimizer updates and looked worse; fixed-step evaluation preserved quality but changed latency | [`studies/compute_allocation_calibration/README.md`](studies/compute_allocation_calibration/README.md) |
 

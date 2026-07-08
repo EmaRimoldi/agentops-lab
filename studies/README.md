@@ -171,4 +171,4 @@ current BP decomposition. They are context for the swarm implementation and
 should not be mixed directly with the current calibrated studies.
 
 **Read first**:
-[`swarm_baselines/results/README.md`](swarm_baselines/results/README.md).
+[`swarm_baselines/README.md`](swarm_baselines/README.md).

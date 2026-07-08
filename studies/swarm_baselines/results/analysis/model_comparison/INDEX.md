@@ -111,7 +111,7 @@ Scatter plot showing quality-efficiency trade-off:
 ## 📁 Directory Structure
 
 ```
-results/swarm/analysis/model_comparison_20260406/
+studies/swarm_baselines/results/analysis/model_comparison/
 ├── INDEX.md                          ← You are here
 ├── CONCLUSIONS.md                    ← Direct answer + decision matrix
 ├── README.md                         ← Full detailed report
