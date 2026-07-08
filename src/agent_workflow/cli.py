@@ -19,6 +19,7 @@ def main(argv=None) -> None:
         "merge",
         "certified-time",
         "baseline-calibration",
+        "doctor",
     ]
     parser.add_argument("command", nargs="?", choices=commands, help="Command to run.")
     parser.add_argument("args", nargs=argparse.REMAINDER)
@@ -49,6 +50,9 @@ def main(argv=None) -> None:
     elif args.command == "baseline-calibration":
         from agent_workflow.baseline_calibration import main as baseline_calibration_main
         baseline_calibration_main(rest)
+    elif args.command == "doctor":
+        from agent_workflow.doctor import main as doctor_main
+        doctor_main(rest)
     else:
         parser.print_help()
 

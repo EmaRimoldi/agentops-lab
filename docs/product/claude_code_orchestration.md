@@ -1,0 +1,83 @@
+# Claude Code Orchestration
+
+Agent Workflow is productized around a narrow use case: help a team decide
+which Claude Code workflow is worth running before spending real time and
+tokens on it.
+
+## Landscape
+
+This space already has useful infrastructure:
+
+- Anthropic documents parallel Claude Code sessions with git worktrees and
+  notes that worktrees isolate file edits while subagents coordinate work:
+  <https://code.claude.com/docs/en/worktrees>.
+- Anthropic's subagent docs describe separate agent instances with isolated
+  context, parallel execution, specialized prompts, and tool restrictions:
+  <https://code.claude.com/docs/en/agent-sdk/subagents>.
+- Community projects such as `parallel-worktrees`, `awesome-claude-code-subagents`,
+  `claude-sub-agent`, and broad agent marketplaces provide agent templates,
+  worktree helpers, and development workflows.
+
+The gap is measurement. Most tools help users run more agents. Agent Workflow
+asks whether the additional agents actually improved the result.
+
+## Product Wedge
+
+Agent Workflow gives Claude Code a controlled evaluation loop:
+
+1. Spawn isolated workers for the same task.
+2. Run single-agent, parallel, shared-memory, swarm, or merge workflows.
+3. Keep evaluation fixed-step so hardware contention does not masquerade as
+   model quality.
+4. Collect trajectories, snapshots, logs, and validation metrics.
+5. Report whether the added coordination improved quality enough to justify
+   the cost.
+
+That makes the product less like a generic agent launcher and more like a
+pre-flight evaluation system for agent architectures.
+
+## Claude Code Surface
+
+The repository includes:
+
+- `CLAUDE.md`: always-on project instructions for Claude Code.
+- `.claude/agents/workflow-runner.md`: bounded execution agent.
+- `.claude/agents/workflow-analyst.md`: evidence-analysis agent.
+- `.claude/agents/workflow-reviewer.md`: product/reproducibility reviewer.
+- `.claude/commands/evaluate-agent-workflow.md`: one-shot preflight command.
+- `uv run agent-workflow doctor`: local readiness check.
+
+## Recommended Flow
+
+```bash
+uv sync --dev
+uv run agent-workflow doctor
+uv run agent-workflow parallel --help
+uv run agent-workflow parallel-shared --help
+uv run agent-workflow swarm --help
+```
+
+For live tests, use fixed-step settings:
+
+```bash
+uv run agent-workflow parallel \
+  --config configs/experiment.yaml \
+  --time-budget 10 \
+  --train-budget 120 \
+  --n-agents 2 \
+  --train-max-steps 1170 \
+  --serialized-evaluator \
+  --experiment-id smoke_parallel
+```
+
+## Positioning
+
+Short version:
+
+> Agent Workflow helps AI teams stop guessing which agent architecture to run.
+
+More explicit version:
+
+> Agent Workflow is a Claude Code evaluation harness that tests whether
+> memory, parallelism, or swarm coordination improves an agent workflow before
+> a team spends real money running it.

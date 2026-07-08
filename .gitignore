@@ -26,8 +26,14 @@ autoresearch/data/
 .DS_Store
 *.swp
 
-# Claude Code project settings
-.claude/
+# Claude Code local state
+.claude/*
+!.claude/agents/
+!.claude/agents/*.md
+!.claude/commands/
+!.claude/commands/*.md
+.claude/settings.local.json
+.claude/worktrees/
 
 # LaTeX build artifacts
 *.aux

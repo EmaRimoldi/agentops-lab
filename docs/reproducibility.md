@@ -37,6 +37,7 @@ cd ..
 Run local smoke checks:
 
 ```bash
+uv run agent-workflow doctor
 PYTHONPATH=src python -m pytest tests -q
 PYTHONPATH=src python -m agent_workflow.cli --help
 ```
@@ -85,6 +86,28 @@ If not authenticated, run:
 
 ```bash
 claude auth login
+```
+
+## Claude Code Project Agents
+
+This repository includes project-level Claude Code instructions and sub-agent
+templates:
+
+- `CLAUDE.md`: always-on project rules and safety boundaries.
+- `.claude/agents/workflow-runner.md`: bounded execution of one preflight or
+  experiment.
+- `.claude/agents/workflow-analyst.md`: evidence review over runs, summaries,
+  and figures.
+- `.claude/agents/workflow-reviewer.md`: product and reproducibility review.
+- `.claude/commands/evaluate-agent-workflow.md`: one-shot setup/evidence
+  command for Claude Code.
+
+Claude Code can run sessions in git worktrees so independent workers do not edit
+the same files. Agent Workflow also creates isolated workspaces for live
+experiments; use the built-in `doctor` check before launching them:
+
+```bash
+uv run agent-workflow doctor
 ```
 
 ## Safety Boundary

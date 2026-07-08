@@ -3,9 +3,9 @@
 Agent Workflow tells teams whether a more complex AI-agent workflow is worth the
 extra cost.
 
-It runs agents on one controlled ML task, records what they tried, and compares
-single-agent, parallel, memory, swarm, and merge workflows with deterministic
-evaluation.
+It gives Claude Code a reproducible way to spawn isolated sub-agents, run the
+same task in parallel, and compare whether memory, swarm coordination, or merge
+synthesis actually improved the result.
 
 ![Agent Workflow experiment map](docs/assets/experiments/experiment-map.png)
 
@@ -43,6 +43,7 @@ exploratory agents much less destructive on this benchmark.
 
 ```bash
 uv sync --dev
+uv run agent-workflow doctor
 PYTHONPATH=src python -m pytest tests -q
 PYTHONPATH=src python -m agent_workflow.cli --help
 ```
@@ -62,6 +63,7 @@ uv run agent-workflow swarm --help
 uv run agent-workflow merge --help
 uv run agent-workflow certified-time --help
 uv run agent-workflow baseline-calibration --help
+uv run agent-workflow doctor
 ```
 
 Live agent runs require Claude Code authentication and a clean workspace. See
@@ -70,6 +72,8 @@ Live agent runs require Claude Code authentication and a clean workspace. See
 ## What Is Included
 
 - A runnable `agent-workflow` CLI.
+- Claude Code project instructions, sub-agent templates, and a preflight
+  `doctor` command.
 - The controlled `autoresearch/` benchmark task.
 - Execution modes for single-agent, parallel, shared-memory, swarm, and merge
   workflows.
@@ -90,3 +94,4 @@ Live agent runs require Claude Code authentication and a clean workspace. See
 - [`experiments/catalog.md`](experiments/catalog.md) - compact evidence catalog
 - [`docs/reviewer_checklist.md`](docs/reviewer_checklist.md) - what is built, proven, and still open
 - [`docs/reproducibility.md`](docs/reproducibility.md) - local and Claude Code setup
+- [`docs/product/claude_code_orchestration.md`](docs/product/claude_code_orchestration.md) - product wedge and Claude Code orchestration setup
