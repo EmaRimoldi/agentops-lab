@@ -128,12 +128,15 @@ benchmark.
 
 ## Evidence
 
-| Evidence | What it proves | Start here |
+| Evidence | What it contains | Start here |
 |---|---|---|
 | Baseline calibration | The starting task is neither trivial nor impossible. | [`experiments/01_baseline/`](experiments/01_baseline/) |
 | Evaluation protocol | Fixed-step deterministic evaluation avoids hardware-dependent conclusions. | [`experiments/02_evaluation_protocol_calibration/`](experiments/02_evaluation_protocol_calibration/) |
 | Memory ablation | Shared memory can stabilize exploratory agents in this substrate. | [`experiments/03_agent_memory_ablation/`](experiments/03_agent_memory_ablation/) |
 | Swarm baseline | Historical blackboard runs are promising context for richer coordination. | [`experiments/04_swarm_baselines/`](experiments/04_swarm_baselines/) |
+| AutoResearch routing | Imported processed routing/accounting results from the NeurIPS workspace. | [`experiments/05_autoresearch_model_routing/`](experiments/05_autoresearch_model_routing/) |
+| HumanEval decomposition cost | Imported 9-instance smoke metrics, logs, prompts, oracles, and artifacts. | [`experiments/06_humaneval_decomposition_cost/`](experiments/06_humaneval_decomposition_cost/) |
+| SWE-bench scaffold | Neutral study inputs and orchestration code, without historical results. | [`experiments/07_swebench_experimental_scaffold/`](experiments/07_swebench_experimental_scaffold/) |
 
 ## CLI
 

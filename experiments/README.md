@@ -15,6 +15,12 @@ the caveat, and the file a reviewer should read first.
    exploration in agent workflows.
 4. [`04_swarm_baselines/`](04_swarm_baselines/) - preserves historical blackboard
    swarm evidence.
+5. [`05_autoresearch_model_routing/`](05_autoresearch_model_routing/) - preserves
+   processed AutoResearch routing results imported from the NeurIPS workspace.
+6. [`06_humaneval_decomposition_cost/`](06_humaneval_decomposition_cost/) -
+   preserves a HumanEval decomposition-cost smoke bundle.
+7. [`07_swebench_experimental_scaffold/`](07_swebench_experimental_scaffold/) -
+   preserves SWE-bench scaffold inputs and implementation code, without results.
 
 For a compact table of every experiment bundle, read
 [`catalog.md`](catalog.md).
@@ -27,6 +33,9 @@ For a compact table of every experiment bundle, read
 | [`02_evaluation_protocol_calibration/`](02_evaluation_protocol_calibration/) | Evaluation protocol | deterministic evaluator checks, fixed-time CPU scaling, fixed-step pair benchmark, archived 2x2 pilot | fixed-step evaluation removes training noise; fixed-time parallel comparisons can measure hardware contention instead of agent quality | [`02_evaluation_protocol_calibration/README.md`](02_evaluation_protocol_calibration/README.md) |
 | [`03_agent_memory_ablation/`](03_agent_memory_ablation/) | Current agentic signal | 11 valid trials, memory/exploration/seeding variations | shared memory stabilized exploratory search: `T07` best `0.914`, mean `1.049` vs `T06` best `0.933`, mean `1.816` | [`03_agent_memory_ablation/README.md`](03_agent_memory_ablation/README.md) |
 | [`04_swarm_baselines/`](04_swarm_baselines/) | Historical swarm context | two-agent blackboard swarm runs and model comparisons | preserved swarm runs reached lower `val_bpb` than independent parallel baseline | [`04_swarm_baselines/README.md`](04_swarm_baselines/README.md) |
+| [`05_autoresearch_model_routing/`](05_autoresearch_model_routing/) | Imported processed results | 270-run processed AutoResearch routing/accounting bundle, plus figures and config snapshots | transferred result tables and figure outputs from `NeurIPS_2026`; raw runs excluded | [`05_autoresearch_model_routing/README.md`](05_autoresearch_model_routing/README.md) |
+| [`06_humaneval_decomposition_cost/`](06_humaneval_decomposition_cost/) | Imported smoke bundle | 9-instance HumanEval decomposition-cost smoke, metrics, logs, prompts, oracles, and workflow artifacts | transferred mini-smoke evidence and cost-accounting files; full HumanEval data excluded | [`06_humaneval_decomposition_cost/README.md`](06_humaneval_decomposition_cost/README.md) |
+| [`07_swebench_experimental_scaffold/`](07_swebench_experimental_scaffold/) | Scaffold | neutral 100-instance SWE-bench input slice, configs, prompts, and orchestration implementation | transferred scaffold only; historical SWE-bench results excluded | [`07_swebench_experimental_scaffold/README.md`](07_swebench_experimental_scaffold/README.md) |
 
 ## Vocabulary
 
