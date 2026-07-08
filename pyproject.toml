@@ -1,7 +1,7 @@
 [project]
 name = "agent-workflow"
 version = "0.1.0"
-description = "Benchmark harness for evaluating AI-agent workflow reliability, search quality, and cost"
+description = "Build and score Claude Code agent workflows before expensive runs"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

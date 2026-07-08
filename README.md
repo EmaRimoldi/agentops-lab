@@ -1,29 +1,37 @@
 # Agent Workflow
 
-Agent Workflow is an open-source harness for designing and scoring Claude Code
-agent workflows before you trust them with expensive work.
+[![Tests](https://github.com/EmaRimoldi/agent-workflow/actions/workflows/tests.yml/badge.svg)](https://github.com/EmaRimoldi/agent-workflow/actions/workflows/tests.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![Claude Code](https://img.shields.io/badge/Claude%20Code-workflow%20evaluation-111827)
 
-Define one agent or N agents, choose their models, roles, memory mode, and
-CPU/GPU assignment, then run the same task through single-agent, parallel,
-shared-memory, swarm, or merge workflows. The framework runs locally; live agent
-capacity depends on your Claude Code subscription, provider quota, and available
-compute.
+Build N Claude Code agents, run them safely, and measure whether they actually beat a single agent.
 
-![Agent Workflow experiment map](docs/assets/experiments/experiment-map.png)
+![Agent Workflow demo](docs/assets/product/demo.gif)
 
-## Why It Matters
+Agent Workflow is an open-source harness for testing agent architectures before
+you spend serious time, quota, or compute on them. Define one agent or N agents,
+choose roles, models, memory mode, and CPU/GPU assignment, then compare
+single-agent, parallel, shared-memory, swarm, and merge workflows on the same
+task.
 
-AI-agent teams can now spawn more workers easily. The harder question is whether
-more agents, shared memory, or coordination actually improves the result. Agent
-Workflow measures that tradeoff with isolated workspaces, fixed evaluation
-budgets, run logs, snapshots, and comparable metrics.
+The framework runs locally. Live Claude Code capacity depends on your
+subscription, provider quota, rate limits, and available compute.
 
-The built-in benchmark is `autoresearch/`: agents edit a CIFAR-10 `train.py`,
-run evaluations, and try to reduce `val_bpb` validation loss. Lower is better.
+## Quick Start
 
-## Build Your Own Agent Team
+```bash
+git clone https://github.com/EmaRimoldi/agent-workflow.git
+cd agent-workflow
+uv run agent-workflow doctor
+```
 
-Use the compact CLI when every worker should be similar:
+Run a custom three-agent roster:
+
+```bash
+uv run agent-workflow parallel-shared --config configs/agent_roster_example.yaml
+```
+
+Run four similar workers from the CLI:
 
 ```bash
 uv run agent-workflow parallel \
@@ -35,7 +43,23 @@ uv run agent-workflow parallel \
   --experiment-id four_agent_smoke
 ```
 
-Use a roster config when agents should have different roles:
+## Why This Exists
+
+Spawning more agents is easy. Knowing whether parallelism, shared memory, or
+coordination improved the result is the hard part.
+
+Agent Workflow gives each agent an isolated workspace, keeps evaluation budgets
+fixed, records trajectories and snapshots, and writes comparable reports. It is
+designed for developers and researchers who want to experiment with agent teams
+without needing frontier-lab infrastructure.
+
+The built-in benchmark is `autoresearch/`: Claude Code agents edit a CIFAR-10
+`train.py`, run evaluations, and try to reduce `val_bpb` validation loss. Lower
+is better.
+
+## Build Your Own Agent Team
+
+Use YAML when each agent should have a different job:
 
 ```yaml
 agents:
@@ -53,15 +77,22 @@ agents:
       cuda_device: "1"
 ```
 
-Run it with:
-
-```bash
-uv run agent-workflow parallel-shared --config configs/agent_roster_example.yaml
-```
-
 `N` is intentionally not hardcoded. You can test as many agents as your
 subscription, provider rate limits, evaluator concurrency, and local CPU/GPU
 resources can support.
+
+## How It Compares
+
+| Approach | Spawn agents | Isolate workspaces | Configure N-agent rosters | Fixed-step evaluation | Evidence bundle |
+|---|---:|---:|---:|---:|---:|
+| Ad hoc Claude Code worktrees | Yes | Partial | Manual | No | No |
+| Agent template collections | Yes | Varies | Varies | No | No |
+| Observability dashboards | No | No | No | No | Yes |
+| Agent Workflow | Yes | Yes | Yes | Yes | Yes |
+
+Agent Workflow is not trying to replace Claude Code, agent templates, or
+observability tools. It sits before scale-up: run the workflow, collect evidence,
+then decide whether the more complex agent team is worth using.
 
 ## Current Signal
 
@@ -83,18 +114,6 @@ exploratory agents much less destructive on this benchmark.
 | Evaluation protocol | Fixed-step deterministic evaluation avoids hardware-dependent conclusions. | [`experiments/02_evaluation_protocol_calibration/`](experiments/02_evaluation_protocol_calibration/) |
 | Memory ablation | Shared memory can stabilize exploratory agents in this substrate. | [`experiments/03_agent_memory_ablation/`](experiments/03_agent_memory_ablation/) |
 | Swarm baseline | Historical blackboard runs are promising context for richer coordination. | [`experiments/04_swarm_baselines/`](experiments/04_swarm_baselines/) |
-
-## Quick Demo
-
-```bash
-uv sync --dev
-uv run agent-workflow doctor
-PYTHONPATH=src python -m pytest tests -q
-PYTHONPATH=src python -m agent_workflow.cli --help
-```
-
-For the shortest guided walkthrough, read [`docs/demo_script.md`](docs/demo_script.md).
-For the full evidence path, read [`docs/demo_walkthrough.md`](docs/demo_walkthrough.md).
 
 ## CLI
 
@@ -134,9 +153,12 @@ Live agent runs require Claude Code authentication and a clean workspace. See
 - The current strongest evidence is one controlled memory-ablation comparison.
 - Historical live-agent runs are not bit-for-bit reproducible because model
   services and agent decisions can change over time.
+- A public license still needs to be chosen before broad external adoption.
 
 ## More
 
+- [`docs/index.html`](docs/index.html) - minimal GitHub Pages landing page
+- [`docs/launch/`](docs/launch/) - launch checklist and copy
 - [`experiments/README.md`](experiments/README.md) - experiment map
 - [`experiments/catalog.md`](experiments/catalog.md) - compact evidence catalog
 - [`docs/reviewer_checklist.md`](docs/reviewer_checklist.md) - what is built, proven, and still open
