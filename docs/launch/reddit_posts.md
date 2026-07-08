@@ -6,11 +6,22 @@ unchanged everywhere.
 ## r/programming
 
 ```text
-I built an open-source harness for evaluating Claude Code agent workflows.
+I ran a 62-attempt Claude Code agent experiment to test whether shared memory
+actually helps multi-agent search, then packaged the harness as an open-source
+repo.
 
 The problem I am trying to solve: spawning more agents is now easy, but it is
 hard to tell whether parallelism, shared memory, or coordination actually
 improved the result.
+
+Current checked-in result on the AutoResearch benchmark:
+
+- no memory: best val_bpb 0.933, mean 1.816
+- shared memory: best val_bpb 0.914, mean 1.049
+
+That is a 42% lower mean validation loss in this substrate. The honest
+interpretation is narrower: shared memory did not solve the task, but it made
+exploratory agents less destructive.
 
 Agent Workflow lets you define one agent or N agents, run them in isolated
 workspaces, keep evaluation fixed-step, and preserve configs/logs/trajectories
@@ -31,8 +42,9 @@ agent teams.
 
 The checked-in benchmark is an AutoResearch task where agents edit a CIFAR-10
 training file and try to reduce validation bits-per-byte. The current strongest
-signal is a memory ablation: shared memory did not solve the task, but it made
-exploratory agents less destructive on this benchmark.
+signal is a 62-attempt memory ablation: shared memory did not solve the task,
+but it reduced mean val_bpb from 1.816 to 1.049 and made exploratory agents less
+destructive on this benchmark.
 
 The repo includes fixed-step evaluation, agent trajectories, snapshots, logs,
 and experiment summaries.

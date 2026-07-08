@@ -23,6 +23,7 @@ to know whether Agent Workflow is real, inspectable, and honest about its limits
 | Diversity metrics | `src/agent_workflow/analysis/diversity.py` | Implemented and tested. |
 | Snapshot and reasoning traces | `src/agent_workflow/instrumentation/` | Implemented and tested. |
 | Baseline calibration | `src/agent_workflow/baseline_calibration.py` | Implemented and tested. |
+| Public license | `LICENSE`, `pyproject.toml` | MIT license published. |
 
 ## Evidence
 
@@ -56,7 +57,6 @@ to know whether Agent Workflow is real, inspectable, and honest about its limits
 
 1. Replicate the `T06`/`T07` result across multiple seeds and model families.
 2. Run the calibrated `width30_lr_low` benchmark with fixed-step, logged settings.
-3. Add a lightweight hosted or recorded demo generated from a fresh run.
+3. Add two more benchmark substrates beyond AutoResearch/CIFAR-10.
 4. Add CI for tests and public-surface smoke checks.
-5. Choose and publish an explicit license before asking external users to adopt
-   the repo.
+5. Decide whether to keep `agent-workflow` or rename before the public launch.

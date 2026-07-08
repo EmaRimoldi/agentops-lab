@@ -3,7 +3,7 @@
 Title:
 
 ```text
-Show HN: Agent Workflow - build N Claude Code agents and measure if they beat one
+Show HN: I ran 62 Claude Code agent attempts to test whether shared memory helps
 ```
 
 Body:
@@ -11,11 +11,21 @@ Body:
 ```text
 Hi HN,
 
-I built Agent Workflow, an open-source harness for evaluating Claude Code agent
-workflows before scaling them.
+I built Agent Workflow after running a controlled Claude Code agent experiment:
+does shared memory make multi-agent search better, or just more complicated?
 
 The problem: it is now easy to spawn more agents, but hard to know whether
 parallelism, shared memory, or swarm coordination actually improved the result.
+
+The first checked-in result is a 62-attempt memory ablation on a CIFAR-10
+AutoResearch task:
+
+- no memory: best val_bpb 0.933, mean 1.816
+- shared memory: best val_bpb 0.914, mean 1.049
+
+That is a 42% lower mean validation loss in this substrate. The honest
+interpretation: shared memory did not solve the task, but it made exploratory
+agents much less destructive.
 
 Agent Workflow lets you:
 
@@ -23,11 +33,6 @@ Agent Workflow lets you:
 - run isolated Claude Code workers against the same task
 - keep evaluation fixed-step so hardware contention does not distort the comparison
 - preserve configs, logs, trajectories, snapshots, and reports
-
-The checked-in benchmark is an AutoResearch task where agents edit a CIFAR-10
-training file and try to reduce validation bits-per-byte. The strongest current
-signal: shared memory did not solve the task, but it made exploratory agents
-much less destructive on this benchmark.
 
 Quick start:
 

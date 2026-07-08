@@ -2,17 +2,20 @@
 
 [![Tests](https://github.com/EmaRimoldi/agent-workflow/actions/workflows/tests.yml/badge.svg)](https://github.com/EmaRimoldi/agent-workflow/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-workflow%20evaluation-111827)
 
-Build N Claude Code agents, run them safely, and measure whether they actually beat a single agent.
+In one controlled run, shared memory cut mean `val_bpb` from 1.816 to 1.049.
+Agent Workflow lets you test whether your Claude Code agent team is worth
+running before you scale it.
 
 ![Agent Workflow demo](docs/assets/product/demo.gif)
 
-Agent Workflow is an open-source harness for testing agent architectures before
-you spend serious time, quota, or compute on them. Define one agent or N agents,
-choose roles, models, memory mode, and CPU/GPU assignment, then compare
-single-agent, parallel, shared-memory, swarm, and merge workflows on the same
-task.
+Spawning more agents is easy. Knowing whether parallelism, shared memory, or
+coordination improved the result is the hard part. Agent Workflow is an
+open-source harness for defining one agent or N agents, running them in isolated
+workspaces, and comparing single-agent, parallel, shared-memory, swarm, and
+merge workflows on the same task.
 
 The framework runs locally. Live Claude Code capacity depends on your
 subscription, provider quota, rate limits, and available compute.
@@ -44,9 +47,6 @@ uv run agent-workflow parallel \
 ```
 
 ## Why This Exists
-
-Spawning more agents is easy. Knowing whether parallelism, shared memory, or
-coordination improved the result is the hard part.
 
 Agent Workflow gives each agent an isolated workspace, keeps evaluation budgets
 fixed, records trajectories and snapshots, and writes comparable reports. It is
@@ -83,12 +83,12 @@ resources can support.
 
 ## How It Compares
 
-| Approach | Spawn agents | Isolate workspaces | Configure N-agent rosters | Fixed-step evaluation | Evidence bundle |
+| Approach | Main job | Spawn agents | Configure N-agent rosters | Fixed-step evaluation | Evidence bundle |
 |---|---:|---:|---:|---:|---:|
-| Ad hoc Claude Code worktrees | Yes | Partial | Manual | No | No |
-| Agent template collections | Yes | Varies | Varies | No | No |
-| Observability dashboards | No | No | No | No | Yes |
-| Agent Workflow | Yes | Yes | Yes | Yes | Yes |
+| Claude Code worktree launchers | Orchestration | Yes | Manual | No | No |
+| Agent template collections | Agent prompts | Yes | Varies | No | No |
+| Observability dashboards | Runtime monitoring | No | No | No | Yes |
+| Agent Workflow | Workflow evaluation | Yes | Yes | Yes | Yes |
 
 Agent Workflow is not trying to replace Claude Code, agent templates, or
 observability tools. It sits before scale-up: run the workflow, collect evidence,
@@ -103,8 +103,10 @@ The strongest result so far is from the memory ablation experiment:
 | Exploratory search, no memory | 21 | 0.933 | 1.816 |
 | Exploratory search, shared memory | 41 | 0.914 | 1.049 |
 
-The narrow takeaway: shared memory did not solve the task, but it made
-exploratory agents much less destructive on this benchmark.
+Across 62 agent attempts, shared memory produced a 42% lower mean `val_bpb`
+than the no-memory exploratory condition. The narrow takeaway: shared memory did
+not solve the task, but it made exploratory agents much less destructive on this
+benchmark.
 
 ## Evidence
 
@@ -153,7 +155,6 @@ Live agent runs require Claude Code authentication and a clean workspace. See
 - The current strongest evidence is one controlled memory-ablation comparison.
 - Historical live-agent runs are not bit-for-bit reproducible because model
   services and agent decisions can change over time.
-- A public license still needs to be chosen before broad external adoption.
 
 ## More
 
@@ -164,3 +165,4 @@ Live agent runs require Claude Code authentication and a clean workspace. See
 - [`docs/reviewer_checklist.md`](docs/reviewer_checklist.md) - what is built, proven, and still open
 - [`docs/reproducibility.md`](docs/reproducibility.md) - local and Claude Code setup
 - [`docs/product/claude_code_orchestration.md`](docs/product/claude_code_orchestration.md) - product wedge and Claude Code orchestration setup
+- [`docs/product/positioning.md`](docs/product/positioning.md) - launch positioning, naming risk, and benchmark roadmap
