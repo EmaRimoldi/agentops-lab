@@ -1,6 +1,6 @@
 # Experiments
 
-This directory is the empirical spine of Agent Workflow Evaluation Lab. Each
+This directory is the empirical spine of Agent Workflow. Each
 numbered folder is one evidence bundle: the question, what was run, the result,
 the caveat, and the file a reviewer should read first.
 

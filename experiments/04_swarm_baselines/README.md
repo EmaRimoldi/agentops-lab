@@ -85,13 +85,13 @@ Inside that subprocess, the agent is invoked through the Claude Code CLI using
 
 Implementation references:
 
-- parallel process spawning: `src/agentops_lab/orchestrator.py`;
+- parallel process spawning: `src/agent_workflow/orchestrator.py`;
 - independent agent subprocess wrapper:
-  `src/agentops_lab/agents/isolated_agent_process.py`;
-- Claude Code invocation: `src/agentops_lab/swarm/claude_agent_runner.py`;
-- swarm orchestrator: `src/agentops_lab/swarm/swarm_orchestrator.py`;
-- blackboard implementation: `src/agentops_lab/swarm/shared_memory.py`;
-- workspace blackboard tool installation: `src/agentops_lab/swarm/workspace.py`.
+  `src/agent_workflow/agents/isolated_agent_process.py`;
+- Claude Code invocation: `src/agent_workflow/swarm/claude_agent_runner.py`;
+- swarm orchestrator: `src/agent_workflow/swarm/swarm_orchestrator.py`;
+- blackboard implementation: `src/agent_workflow/swarm/shared_memory.py`;
+- workspace blackboard tool installation: `src/agent_workflow/swarm/workspace.py`.
 
 ## Evidence Files
 

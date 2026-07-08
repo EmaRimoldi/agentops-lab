@@ -1,4 +1,4 @@
-# Agent Workflow Evaluation Lab Docs
+# Agent Workflow Docs
 
 The documentation is organized by the questions a technical reviewer will ask.
 

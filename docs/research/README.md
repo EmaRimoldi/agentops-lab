@@ -1,6 +1,6 @@
 # Research
 
-This section captures the research frame behind Agent Workflow Evaluation Lab: how to compare
+This section captures the research frame behind Agent Workflow: how to compare
 agentic execution modes under quality, cost, and wall-clock constraints.
 
 | File | Role |

@@ -8,8 +8,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.outputs.collector import collect_experiment
-from agentops_lab.outputs.reporter import write_final_comparison
+from agent_workflow.outputs.collector import collect_experiment
+from agent_workflow.outputs.reporter import write_final_comparison
 
 
 def main() -> None:

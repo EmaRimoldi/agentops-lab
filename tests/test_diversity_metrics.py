@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentops_lab.analysis.diversity import (
+from agent_workflow.analysis.diversity import (
     dtw_distance,
     load_trajectory,
     mean_pairwise_dtw_distance,

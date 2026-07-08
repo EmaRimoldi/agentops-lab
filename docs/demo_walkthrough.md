@@ -68,15 +68,15 @@ The most useful result figures are:
 The current public CLI is:
 
 ```bash
-uv run agentops --help
-uv run agentops parallel --help
-uv run agentops parallel-shared --help
-uv run agentops single-long --help
-uv run agentops single-memory --help
-uv run agentops swarm --help
-uv run agentops merge --help
-uv run agentops certified-time --help
-uv run agentops baseline-calibration --help
+uv run agent-workflow --help
+uv run agent-workflow parallel --help
+uv run agent-workflow parallel-shared --help
+uv run agent-workflow single-long --help
+uv run agent-workflow single-memory --help
+uv run agent-workflow swarm --help
+uv run agent-workflow merge --help
+uv run agent-workflow certified-time --help
+uv run agent-workflow baseline-calibration --help
 ```
 
 The repository does not include raw private run logs or local datasets. Curated

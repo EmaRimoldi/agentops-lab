@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.outputs.collector import collect_experiment, collect_agent_result
+from agent_workflow.outputs.collector import collect_experiment, collect_agent_result
 
 
 def _make_agent_dir(base: Path, agent_id: str, entries: list[dict] = None) -> Path:

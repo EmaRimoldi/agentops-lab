@@ -6,14 +6,14 @@ from pathlib import Path
 
 import pytest
 
-from agentops_lab.merger import (
+from agent_workflow.merger import (
     MergeOrchestrator,
     MergeCandidate,
     extract_hyperparams,
     apply_hyperparams,
     TUNABLE_PARAMS,
 )
-from agentops_lab.instrumentation.snapshotting import SnapshotManager, SnapshotMetadata
+from agent_workflow.instrumentation.snapshotting import SnapshotManager, SnapshotMetadata
 
 
 # ------------------------------------------------------------------ fixtures

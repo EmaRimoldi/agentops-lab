@@ -1,7 +1,7 @@
 # Reviewer Checklist
 
 This checklist is for a technical reviewer who has only a few minutes and wants
-to know whether Agent Workflow Evaluation Lab is real, inspectable, and honest about its limits.
+to know whether Agent Workflow is real, inspectable, and honest about its limits.
 
 ## Product Clarity
 
@@ -9,20 +9,20 @@ to know whether Agent Workflow Evaluation Lab is real, inspectable, and honest a
 |---|---|---|
 | What is this? | `README.md` | Benchmark harness for comparing AI-agent workflow modes on one controlled ML task. |
 | What concrete task does it run? | `autoresearch/README.md`, `autoresearch/train.py` | Agents optimize CIFAR-10 validation loss by editing one training script. |
-| What is the user-facing surface? | `src/agentops_lab/cli.py`, `README.md` | One CLI: `agentops`. |
+| What is the user-facing surface? | `src/agent_workflow/cli.py`, `README.md` | One CLI: `agent-workflow`. |
 | What should a reviewer read first? | `docs/demo_script.md`, `docs/demo_walkthrough.md` | Short demo path and evidence path are explicit. |
 
 ## Built System
 
 | Capability | Where to verify | Status |
 |---|---|---|
-| Single-agent and parallel modes | `src/agentops_lab/modes/`, `src/agentops_lab/launcher.py` | Implemented. |
-| Shared memory / blackboard | `src/agentops_lab/communication/`, `src/agentops_lab/swarm/` | Implemented and tested. |
-| Claude Code runner | `src/agentops_lab/agents/claude_agent_runner.py` | Implemented; requires local Claude Code auth for live runs. |
-| Certified hitting-time analysis | `src/agentops_lab/instrumentation/certified_time.py` | Implemented and tested. |
-| Diversity metrics | `src/agentops_lab/analysis/diversity.py` | Implemented and tested. |
-| Snapshot and reasoning traces | `src/agentops_lab/instrumentation/` | Implemented and tested. |
-| Baseline calibration | `src/agentops_lab/baseline_calibration.py` | Implemented and tested. |
+| Single-agent and parallel modes | `src/agent_workflow/modes/`, `src/agent_workflow/launcher.py` | Implemented. |
+| Shared memory / blackboard | `src/agent_workflow/communication/`, `src/agent_workflow/swarm/` | Implemented and tested. |
+| Claude Code runner | `src/agent_workflow/agents/claude_agent_runner.py` | Implemented; requires local Claude Code auth for live runs. |
+| Certified hitting-time analysis | `src/agent_workflow/instrumentation/certified_time.py` | Implemented and tested. |
+| Diversity metrics | `src/agent_workflow/analysis/diversity.py` | Implemented and tested. |
+| Snapshot and reasoning traces | `src/agent_workflow/instrumentation/` | Implemented and tested. |
+| Baseline calibration | `src/agent_workflow/baseline_calibration.py` | Implemented and tested. |
 
 ## Evidence
 
@@ -38,7 +38,7 @@ to know whether Agent Workflow Evaluation Lab is real, inspectable, and honest a
 |---|---|---|
 | Install dependencies | `uv sync --dev` | Documented. |
 | Run tests | `PYTHONPATH=src python -m pytest tests -q` | Passing locally. |
-| Inspect CLI | `PYTHONPATH=src python -m agentops_lab.cli --help` | Passing locally. |
+| Inspect CLI | `PYTHONPATH=src python -m agent_workflow.cli --help` | Passing locally. |
 | Prepare benchmark data | `docs/reproducibility.md` | Documented. |
 | Run live agent experiments | `docs/reproducibility.md` | Requires Claude Code and isolated workspace. |
 
@@ -49,8 +49,8 @@ to know whether Agent Workflow Evaluation Lab is real, inspectable, and honest a
   comparison, not every agent workflow.
 - Historical live-agent runs are not bit-for-bit reproducible because external
   model services and agent choices can change.
-- The BP theory is not presented as fully validated.
-- No production deployment story is claimed yet; the repo is an evaluation lab.
+- No hosted product deployment is claimed yet; this is the evaluation engine and
+  evidence trail.
 
 ## Next Stronger Proof Points
 

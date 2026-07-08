@@ -38,12 +38,12 @@ Run local smoke checks:
 
 ```bash
 PYTHONPATH=src python -m pytest tests -q
-PYTHONPATH=src python -m agentops_lab.cli --help
+PYTHONPATH=src python -m agent_workflow.cli --help
 ```
 
 ## Claude Code Setup
 
-Agent Workflow Evaluation Lab invokes Claude Code headlessly through the `claude` binary. The
+Agent Workflow invokes Claude Code headlessly through the `claude` binary. The
 current runner builds commands in this shape:
 
 ```bash
@@ -56,7 +56,7 @@ claude \
   "<turn message>"
 ```
 
-The exact call site is `src/agentops_lab/agents/claude_agent_runner.py`.
+The exact call site is `src/agent_workflow/agents/claude_agent_runner.py`.
 
 Install Claude Code using Anthropic's current setup instructions:
 
@@ -107,7 +107,7 @@ Recommended practice:
 After local tests succeed and Claude Code is authenticated, start with a short run:
 
 ```bash
-uv run agentops single-long \
+uv run agent-workflow single-long \
   --config configs/experiment.yaml \
   --time-budget 10 \
   --train-budget 120 \
@@ -119,7 +119,7 @@ uv run agentops single-long \
 For a matched parallel run:
 
 ```bash
-uv run agentops parallel \
+uv run agent-workflow parallel \
   --config configs/experiment.yaml \
   --time-budget 10 \
   --train-budget 120 \
@@ -132,7 +132,7 @@ uv run agentops parallel \
 For shared-memory parallel mode:
 
 ```bash
-uv run agentops parallel-shared \
+uv run agent-workflow parallel-shared \
   --config configs/experiment.yaml \
   --time-budget 10 \
   --train-budget 120 \
@@ -145,8 +145,8 @@ uv run agentops parallel-shared \
 The swarm command currently has a separate surface:
 
 ```bash
-uv run agentops swarm --blackboard-dir /tmp/agentops-blackboard
-uv run agentops swarm --run --config configs/experiment.yaml --time-budget 10 --train-budget 120 --n-agents 2
+uv run agent-workflow swarm --blackboard-dir /tmp/agent-workflow-blackboard
+uv run agent-workflow swarm --run --config configs/experiment.yaml --time-budget 10 --train-budget 120 --n-agents 2
 ```
 
 ## Reviewer-Grade Settings
@@ -163,7 +163,7 @@ Use these settings when the output will support a claim:
 Example:
 
 ```bash
-uv run agentops parallel \
+uv run agent-workflow parallel \
   --config configs/experiment.yaml \
   --time-budget 30 \
   --train-budget 300 \

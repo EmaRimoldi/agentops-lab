@@ -66,7 +66,7 @@ replicates for configuration-level p-values.
 Single/no-memory (`d00`):
 
 ```bash
-uv run agentops single-long \
+uv run agent-workflow single-long \
   --experiment-id rg_d00_rep01 \
   --time-budget 90 \
   --train-budget 300 \
@@ -79,7 +79,7 @@ uv run agentops single-long \
 Single/memory (`d10`):
 
 ```bash
-uv run agentops single-memory \
+uv run agent-workflow single-memory \
   --experiment-id rg_d10_rep01 \
   --time-budget 90 \
   --train-budget 300 \
@@ -92,7 +92,7 @@ uv run agentops single-memory \
 Parallel/no-memory (`d01`):
 
 ```bash
-uv run agentops parallel \
+uv run agent-workflow parallel \
   --experiment-id rg_d01_rep01 \
   --time-budget 90 \
   --train-budget 300 \
@@ -105,7 +105,7 @@ uv run agentops parallel \
 Parallel/shared-memory (`d11`):
 
 ```bash
-uv run agentops parallel-shared \
+uv run agent-workflow parallel-shared \
   --experiment-id rg_d11_rep01 \
   --time-budget 90 \
   --train-budget 300 \
@@ -126,7 +126,7 @@ A YAML starting point is available at
 Run:
 
 ```bash
-uv run agentops certified-time \
+uv run agent-workflow certified-time \
   --target-val-bpb 0.90 \
   --confidence 0.80 \
   --require-reevaluation \

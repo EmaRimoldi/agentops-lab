@@ -1,7 +1,7 @@
 # Experiment Protocol
 
-This protocol describes how to run a matched Agent Workflow Evaluation Lab experiment using the
-canonical `agentops` CLI. For machine setup and Claude Code authentication, read
+This protocol describes how to run a matched Agent Workflow experiment using the
+canonical `agent-workflow` CLI. For machine setup and Claude Code authentication, read
 [`../reproducibility.md`](../reproducibility.md) first.
 
 ## Core Question
@@ -25,7 +25,7 @@ Run local checks:
 ```bash
 uv sync --dev
 PYTHONPATH=src python -m pytest tests -q
-PYTHONPATH=src python -m agentops_lab.cli --help
+PYTHONPATH=src python -m agent_workflow.cli --help
 ```
 
 Prepare data:
@@ -68,7 +68,7 @@ across modes.
 ### Single long
 
 ```bash
-uv run agentops single-long \
+uv run agent-workflow single-long \
   --config configs/experiment.yaml \
   --time-budget 30 \
   --train-budget 300 \
@@ -82,7 +82,7 @@ uv run agentops single-long \
 ### Independent parallel
 
 ```bash
-uv run agentops parallel \
+uv run agent-workflow parallel \
   --config configs/experiment.yaml \
   --time-budget 30 \
   --train-budget 300 \
@@ -97,7 +97,7 @@ uv run agentops parallel \
 ### Shared-memory parallel
 
 ```bash
-uv run agentops parallel-shared \
+uv run agent-workflow parallel-shared \
   --config configs/experiment.yaml \
   --time-budget 30 \
   --train-budget 300 \
@@ -112,7 +112,7 @@ uv run agentops parallel-shared \
 ### Swarm
 
 ```bash
-uv run agentops swarm \
+uv run agent-workflow swarm \
   --run \
   --config configs/experiment.yaml \
   --time-budget 30 \
@@ -125,7 +125,7 @@ The current swarm surface delegates to the integrated swarm runtime. Its
 blackboard can also be initialized independently:
 
 ```bash
-uv run agentops swarm --blackboard-dir runs/study06_swarm_blackboard
+uv run agent-workflow swarm --blackboard-dir runs/study06_swarm_blackboard
 ```
 
 ## Output Structure
@@ -161,7 +161,7 @@ After runs finish:
 2. Recompute certified hitting-time if a target threshold was pre-registered:
 
    ```bash
-   uv run agentops certified-time runs/experiment_<id> \
+   uv run agent-workflow certified-time runs/experiment_<id> \
      --target-val-bpb 0.824 \
      --confidence 0.80
    ```

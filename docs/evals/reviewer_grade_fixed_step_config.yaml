@@ -11,7 +11,7 @@ evaluator:
   train_max_steps: 1170
   # Serialize train.py evaluations across agents to remove hardware contention.
   concurrency: serialized
-  # q* and confidence for `agentops certified-time`.
+  # q* and confidence for `agent-workflow certified-time`.
   target_val_bpb: 0.824
   success_confidence: 0.80
   # Cost proxy defaults to token units. Set evaluator_hour_price for dollar accounting.

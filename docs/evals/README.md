@@ -1,6 +1,6 @@
 # Evaluations
 
-This section is the core public proof surface for Agent Workflow Evaluation Lab. It focuses on
+This section is the core public proof surface for Agent Workflow. It focuses on
 whether agent workflows are measurable, reproducible, and worth their cost.
 
 | File | Role |

@@ -5,7 +5,7 @@ import multiprocessing
 import time
 from pathlib import Path
 
-from agentops_lab.swarm.shared_memory import (
+from agent_workflow.swarm.shared_memory import (
     ENTRY_RESULT,
     ENTRY_STATUS,
     SharedMemory,

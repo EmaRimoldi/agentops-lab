@@ -1,223 +1,92 @@
-# Agent Workflow Evaluation Lab
+# Agent Workflow
 
-Agent Workflow Evaluation Lab is a benchmark harness for measuring whether
-AI-agent workflows actually improve search quality, cost, and auditability on a
-concrete ML optimization task.
+Agent Workflow tells teams whether a more complex AI-agent workflow is worth the
+extra cost.
+
+It runs agents on one controlled ML task, records what they tried, and compares
+single-agent, parallel, memory, swarm, and merge workflows with deterministic
+evaluation.
+
+![Agent Workflow experiment map](docs/assets/experiments/experiment-map.png)
+
+## Why It Matters
+
+AI-agent teams often add parallelism, memory, or swarm coordination before they
+know whether those features improve results. Agent Workflow gives them a way to
+measure that tradeoff before trusting agents with expensive or long-running work.
 
 The built-in benchmark is `autoresearch/`: agents edit a CIFAR-10 `train.py`,
-run evaluations, and try to reduce `val_bpb` (validation loss; lower is better).
-The repo then compares whether the search works better as one long-running
-agent, independent parallel agents, memory-augmented agents, a blackboard swarm,
-or a post-hoc merge.
+run evaluations, and try to reduce `val_bpb` validation loss. Lower is better.
 
-## 60-Second Review Path
+## Current Signal
 
-If you are reviewing this repository quickly:
+The strongest result so far is from the memory ablation experiment:
 
-1. Read [`docs/demo_script.md`](docs/demo_script.md) for the short product demo.
-2. Read [`docs/demo_walkthrough.md`](docs/demo_walkthrough.md) for the concrete
-   result path.
-3. Read [`docs/reviewer_checklist.md`](docs/reviewer_checklist.md) to verify
-   what is built, what is evidence, and what is still open.
-4. Use [`experiments/README.md`](experiments/README.md) for the experiment map.
-5. Use [`experiments/catalog.md`](experiments/catalog.md) for the
-   compact inventory of preserved experiment bundles.
-6. Use [`docs/reproducibility.md`](docs/reproducibility.md) for local and
-   Claude Code setup.
+| Condition | Attempts | Best `val_bpb` | Mean `val_bpb` |
+|---|---:|---:|---:|
+| Exploratory search, no memory | 21 | 0.933 | 1.816 |
+| Exploratory search, shared memory | 41 | 0.914 | 1.049 |
 
-## What This Is For
+The narrow takeaway: shared memory did not solve the task, but it made
+exploratory agents much less destructive on this benchmark.
 
-Most agent demos answer "can an agent do the task?" This repository asks
-whether a workflow is worth running:
+## Evidence
 
-- Does parallelization improve quality, or only spend more tokens?
-- When does swarm communication create signal instead of coordination overhead?
-- Which workflow reaches a target quality threshold fastest?
-- What is the cost to hit a reviewer-defined quality level?
-- Are improvements caused by better search, better coordination, or evaluator
-  noise?
-- Can an agent run be replayed, inspected, and defended?
-
-The narrow product wedge is AI-agent evaluation for teams that need to decide
-whether a more complex agent workflow is worth the extra cost before trusting it
-with long-running or expensive work.
-
-## Concrete Evidence In This Repo
-
-The checked-in `experiments/` directory is the demo surface. It contains curated
-summaries, figures, and result tables from agent-workflow experiments.
-
-Key examples:
-
-| Evidence | What it shows | Start here |
+| Evidence | What it proves | Start here |
 |---|---|---|
-| Starting model calibration | 161 controlled evaluations selected the common starting `train.py`: validation loss before edits `val_bpb = 0.841354`, success threshold `val_bpb <= 0.824` | [`experiments/01_baseline/README.md`](experiments/01_baseline/README.md) |
-| Evaluation protocol calibration | Five repeated baseline runs matched exactly, and fixed-time parallel training completed fewer optimizer updates; later comparisons should use deterministic fixed-step evaluation | [`experiments/02_evaluation_protocol_calibration/README.md`](experiments/02_evaluation_protocol_calibration/README.md) |
-| Shared memory effect | `T07` shared-memory exploration found better and more stable results than `T06` exploratory search without memory: best `0.914` vs `0.933`, mean `1.049` vs `1.816` | [`experiments/03_agent_memory_ablation/README.md`](experiments/03_agent_memory_ablation/README.md) |
-| Historical swarm baseline | Blackboard-style swarm runs reached lower validation BPB than an independent-parallel baseline: `1.041477` vs `1.113130` | [`experiments/04_swarm_baselines/README.md`](experiments/04_swarm_baselines/README.md) |
+| Baseline calibration | The starting task is neither trivial nor impossible. | [`experiments/01_baseline/`](experiments/01_baseline/) |
+| Evaluation protocol | Fixed-step deterministic evaluation avoids hardware-dependent conclusions. | [`experiments/02_evaluation_protocol_calibration/`](experiments/02_evaluation_protocol_calibration/) |
+| Memory ablation | Shared memory can stabilize exploratory agents in this substrate. | [`experiments/03_agent_memory_ablation/`](experiments/03_agent_memory_ablation/) |
+| Swarm baseline | Historical blackboard runs are promising context for richer coordination. | [`experiments/04_swarm_baselines/`](experiments/04_swarm_baselines/) |
 
-## What Works Today
-
-- A runnable Python package and `agentops` CLI.
-- Isolated AutoResearch workspaces where agents edit one controlled `train.py`.
-- Execution modes for single-agent, parallel, shared-memory, swarm, and merge
-  workflows.
-- Blackboard/shared-memory primitives with tests.
-- Certified-time, diversity, snapshotting, reasoning-trace, and calibration
-  utilities.
-- Curated experiment evidence with figures and result tables.
-
-## What This Does Not Claim Yet
-
-- It is not a general benchmark for all agent tasks.
-- It does not claim the BP theory is fully empirically validated.
-- It does not claim shared memory always helps; current evidence says it reduces
-  harmful exploration in one controlled trial comparison.
-- Historical runs are not bit-for-bit reproducible because model services and
-  agent decisions can change over time.
-
-## Core Capabilities
-
-| Capability | What it provides |
-|---|---|
-| Mode comparison | `single_long`, `parallel`, `swarm`, and `merge` execution surfaces |
-| Swarm coordination | Shared JSONL blackboard, claims, deduplication, global-best tracking |
-| Certified time | `T_wall` and `T_cost` hitting-time analysis from run logs |
-| Starting model calibration | Choose one controlled `train.py` so easy or impossible tasks do not dominate |
-| Diversity metrics | `H_prior` / `H_post` style prompt, trajectory, and weight-space diversity |
-| Reproducible substrate | CPU-oriented AutoResearch task with deterministic fixed-step evaluation |
-| Operational traces | Snapshots, reasoning traces, training run logs, collector/reporting pipeline |
-
-## What Is `autoresearch/`?
-
-`autoresearch/` is the benchmark task used by the agent runtime. It is not a
-separate product.
-
-- `autoresearch/train.py`: the file agents are allowed to modify.
-- `autoresearch/prepare.py`: data loading and evaluation harness.
-- `autoresearch/program.md`: task instructions given to agents.
-- `val_bpb`: the validation-loss proxy parsed by the runtime.
-
-The point of this substrate is controlled comparison: all modes optimize the
-same file under the same evaluator, so differences can be attributed to the
-agent workflow rather than to changing tasks.
-
-## Repository Layout
-
-```text
-src/
-  agentops_lab/              public package surface and CLI
-
-docs/
-  research/                     BP decomposition and experiment protocols
-  engineering/                  architecture and runtime design
-  evals/                        certified time, calibration, capacity docs
-  demo_script.md                60-second demo narrative and evidence path
-  demo_walkthrough.md           guided reading path through concrete results
-  reviewer_checklist.md         what a reviewer can verify quickly
-  reproducibility.md            local setup and Claude Code reproduction notes
-
-experiments/
-  01_baseline/                     starting model calibration evidence
-  02_evaluation_protocol_calibration/
-                                  deterministic fixed-step and compute evidence
-  03_agent_memory_ablation/        memory and exploration ablation evidence
-  04_swarm_baselines/              blackboard coordination evidence
-
-autoresearch/
-  CIFAR-10 train.py optimization task used by the agents
-
-configs/
-  runnable experiment configs
-
-scripts/
-  analysis utilities and workflow helpers
-
-tests/
-  unit, integration, and public-surface smoke tests
-```
-
-## Install
+## Quick Demo
 
 ```bash
 uv sync --dev
-```
-
-Run tests:
-
-```bash
 PYTHONPATH=src python -m pytest tests -q
+PYTHONPATH=src python -m agent_workflow.cli --help
 ```
+
+For the shortest guided walkthrough, read [`docs/demo_script.md`](docs/demo_script.md).
+For the full evidence path, read [`docs/demo_walkthrough.md`](docs/demo_walkthrough.md).
 
 ## CLI
 
-Canonical public surface:
-
 ```bash
-uv run agentops --help
-uv run agentops parallel --help
-uv run agentops parallel-shared --help
-uv run agentops single-long --help
-uv run agentops single-memory --help
-uv run agentops swarm --help
-uv run agentops merge --help
-uv run agentops certified-time --help
-uv run agentops baseline-calibration --help
+uv run agent-workflow --help
+uv run agent-workflow parallel --help
+uv run agent-workflow parallel-shared --help
+uv run agent-workflow single-long --help
+uv run agent-workflow single-memory --help
+uv run agent-workflow swarm --help
+uv run agent-workflow merge --help
+uv run agent-workflow certified-time --help
+uv run agent-workflow baseline-calibration --help
 ```
 
-## Public Package Surface
+Live agent runs require Claude Code authentication and a clean workspace. See
+[`docs/reproducibility.md`](docs/reproducibility.md).
 
-The preferred import path is `agentops_lab`.
+## What Is Included
 
-```text
-agentops_lab/
-  cli.py
-  config.py
-  orchestrator.py
-  communication/
-    blackboard.py
-    coordinator.py
-  analysis/
-    diversity.py
-  instrumentation/
-    snapshotting.py
-    reasoning_trace.py
-    certified_time.py
-  modes/
-    parallel.py
-    single_long.py
-    swarm.py
-    merge.py
-```
+- A runnable `agent-workflow` CLI.
+- The controlled `autoresearch/` benchmark task.
+- Execution modes for single-agent, parallel, shared-memory, swarm, and merge
+  workflows.
+- Shared-memory/blackboard primitives, certified-time analysis, diversity
+  metrics, snapshots, reasoning traces, and reporting utilities.
+- Curated experiment summaries, tables, and figures.
 
-The runtime, evaluation tools, reporting pipeline, and public imports live under
-one package: `agentops_lab`.
+## Limits
 
-## Research Frame
+- This is not a general benchmark for all agent tasks.
+- The current strongest evidence is one controlled memory-ablation comparison.
+- Historical live-agent runs are not bit-for-bit reproducible because model
+  services and agent decisions can change over time.
 
-Agent Workflow Evaluation Lab evaluates agentic systems through a decomposition
-of improvement:
+## More
 
-```math
-\Delta = \log(\kappa_0 / \kappa) + \phi + G - \epsilon
-```
-
-where the terms separate cost/search efficiency, parallel or coordination
-effects, gains, and estimator/error penalties. The current empirical substrate
-uses a deterministic CPU optimization task with fixed-step evaluation, mode
-labeling, calibration gates, and post-hoc decomposition analysis.
-
-Start here:
-
-- [Architecture](docs/engineering/architecture.md)
-- [Reviewer-grade evaluation protocol](docs/evals/reviewer_grade_protocol.md)
-- [Starting model calibration](docs/evals/baseline_headroom_calibration.md)
-- [Experiment protocol](docs/research/experiment_protocol.md)
-- [Reproducibility setup](docs/reproducibility.md)
-
-## Repository Scope
-
-Agent Workflow Evaluation Lab keeps the runnable runtime, evaluation protocols,
-curated experiment summaries, and AutoResearch substrate in one repository. Raw run
-logs, local data, transient agent workspaces, and private process notes are
-intentionally out of scope.
+- [`experiments/README.md`](experiments/README.md) - experiment map
+- [`experiments/catalog.md`](experiments/catalog.md) - compact evidence catalog
+- [`docs/reviewer_checklist.md`](docs/reviewer_checklist.md) - what is built, proven, and still open
+- [`docs/reproducibility.md`](docs/reproducibility.md) - local and Claude Code setup

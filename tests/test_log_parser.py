@@ -8,7 +8,7 @@ import pytest
 import sys
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.utils.log_parser import (
+from agent_workflow.utils.log_parser import (
     parse_val_bpb,
     parse_training_seconds,
     parse_total_seconds,

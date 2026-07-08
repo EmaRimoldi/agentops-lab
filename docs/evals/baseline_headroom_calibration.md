@@ -16,7 +16,7 @@ The calibration is intentionally non-agentic:
 Cheap smoke test:
 
 ```bash
-uv run agentops baseline-calibration \
+uv run agent-workflow baseline-calibration \
   --train-max-steps 2 \
   --baseline-ids lr_low_no_schedule \
   --edit-ids lr_1p5e3,batch64 \
@@ -26,7 +26,7 @@ uv run agentops baseline-calibration \
 If `uv` is not installed in the local shell, use:
 
 ```bash
-PYTHONPATH=src python -m agentops_lab.baseline_calibration \
+PYTHONPATH=src python -m agent_workflow.baseline_calibration \
   --train-max-steps 2 \
   --baseline-ids lr_low_no_schedule \
   --edit-ids lr_1p5e3,batch64 \
@@ -36,7 +36,7 @@ PYTHONPATH=src python -m agentops_lab.baseline_calibration \
 Full calibration starting point:
 
 ```bash
-uv run agentops baseline-calibration \
+uv run agent-workflow baseline-calibration \
   --train-max-steps 1170 \
   --train-time-budget 300 \
   --timeout 900 \
@@ -51,7 +51,7 @@ updates. Use
 Broader follow-up batch:
 
 ```bash
-PYTHONPATH=src python -m agentops_lab.baseline_calibration \
+PYTHONPATH=src python -m agent_workflow.baseline_calibration \
   --extended-panel \
   --train-max-steps 1170 \
   --train-time-budget 300 \

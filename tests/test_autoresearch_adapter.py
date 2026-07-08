@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.runtime.autoresearch_adapter import (
+from agent_workflow.runtime.autoresearch_adapter import (
     read_autoresearch_trajectory,
     read_all_autoresearch_trajectories,
     find_best_autoresearch_result,

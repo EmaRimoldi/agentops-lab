@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agentops_lab.instrumentation.reasoning_trace import (
+from agent_workflow.instrumentation.reasoning_trace import (
     ReasoningEntry,
     ReasoningTracer,
     collect_all_traces,

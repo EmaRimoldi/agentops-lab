@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.runtime.training_harness import (
+from agent_workflow.runtime.training_harness import (
     generate_run_training_sh,
     generate_check_training_sh,
 )

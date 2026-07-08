@@ -1,10 +1,10 @@
 # Demo Script
 
-This is the shortest coherent demo of Agent Workflow Evaluation Lab.
+This is the shortest coherent demo of Agent Workflow.
 
 ## 60-Second Demo
 
-Agent Workflow Evaluation Lab measures whether a more complex AI-agent workflow is worth running.
+Agent Workflow measures whether a more complex AI-agent workflow is worth running.
 
 The benchmark is deliberately concrete: agents edit one CIFAR-10 training file,
 `autoresearch/train.py`, then run evaluations and try to reduce `val_bpb`
@@ -17,7 +17,7 @@ The product question is:
 
 The repo does three things:
 
-1. Runs the workflows through one CLI: `agentops`.
+1. Runs the workflows through one CLI: `agent-workflow`.
 2. Captures audit evidence: logs, snapshots, traces, shared-memory events, and
    certified hitting time.
 3. Preserves the experiments showing what was learned.
@@ -50,18 +50,18 @@ dependent on machine load.
 ### 2. Show the CLI surface
 
 ```bash
-uv run agentops --help
-uv run agentops parallel --help
-uv run agentops parallel-shared --help
-uv run agentops swarm --help
-uv run agentops certified-time --help
-uv run agentops baseline-calibration --help
+uv run agent-workflow --help
+uv run agent-workflow parallel --help
+uv run agent-workflow parallel-shared --help
+uv run agent-workflow swarm --help
+uv run agent-workflow certified-time --help
+uv run agent-workflow baseline-calibration --help
 ```
 
 What to say:
 
 The public surface is one CLI, not a pile of ad hoc scripts. Historical scripts
-are still present for provenance, but the canonical route is `agentops`.
+are still present for provenance, but the canonical route is `agent-workflow`.
 
 ### 3. Show the evidence trail
 
@@ -106,7 +106,7 @@ Files:
 What to say:
 
 The repo is explicit about limits. The experiments show a path toward rigorous
-agent-workflow evaluation on one controlled substrate, not a finished universal
+Agent Workflow evaluation on one controlled substrate, not a finished universal
 benchmark.
 
 ## Local Smoke Demo
@@ -116,7 +116,7 @@ This demo does not require Claude Code:
 ```bash
 uv sync --dev
 PYTHONPATH=src python -m pytest tests -q
-PYTHONPATH=src python -m agentops_lab.cli --help
+PYTHONPATH=src python -m agent_workflow.cli --help
 ```
 
 To run agent experiments, follow `docs/reproducibility.md` because those runs

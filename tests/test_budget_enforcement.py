@@ -6,8 +6,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
-from agentops_lab.budgeting import BudgetTracker
-from agentops_lab.config import ExperimentConfig
+from agent_workflow.budgeting import BudgetTracker
+from agent_workflow.config import ExperimentConfig
 
 
 def test_budget_not_expired_before_start():
