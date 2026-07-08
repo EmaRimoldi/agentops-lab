@@ -52,10 +52,9 @@ Key examples:
 | Evidence | What it shows | Start here |
 |---|---|---|
 | Starting model calibration | 161 controlled evaluations selected the common starting `train.py`: validation loss before edits `val_bpb = 0.841354`, success threshold `val_bpb <= 0.824` | [`experiments/01_baseline/README.md`](experiments/01_baseline/README.md) |
-| Shared memory effect | `T07` shared-memory exploration found better and more stable results than `T06` exploratory search without memory: best `0.914` vs `0.933`, mean `1.049` vs `1.816` | [`experiments/04_agent_memory_ablation/README.md`](experiments/04_agent_memory_ablation/README.md) |
-| Historical swarm baseline | Blackboard-style swarm runs reached lower validation BPB than an independent-parallel baseline: `1.041477` vs `1.113130` | [`experiments/05_swarm_baselines/README.md`](experiments/05_swarm_baselines/README.md) |
-| Deterministic evaluator | Five baseline runs produced identical `val_bpb = 0.811222`, removing training noise as the main explanation | [`experiments/02_evaluator_calibration/results/evaluator_calibration_summary.md`](experiments/02_evaluator_calibration/results/evaluator_calibration_summary.md) |
-| Compute allocation calibration | Fixed-time parallel training completed fewer optimizer updates and looked worse; fixed-step evaluation preserved quality but changed latency | [`experiments/03_compute_allocation_calibration/README.md`](experiments/03_compute_allocation_calibration/README.md) |
+| Evaluation protocol calibration | Five repeated baseline runs matched exactly, and fixed-time parallel training completed fewer optimizer updates; later comparisons should use deterministic fixed-step evaluation | [`experiments/02_evaluation_protocol_calibration/README.md`](experiments/02_evaluation_protocol_calibration/README.md) |
+| Shared memory effect | `T07` shared-memory exploration found better and more stable results than `T06` exploratory search without memory: best `0.914` vs `0.933`, mean `1.049` vs `1.816` | [`experiments/03_agent_memory_ablation/README.md`](experiments/03_agent_memory_ablation/README.md) |
+| Historical swarm baseline | Blackboard-style swarm runs reached lower validation BPB than an independent-parallel baseline: `1.041477` vs `1.113130` | [`experiments/04_swarm_baselines/README.md`](experiments/04_swarm_baselines/README.md) |
 
 ## What Works Today
 
@@ -120,11 +119,10 @@ docs/
 
 experiments/
   01_baseline/                     starting model calibration evidence
-  02_evaluator_calibration/        deterministic evaluator evidence
-  03_compute_allocation_calibration/
-                                  CPU compute-allocation and fixed-step evidence
-  04_agent_memory_ablation/        memory and exploration ablation evidence
-  05_swarm_baselines/              blackboard coordination evidence
+  02_evaluation_protocol_calibration/
+                                  deterministic fixed-step and compute evidence
+  03_agent_memory_ablation/        memory and exploration ablation evidence
+  04_swarm_baselines/              blackboard coordination evidence
 
 autoresearch/
   CIFAR-10 train.py optimization task used by the agents

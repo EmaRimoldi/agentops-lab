@@ -30,7 +30,7 @@ This gives the repo a concrete experimental question:
    `target_val_bpb = 0.824`.
 
 2. Read the strongest agent-workflow finding:
-   [`experiments/04_agent_memory_ablation/README.md`](../experiments/04_agent_memory_ablation/README.md).
+   [`experiments/03_agent_memory_ablation/README.md`](../experiments/03_agent_memory_ablation/README.md).
 
    The most informative comparison is `T06` vs `T07`:
 
@@ -42,19 +42,13 @@ This gives the repo a concrete experimental question:
    The interpretation is that exploration without routing correction behaves
    like a random walk, while shared memory reduces catastrophic repeats.
 
-3. Read why the task had to be calibrated:
-   [`experiments/02_evaluator_calibration/results/evaluator_calibration_summary.md`](../experiments/02_evaluator_calibration/results/evaluator_calibration_summary.md).
+3. Read why the evaluation protocol had to be calibrated:
+   [`experiments/02_evaluation_protocol_calibration/README.md`](../experiments/02_evaluation_protocol_calibration/README.md).
 
-   This experiment made evaluation deterministic. Five consecutive baseline runs
-   produced identical `val_bpb = 0.811222`, which means differences can be
-   attributed to agent edits rather than training noise.
-
-4. Read why compute allocation had to be controlled:
-   [`experiments/03_compute_allocation_calibration/README.md`](../experiments/03_compute_allocation_calibration/README.md).
-
-   This experiment shows why fixed-time parallel training can look worse simply
-   because each worker completes fewer optimizer updates, and why fixed-step
-   evaluation separates quality from latency.
+   This experiment combines the two protocol checks that make later comparisons
+   interpretable: repeated baseline runs must match exactly, and training should
+   be fixed-step rather than fixed-time so hardware contention appears as
+   latency instead of lower model quality.
 
 ## What To Look At Visually
 
@@ -62,13 +56,12 @@ The most useful result figures are:
 
 - [`docs/assets/experiments/experiment-map.png`](../docs/assets/experiments/experiment-map.png)
 - [`experiments/01_baseline/results/figures/figure-04-recommended-baseline-detail.png`](../experiments/01_baseline/results/figures/figure-04-recommended-baseline-detail.png)
-- [`experiments/04_agent_memory_ablation/results/figures/figure-01-trial-outcomes.png`](../experiments/04_agent_memory_ablation/results/figures/figure-01-trial-outcomes.png)
-- [`experiments/04_agent_memory_ablation/results/figures/figure-02-memory-stabilization.png`](../experiments/04_agent_memory_ablation/results/figures/figure-02-memory-stabilization.png)
-- [`experiments/02_evaluator_calibration/results/calibration__2x2-diversity-memory__superseded/figures/figure-01-main-comparison.png`](../experiments/02_evaluator_calibration/results/calibration__2x2-diversity-memory__superseded/figures/figure-01-main-comparison.png)
-- [`experiments/03_compute_allocation_calibration/results/figures/figure-01-fixed-time-compute-loss.png`](../experiments/03_compute_allocation_calibration/results/figures/figure-01-fixed-time-compute-loss.png)
-- [`experiments/03_compute_allocation_calibration/results/figures/figure-02-fixed-step-latency-cost.png`](../experiments/03_compute_allocation_calibration/results/figures/figure-02-fixed-step-latency-cost.png)
-- [`experiments/05_swarm_baselines/results/figures/figure-01-validation-bpb-over-time.png`](../experiments/05_swarm_baselines/results/figures/figure-01-validation-bpb-over-time.png)
-- [`experiments/05_swarm_baselines/results/figures/figure-04-swarm-memory-architecture.png`](../experiments/05_swarm_baselines/results/figures/figure-04-swarm-memory-architecture.png)
+- [`experiments/03_agent_memory_ablation/results/figures/figure-01-trial-outcomes.png`](../experiments/03_agent_memory_ablation/results/figures/figure-01-trial-outcomes.png)
+- [`experiments/03_agent_memory_ablation/results/figures/figure-02-memory-stabilization.png`](../experiments/03_agent_memory_ablation/results/figures/figure-02-memory-stabilization.png)
+- [`experiments/02_evaluation_protocol_calibration/results/figures/figure-01-fixed-time-compute-loss.png`](../experiments/02_evaluation_protocol_calibration/results/figures/figure-01-fixed-time-compute-loss.png)
+- [`experiments/02_evaluation_protocol_calibration/results/figures/figure-02-fixed-step-latency-cost.png`](../experiments/02_evaluation_protocol_calibration/results/figures/figure-02-fixed-step-latency-cost.png)
+- [`experiments/04_swarm_baselines/results/figures/figure-01-validation-bpb-over-time.png`](../experiments/04_swarm_baselines/results/figures/figure-01-validation-bpb-over-time.png)
+- [`experiments/04_swarm_baselines/results/figures/figure-04-swarm-memory-architecture.png`](../experiments/04_swarm_baselines/results/figures/figure-04-swarm-memory-architecture.png)
 
 ## Runnable Surface
 

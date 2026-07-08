@@ -1,4 +1,4 @@
-"""Generate figures for the compute-allocation calibration experiment."""
+"""Generate figures for the evaluation-protocol calibration experiment."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY = ROOT / "experiments" / "03_compute_allocation_calibration"
+STUDY = ROOT / "experiments" / "02_evaluation_protocol_calibration"
 RESULTS = STUDY / "results"
 FIGURES = RESULTS / "figures"
 FIXED_TIME = RESULTS / "fixed_time_cpu_scaling" / "fixed_time_summary.csv"

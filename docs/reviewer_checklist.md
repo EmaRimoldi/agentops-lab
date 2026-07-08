@@ -29,9 +29,8 @@ to know whether Agent Workflow Evaluation Lab is real, inspectable, and honest a
 | Claim | Evidence | Status |
 |---|---|---|
 | The benchmark starting model was calibrated before agent claims. | `experiments/01_baseline/README.md` | 161 controlled evaluations; 1170-update runs are the decision evidence. |
-| Training noise can be removed from the evaluator. | `experiments/02_evaluator_calibration/results/evaluator_calibration_summary.md` | Five identical baseline runs at `val_bpb = 0.811222`. |
-| Shared memory can reduce destructive exploration in this substrate. | `experiments/04_agent_memory_ablation/README.md` | `T07` beats `T06` on best and mean `val_bpb`, with `p < 0.001`. |
-| Compute allocation can confound fixed-time parallel evaluation. | `experiments/03_compute_allocation_calibration/README.md` | Fixed-time trend plus fixed-step control. |
+| Evaluation protocol confounds are documented. | `experiments/02_evaluation_protocol_calibration/README.md` | Fixed-step determinism and fixed-time compute contention are both covered. |
+| Shared memory can reduce destructive exploration in this substrate. | `experiments/03_agent_memory_ablation/README.md` | `T07` beats `T06` on best and mean `val_bpb`, with `p < 0.001`. |
 
 ## Reproducibility
 

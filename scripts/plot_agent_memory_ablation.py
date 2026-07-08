@@ -10,7 +10,7 @@ from matplotlib.ticker import MaxNLocator
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY = ROOT / "experiments" / "04_agent_memory_ablation"
+STUDY = ROOT / "experiments" / "03_agent_memory_ablation"
 RESULTS = STUDY / "results" / "trial_results.json"
 FIGURES = STUDY / "results" / "figures"
 

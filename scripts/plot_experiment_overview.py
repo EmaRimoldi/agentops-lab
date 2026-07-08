@@ -15,11 +15,9 @@ FIGURES = ROOT / "docs" / "assets" / "experiments"
 DARK = "#111827"
 GRAY = "#64748b"
 BLUE = "#2563eb"
-GREEN = "#16a34a"
 ORANGE = "#f97316"
 PURPLE = "#7c3aed"
 RED = "#dc2626"
-SLATE = "#334155"
 FILL = "#f8fafc"
 
 EXPERIMENTS = [
@@ -31,29 +29,22 @@ EXPERIMENTS = [
         "color": BLUE,
     },
     {
-        "name": "Evaluator calibration",
-        "folder": "02_evaluator_calibration/",
-        "role": "Remove training noise",
-        "result": "5 repeated baseline runs matched exactly",
-        "color": GREEN,
-    },
-    {
-        "name": "Compute allocation",
-        "folder": "03_compute_allocation_calibration/",
-        "role": "Separate quality from resource contention",
-        "result": "Fixed-time parallel runs completed fewer updates",
+        "name": "Evaluation protocol",
+        "folder": "02_evaluation_protocol_calibration/",
+        "role": "Make evaluation deterministic and hardware-aware",
+        "result": "Fixed steps remove noise; fixed time exposes contention",
         "color": ORANGE,
     },
     {
         "name": "Agent memory ablation",
-        "folder": "04_agent_memory_ablation/",
+        "folder": "03_agent_memory_ablation/",
         "role": "Test memory and exploration",
         "result": "T07 was better and more stable than T06",
         "color": PURPLE,
     },
     {
         "name": "Swarm baselines",
-        "folder": "05_swarm_baselines/",
+        "folder": "04_swarm_baselines/",
         "role": "Preserve blackboard coordination evidence",
         "result": "Historical swarm runs beat independent parallel baseline",
         "color": RED,
@@ -105,14 +96,13 @@ def main() -> None:
     ax.set_ylim(0, 5.0)
     ax.set_title("Experiment map: what each experiment contributes", fontsize=17, pad=14, color=DARK)
 
-    positions = [(0.35, 3.0), (3.65, 3.0), (6.95, 3.0), (3.65, 0.9), (6.95, 0.9)]
+    positions = [(0.35, 3.0), (3.65, 3.0), (6.95, 3.0), (3.65, 0.9)]
     for item, (x, y) in zip(EXPERIMENTS, positions):
         add_box(ax, x, y, item)
 
     arrow(ax, (2.97, 3.67), (3.65, 3.67))
     arrow(ax, (6.27, 3.67), (6.95, 3.67))
     arrow(ax, (8.26, 3.0), (4.96, 2.24))
-    arrow(ax, (6.27, 1.57), (6.95, 1.57))
 
     ax.text(
         5.0,

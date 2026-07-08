@@ -9,7 +9,7 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY = ROOT / "experiments" / "05_swarm_baselines"
+STUDY = ROOT / "experiments" / "04_swarm_baselines"
 FIGURES = STUDY / "results" / "figures"
 
 BLUE = "#2563eb"

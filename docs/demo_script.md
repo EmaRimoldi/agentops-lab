@@ -69,19 +69,19 @@ Files:
 
 - `experiments/README.md`
 - `experiments/01_baseline/README.md`
-- `experiments/04_agent_memory_ablation/README.md`
-- `experiments/02_evaluator_calibration/results/evaluator_calibration_summary.md`
+- `experiments/02_evaluation_protocol_calibration/README.md`
+- `experiments/03_agent_memory_ablation/README.md`
 
 What to say:
 
-The repo is structured as a sequence of experiments. Each experiment has a question,
-what was run, the result, the caveat, and the first file to read.
+The repo is structured as a sequence of experiments. Each experiment has a
+question, what was run, the result, the caveat, and the first file to read.
 
 ### 4. Show the strongest empirical result
 
 File:
 
-- `experiments/04_agent_memory_ablation/README.md`
+- `experiments/03_agent_memory_ablation/README.md`
 
 Key numbers:
 

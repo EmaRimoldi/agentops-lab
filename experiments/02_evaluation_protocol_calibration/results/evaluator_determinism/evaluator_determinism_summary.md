@@ -1,4 +1,4 @@
-# Evaluator Calibration Experiment
+# Evaluator Determinism Appendix
 
 **Status**: Superseded (by the probe ablation experiment)
 **Period**: April 2026 (third experiment)

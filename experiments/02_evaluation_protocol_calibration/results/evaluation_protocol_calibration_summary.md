@@ -1,4 +1,4 @@
-# Compute Allocation Calibration Summary
+# Evaluation Protocol Calibration Summary
 
 **Status**: Archived
 **Period**: April 2026 (first experiment)

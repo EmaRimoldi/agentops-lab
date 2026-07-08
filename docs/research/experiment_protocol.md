@@ -178,5 +178,5 @@ After runs finish:
 - `--serialized-evaluator` is recommended on shared machines to avoid
   contention masquerading as a workflow effect.
 - A single replicate is a probe, not a confirmatory result.
-- Swarm historical baselines in `experiments/05_swarm_baselines/` are context only;
+- Swarm historical baselines in `experiments/04_swarm_baselines/` are context only;
   they are not normalized rows for the current BP 2x2 decomposition.
