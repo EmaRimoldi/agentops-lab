@@ -23,9 +23,9 @@ cheaper, or more reliably than the baseline.
 Run local checks:
 
 ```bash
-uv sync --dev
-PYTHONPATH=src python -m pytest tests -q
-PYTHONPATH=src python -m agent_workflow.cli --help
+uv sync --dev --frozen
+uv run pytest tests -q
+uv run agent-workflow --help
 ```
 
 Prepare data:

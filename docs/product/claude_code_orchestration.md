@@ -56,7 +56,7 @@ The repository includes:
 ## Recommended Flow
 
 ```bash
-uv sync --dev
+uv sync --dev --frozen
 uv run agent-workflow demo
 uv run agent-workflow doctor
 uv run agent-workflow parallel --help

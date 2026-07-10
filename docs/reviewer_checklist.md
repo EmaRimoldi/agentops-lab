@@ -39,9 +39,9 @@ to know whether Agent Workflow is real, inspectable, and honest about its limits
 
 | Check | Command or file | Status |
 |---|---|---|
-| Install dependencies | `uv sync --dev` | Documented. |
-| Run tests | `PYTHONPATH=src python -m pytest tests -q` | Passing locally. |
-| Inspect CLI | `PYTHONPATH=src python -m agent_workflow.cli --help` | Passing locally. |
+| Install dependencies | `uv sync --dev --frozen` | Documented. |
+| Run tests | `uv run pytest tests -q` | Passing locally. |
+| Inspect CLI | `uv run agent-workflow --help` | Passing locally. |
 | Prepare benchmark data | `docs/reproducibility.md` | Documented. |
 | Run live agent experiments | `docs/reproducibility.md` | Requires Claude Code and isolated workspace. |
 

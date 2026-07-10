@@ -15,8 +15,7 @@ smoke evidence, and scaffold material.
 | Destination | Imported material |
 | --- | --- |
 | `05_autoresearch_model_routing/` | Processed AutoResearch accounting results, paper figures, minimal raw run files for 250 available `worker_confirmation` runs, config snapshot, campaign README, and figure/export helper scripts. |
-| `06_humaneval_decomposition_cost/` | HumanEval smoke progress notes, diagnostics, artifacts, metrics, real-smoke logs, prompts, oracles, runners, profile, block config, and smoke subset inputs. |
-| `07_swebench_experimental_scaffold/` | Neutral SWE-bench study scaffold, fixed 100-instance input slice, prompts, configs, and orchestration implementation code. |
+| `06_swebench_experimental_scaffold/` | Neutral SWE-bench study scaffold, fixed 100-instance input slice, prompts, configs, and orchestration implementation code. |
 
 ## Excluded
 

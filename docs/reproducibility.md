@@ -21,11 +21,48 @@ directory.
 - `claude` CLI from Claude Code, authenticated and available on `PATH`.
 - Network access for the first CIFAR-10 data download.
 
-Install Python dependencies:
+Install base Python dependencies:
 
 ```bash
-uv sync --dev
+uv sync --dev --frozen
 ```
+
+`uv.lock` is committed and is the source of locked Python package versions. The
+local `.venv/` directory is intentionally ignored; recreate it with `uv` rather
+than committing it.
+
+Install optional experiment profiles only when needed:
+
+```bash
+uv sync --dev --extra autoresearch --frozen    # torch/torchvision for CIFAR-10
+uv sync --dev --extra swebench --frozen        # datasets/docker/swebench
+uv sync --dev --extra analysis-ml --frozen     # scipy/sentence-transformers/torch
+uv sync --dev --extra all-experiments --frozen # all optional profiles
+```
+
+## Repository File Audit
+
+The tracked tree currently contains 2,165 files. The audit covered all tracked
+files by category:
+
+| Top-level area | Count | Reproducibility check |
+| --- | ---: | --- |
+| `experiments/` | 2,013 | parsed JSON/JSONL/CSV files; checked raw coverage manifests; reviewed each experiment README |
+| `src/` | 60 | parsed imports against `pyproject.toml` base and optional dependency profiles; ran tests |
+| `docs/` | 29 | checked setup commands, CLI commands, and experiment rerun paths |
+| `tests/` | 19 | executed with `uv run pytest tests -q` |
+| `scripts/` | 12 | checked imports and exercised non-live figure/report commands where safe |
+| `autoresearch/` | 6 | mapped required Torch/Torchvision dependencies to the `autoresearch` extra |
+| `prompts/` | 6 | preserved as live-agent prompt inputs |
+| `.github/` | 5 | checked CI installs with `uv sync --dev --frozen` and runs `pytest` |
+| `.claude/` | 4 | preserved Claude Code project agents/commands |
+| `configs/` | 4 | checked live-run config paths and documented required external tools |
+| top-level metadata | 7 | checked license, lockfile, package metadata, env template, and README |
+
+No tracked `.venv/`, `__pycache__/`, `.pytest_cache/`, `.DS_Store`, `.env`,
+private key, or credential file was found. Local `.venv/`, cache directories,
+and OS metadata may exist on this machine, but they are ignored and are not
+required to be committed.
 
 Prepare the AutoResearch data:
 
@@ -40,8 +77,8 @@ Run local smoke checks:
 ```bash
 uv run agent-workflow demo --experiment-id readme_demo
 uv run agent-workflow doctor
-PYTHONPATH=src python -m pytest tests -q
-PYTHONPATH=src python -m agent_workflow.cli --help
+uv run pytest tests -q
+uv run agent-workflow --help
 ```
 
 `agent-workflow demo` writes deterministic fixture data under
@@ -234,3 +271,14 @@ Agent runs write under `runs/` by default. Preserve at least:
 
 These files are what make later certified-time, diversity, and decomposition
 analysis auditable.
+
+## Experiment Reproduction Matrix
+
+The per-experiment commands and limits are documented in
+[`experiments/reproducibility.md`](../experiments/reproducibility.md). Use that
+matrix to distinguish:
+
+- figures/tables that can be regenerated from tracked files;
+- local reruns that require `torch`, `datasets`, Docker, or SWE-bench extras;
+- historical live-agent results that cannot be reproduced bit-for-bit because
+  raw workspaces, provider state, or model services are external.

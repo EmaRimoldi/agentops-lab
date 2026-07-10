@@ -27,9 +27,20 @@ directories. All 250 were imported with the seven files listed above.
 
 The balanced `n=30` manifest has 270 rows. Of those rows:
 
-- 180 have raw files present in this bundle.
-- 90 reference `worker_pilot` sources that were not present in the inspected
-  remote workspace.
+- 180 have raw files present in this bundle: trials `011`-`030`, seeds
+  `9400`-`9419`, for each workload/worker cell.
+- 90 reference missing `worker_pilot` sources: trials `001`-`010`, seeds
+  `9300`-`9309`, for each workload/worker cell.
+
+The affected cells are:
+
+- `mlp_flat` x `gpt_5_3_codex`, `gpt_5_4`, `gpt_5_4_mini`
+- `cnn_compact` x `gpt_5_3_codex`, `gpt_5_4`, `gpt_5_4_mini`
+- `resnet_micro` x `gpt_5_3_codex`, `gpt_5_4`, `gpt_5_4_mini`
+
+Cluster re-check on `login007` confirmed that `runs/worker_pilot/` is absent in
+the inspected campaign directory. Only pilot task manifests and broken
+`runs_balanced_n30` symlink references remain there.
 
 See:
 

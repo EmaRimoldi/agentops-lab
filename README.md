@@ -135,8 +135,7 @@ benchmark.
 | Memory ablation | Shared memory can stabilize exploratory agents in this substrate. | [`experiments/03_agent_memory_ablation/`](experiments/03_agent_memory_ablation/) |
 | Swarm baseline | Historical blackboard runs are promising context for richer coordination. | [`experiments/04_swarm_baselines/`](experiments/04_swarm_baselines/) |
 | AutoResearch routing | Imported processed routing/accounting results from the NeurIPS workspace. | [`experiments/05_autoresearch_model_routing/`](experiments/05_autoresearch_model_routing/) |
-| HumanEval decomposition cost | Imported 9-instance smoke metrics, logs, prompts, oracles, and artifacts. | [`experiments/06_humaneval_decomposition_cost/`](experiments/06_humaneval_decomposition_cost/) |
-| SWE-bench scaffold | Neutral study inputs and orchestration code, without historical results. | [`experiments/07_swebench_experimental_scaffold/`](experiments/07_swebench_experimental_scaffold/) |
+| SWE-bench scaffold | Neutral study inputs and orchestration code, without historical results. | [`experiments/06_swebench_experimental_scaffold/`](experiments/06_swebench_experimental_scaffold/) |
 
 ## CLI
 
@@ -187,6 +186,7 @@ Live agent runs require Claude Code authentication and a clean workspace. See
 - [`docs/demo.md`](docs/demo.md) - offline demo command and generated artifacts
 - [`docs/launch/`](docs/launch/) - launch checklist and copy
 - [`experiments/README.md`](experiments/README.md) - experiment map
+- [`experiments/reproducibility.md`](experiments/reproducibility.md) - per-experiment rerun commands and limitations
 - [`experiments/catalog.md`](experiments/catalog.md) - compact evidence catalog
 - [`docs/reviewer_checklist.md`](docs/reviewer_checklist.md) - what is built, proven, and still open
 - [`docs/reproducibility.md`](docs/reproducibility.md) - local and Claude Code setup

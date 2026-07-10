@@ -8,9 +8,40 @@ license = "MIT"
 dependencies = [
     "anthropic>=0.40.0",
     "matplotlib>=3.10.8",
+    "numpy>=2.0",
     "pandas>=2.3.3",
     "pyyaml>=6.0",
     "tabulate>=0.10.0",
+]
+
+[project.optional-dependencies]
+# Heavy dependencies are optional so `uv run agent-workflow demo` stays quick.
+autoresearch = [
+    "torch>=2.7",
+    "torchvision>=0.22",
+]
+swebench = [
+    "datasets>=3.0",
+    "docker>=7.1",
+    "pydantic>=2.0",
+    "swebench>=4.0",
+    "tqdm>=4.67",
+]
+analysis-ml = [
+    "scipy>=1.15",
+    "sentence-transformers>=3.0",
+    "torch>=2.7",
+]
+all-experiments = [
+    "datasets>=3.0",
+    "docker>=7.1",
+    "pydantic>=2.0",
+    "scipy>=1.15",
+    "sentence-transformers>=3.0",
+    "swebench>=4.0",
+    "torch>=2.7",
+    "torchvision>=0.22",
+    "tqdm>=4.67",
 ]
 
 [project.scripts]
