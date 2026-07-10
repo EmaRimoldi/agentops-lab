@@ -3,19 +3,17 @@
 [![Tests](https://github.com/EmaRimoldi/agent-workflow/actions/workflows/tests.yml/badge.svg)](https://github.com/EmaRimoldi/agent-workflow/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Claude Code](https://img.shields.io/badge/Claude%20Code-workflow%20evaluation-111827)
+![Claude Code](https://img.shields.io/badge/Claude%20Code-AutoResearch%20orchestration-111827)
 
-In one controlled run, shared memory cut mean `val_bpb` from 1.816 to 1.049.
-Agent Workflow lets you test whether your Claude Code agent team is worth
-running before you scale it.
+Agent Workflow runs controlled AutoResearch experiments to compare how
+single-agent, parallel, shared-memory, swarm, and routing architectures affect
+iterative research.
 
 ![Agent Workflow demo](docs/assets/product/demo.gif)
 
-Spawning more agents is easy. Knowing whether parallelism, shared memory, or
-coordination improved the result is the hard part. Agent Workflow is an
-open-source harness for defining one agent or N agents, running them in isolated
-workspaces, and comparing single-agent, parallel, shared-memory, swarm, and
-merge workflows on the same task.
+The built-in task is concrete: agents edit a CIFAR-10 training script, run a
+fixed-step verifier, receive validation-loss feedback, and keep proposing
+changes. The repository studies how orchestration changes that search process.
 
 The framework runs locally. Live Claude Code capacity depends on your
 subscription, provider quota, rate limits, and available compute.
@@ -68,12 +66,61 @@ uv run agent-workflow parallel \
 
 Agent Workflow gives each agent an isolated workspace, keeps evaluation budgets
 fixed, records trajectories and snapshots, and writes comparable reports. It is
-designed for developers and researchers who want to experiment with agent teams
-without needing frontier-lab infrastructure.
+designed for developers and researchers who want to study iterative agentic
+research loops without needing frontier-lab infrastructure.
 
 The built-in benchmark is `autoresearch/`: Claude Code agents edit a CIFAR-10
 `train.py`, run evaluations, and try to reduce `val_bpb` validation loss. Lower
 is better.
+
+## AutoResearch In One Loop
+
+```mermaid
+flowchart LR
+  A["Agent or agent team"] --> B["Propose edit to train.py"]
+  B --> C["Fixed-step verifier"]
+  C --> D["Validation loss feedback"]
+  D --> E["Memory, routing, or next proposal"]
+  E --> B
+```
+
+The public AutoResearch figures below use the 180 balanced raw traces with full
+step-level coverage: `3 workloads x 3 workers x 20 runs`, each with 20
+proposal/evaluation steps.
+
+![AutoResearch VisualTorch architectures](docs/assets/autoresearch/autoresearch-visualtorch-architectures.png)
+
+The editable substrates are intentionally small: one MLP, one compact CNN, and
+one micro-ResNet. The architecture figure is generated from the actual PyTorch
+modules with VisualTorch. An interactive version is available at
+[`docs/assets/autoresearch/interactive-mini-network.html`](docs/assets/autoresearch/interactive-mini-network.html).
+
+![AutoResearch progress over proposal steps](docs/assets/autoresearch/autoresearch-progress-over-steps.png)
+
+Mean best-so-far improvement rises over repeated proposals, but the curve depends
+on both workload and worker.
+
+![AutoResearch improvement and regression per step](docs/assets/autoresearch/autoresearch-improvement-regression-per-step.png)
+
+Individual proposals are not monotonic: many lower validation loss, while others
+make the current candidate worse.
+
+![AutoResearch first successful edit by step](docs/assets/autoresearch/autoresearch-first-success-by-step.png)
+
+The same raw traces show when each run first reaches a 5% relative
+validation-loss improvement.
+
+![AutoResearch edit modes over time](docs/assets/autoresearch/autoresearch-edit-mode-timeline.png)
+
+Agents shift among architecture, learning-rate, regularization, optimizer,
+schedule, and small-loop edits as the search progresses.
+
+Regenerate these figures from the checked-in raw traces:
+
+```bash
+uv run python scripts/plot_autoresearch_readme_figures.py
+uv run --extra architecture-viz python scripts/plot_autoresearch_visualtorch_architectures.py
+```
 
 ## Build Your Own Agent Team
 
@@ -106,13 +153,13 @@ resources can support.
 | Claude Code worktree launchers | Orchestration | Yes | Manual | No | No |
 | Agent template collections | Agent prompts | Yes | Varies | No | No |
 | Observability dashboards | Runtime monitoring | No | No | No | Yes |
-| Agent Workflow | Workflow evaluation | Yes | Yes | Yes | Yes |
+| Agent Workflow | Orchestration experiments | Yes | Yes | Yes | Yes |
 
 Agent Workflow is not trying to replace Claude Code, agent templates, or
-observability tools. It sits before scale-up: run the workflow, collect evidence,
-then decide whether the more complex agent team is worth using.
+observability tools. It provides a reproducible substrate for comparing how
+different agent-team architectures behave on the same iterative research task.
 
-## Current Signal
+## Current Shared-Memory Signal
 
 The strongest result so far is from the memory ablation experiment:
 

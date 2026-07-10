@@ -44,6 +44,12 @@ all-experiments = [
     "torch>=2.7",
     "torchvision>=0.22",
     "tqdm>=4.67",
+    "visualtorch>=1.2.1",
+]
+architecture-viz = [
+    "torch>=2.13.0",
+    "torchvision>=0.28.0",
+    "visualtorch>=1.2.1",
 ]
 
 [project.scripts]
