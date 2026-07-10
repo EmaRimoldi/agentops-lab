@@ -3,9 +3,10 @@
 This repo can be used at three levels:
 
 1. Inspect checked-in experiment summaries, tables, and figures without running agents.
-2. Generate an offline demo bundle without Claude Code or GPU.
-3. Run local smoke tests for the runtime and analysis code.
-4. Re-run agent experiments with Claude Code and the AutoResearch substrate.
+2. Regenerate reader-facing figures from processed result JSON.
+3. Generate an offline demo bundle without Claude Code or GPU.
+4. Run local smoke tests for the runtime and analysis code.
+5. Re-run agent experiments with Claude Code and the AutoResearch substrate.
 
 Historical experiment summaries are preserved evidence bundles. New agent runs will
 not be bit-for-bit identical because Claude Code, model routing, service
@@ -40,23 +41,79 @@ uv sync --dev --extra analysis-ml --frozen     # scipy/sentence-transformers/tor
 uv sync --dev --extra all-experiments --frozen # all optional profiles
 ```
 
+## AutoResearch Model-Routing Reproduction
+
+The AutoResearch model-routing results live under
+`experiments/05_autoresearch_model_routing/`. The runnable infrastructure that
+created those experiments is now preserved under:
+
+- `autoresearch/benchmark/cifar10/`: CIFAR-10 benchmark, workload templates,
+  verifier wrapper, and source validation.
+- `autoresearch/configs/`: active H=20 configs using `gpt_5_3_codex`,
+  `gpt_5_4`, and `gpt_5_4_mini`.
+- `autoresearch/prompts/`: model-generation and router prompts.
+- `autoresearch/analysis/`: pilot, threshold, routing, and accounting modules.
+- `autoresearch/scripts/`: plotting, artifact, Slurm, and campaign helpers.
+- `src/vao/`: compatibility runtime used by the imported AutoResearch harness.
+
+Verify the imported code without launching live agents or rerunning CIFAR-10
+campaigns:
+
+```bash
+uv run pytest tests/vao_runtime tests/autoresearch_reproduction -q
+```
+
+Regenerate compact figures from the processed analysis JSON:
+
+```bash
+uv run python -m autoresearch.scripts.reproduce_main_figures_from_processed \
+  --input experiments/05_autoresearch_model_routing/results/accounting/threeworker_final_analysis.json \
+  --out-dir /tmp/agent_workflow_autoresearch_reproduced
+```
+
+Render the workload/action catalog:
+
+```bash
+uv run python -m autoresearch.analysis.autoresearch_cifar10_mode_catalog \
+  --out-dir /tmp/agent_workflow_autoresearch_catalog
+```
+
+Full reruns require the `autoresearch` extra, authenticated model access, and
+enough compute for CIFAR-10 verification. A minimal local-stub smoke run should
+use tiny training budgets before launching any live campaign:
+
+```bash
+uv sync --dev --extra autoresearch --frozen
+uv run python -m autoresearch.analysis.autoresearch_cifar10_pilot \
+  --config autoresearch/configs/autoresearch_cifar10_workload_pilot.yaml \
+  --models autoresearch_local_stub \
+  --workloads cnn_compact \
+  --seeds 7001:1 \
+  --steps 1 \
+  --max-train-steps 2 \
+  --output-root /tmp/agent_workflow_autoresearch_smoke
+```
+
+The historical campaign raw workspaces, Slurm logs, and verifier intermediate
+directories are not committed. The repo preserves the processed accounting,
+figures, and a minimal raw bundle for traceability.
+
 ## Repository File Audit
 
-The tracked tree currently contains 2,165 files. The audit covered all tracked
-files by category:
+The file audit covers all committed source and experiment categories:
 
 | Top-level area | Count | Reproducibility check |
 | --- | ---: | --- |
-| `experiments/` | 2,013 | parsed JSON/JSONL/CSV files; checked raw coverage manifests; reviewed each experiment README |
-| `src/` | 60 | parsed imports against `pyproject.toml` base and optional dependency profiles; ran tests |
-| `docs/` | 29 | checked setup commands, CLI commands, and experiment rerun paths |
-| `tests/` | 19 | executed with `uv run pytest tests -q` |
+| `experiments/` | 2,014 | parsed JSON/JSONL/CSV files; checked raw coverage manifests; reviewed each experiment README |
+| `src/` | 99 | parsed imports against `pyproject.toml` base and optional dependency profiles; ran tests |
+| `docs/` | 31 | checked setup commands, CLI commands, and experiment rerun paths |
+| `tests/` | 30 | executed with `uv run pytest tests -q` |
 | `scripts/` | 12 | checked imports and exercised non-live figure/report commands where safe |
-| `autoresearch/` | 6 | mapped required Torch/Torchvision dependencies to the `autoresearch` extra |
+| `autoresearch/` | 59 | imported benchmark, analysis, configs, prompts, scripts, and lightweight substrate; mapped Torch/Torchvision to the `autoresearch` extra |
 | `prompts/` | 6 | preserved as live-agent prompt inputs |
 | `.github/` | 5 | checked CI installs with `uv sync --dev --frozen` and runs `pytest` |
 | `.claude/` | 4 | preserved Claude Code project agents/commands |
-| `configs/` | 4 | checked live-run config paths and documented required external tools |
+| `configs/` | 7 | checked live-run config paths, backend aliases, and documented required external tools |
 | top-level metadata | 7 | checked license, lockfile, package metadata, env template, and README |
 
 No tracked `.venv/`, `__pycache__/`, `.pytest_cache/`, `.DS_Store`, `.env`,

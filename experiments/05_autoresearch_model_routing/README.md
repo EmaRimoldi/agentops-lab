@@ -1,7 +1,8 @@
 # AutoResearch Model Routing
 
 This bundle preserves processed results from the `NeurIPS_2026` AutoResearch
-campaign. It is an imported evidence bundle, not a raw run archive.
+campaign. It is an evidence bundle plus runnable reproduction infrastructure,
+not a full raw run archive.
 
 ## What Was Transferred
 
@@ -10,6 +11,9 @@ campaign. It is an imported evidence bundle, not a raw run archive.
 - Minimal raw run files under `raw/`.
 - The submitted campaign README and config snapshot under `source/`.
 - Figure/artifact helper scripts under `source/scripts/`.
+- The live AutoResearch benchmark, configs, prompts, analysis modules, and
+  compatibility runtime under top-level `autoresearch/`, `configs/models.yaml`,
+  `configs/profiles.yaml`, and `src/vao/`.
 
 ## Source
 
@@ -91,6 +95,30 @@ symlinks in the inspected workspace.
 
 Raw coverage is documented in `raw/README.md` and
 `raw/manifests/raw_import_summary.json`.
+
+## Reproduction Code
+
+The runnable infrastructure from the newer `distribution-aware-orchestration`
+repository has been merged into this repository:
+
+- `autoresearch/benchmark/cifar10/`
+- `autoresearch/configs/`
+- `autoresearch/prompts/`
+- `autoresearch/analysis/`
+- `autoresearch/scripts/`
+- `src/vao/`
+
+The current model-routing config uses `gpt_5_3_codex`, `gpt_5_4`, and
+`gpt_5_4_mini`, matching the preserved processed result tables.
+
+Safe verification commands:
+
+```bash
+uv run pytest tests/vao_runtime tests/autoresearch_reproduction -q
+uv run python -m autoresearch.scripts.reproduce_main_figures_from_processed \
+  --input experiments/05_autoresearch_model_routing/results/accounting/threeworker_final_analysis.json \
+  --out-dir /tmp/agent_workflow_autoresearch_reproduced
+```
 
 ## Cluster Audit For Missing Raw Traces
 

@@ -1,13 +1,46 @@
-# AutoResearch CIFAR-10 Substrate
+# AutoResearch CIFAR-10 Infrastructure
 
-This directory is the CPU training substrate used by the agent orchestration
-framework in this repository.
+This directory contains the runnable AutoResearch infrastructure used by the
+model-routing experiment in `experiments/05_autoresearch_model_routing/`.
 
-Files:
-- `prepare.py`: read-only data download and evaluation harness
-- `train.py`: the only file the research agent should modify
-- `program.md`: short substrate-specific instructions
+## Canonical Reproduction Surface
 
-Metric:
-- `val_bpb` is emitted as an alias for validation loss so the existing
-  framework can parse results without renaming downstream fields.
+- `benchmark/cifar10/`: editable CIFAR-10 training benchmark, workload templates,
+  verifier wrapper, metadata, and solution validation.
+- `configs/`: active AutoResearch run configs. The current model-routing config
+  uses `gpt_5_3_codex`, `gpt_5_4`, and `gpt_5_4_mini`.
+- `prompts/`: canonical model-generation and router prompts.
+- `analysis/`: modules used to launch pilots, compute threshold/accounting
+  reports, and analyze router decisions.
+- `scripts/`: plotting, artifact, Slurm, and campaign helper scripts.
+
+The canonical workload set is:
+
+- `cnn_compact`
+- `mlp_flat`
+- `resnet_micro`
+
+Each run uses a 20-step proposal horizon and a 5% relative validation-loss
+improvement threshold unless the config says otherwise.
+
+## Lightweight Local Substrate
+
+The root-level files `prepare.py`, `train.py`, and `program.md` are retained for
+the older Agent Workflow demo/runtime path. They are useful for local workflow
+smoke tests, but they are not the full model-routing reproduction harness.
+
+## Safe Local Checks
+
+These commands verify the imported infrastructure without launching live agents
+or rerunning expensive training:
+
+```bash
+PYTHONPATH=src:. uv run pytest tests/vao_runtime tests/autoresearch_reproduction -q
+PYTHONPATH=src:. uv run python -m autoresearch.scripts.reproduce_main_figures_from_processed \
+  --input experiments/05_autoresearch_model_routing/results/accounting/threeworker_final_analysis.json \
+  --out-dir /tmp/agent_workflow_autoresearch_reproduced
+```
+
+Full reruns require the `autoresearch` optional dependency profile for
+Torch/Torchvision, Claude Code or Codex CLI model access, and enough CPU/GPU
+capacity for CIFAR-10 verification.
