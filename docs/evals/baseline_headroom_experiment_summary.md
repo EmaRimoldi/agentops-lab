@@ -17,7 +17,7 @@ chose the edits.
 
 ## Main Finding
 
-The decision uses only 1170-update runs. The 585-update task is preserved as
+The decision uses only 1170-update runs. The 585-update task is retained as
 exploratory/debugging evidence, but it is too permissive for later agent
 comparisons: many reasonable edits win, so it is less useful for testing whether
 an agent workflow actually improves search quality.

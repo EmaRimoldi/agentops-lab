@@ -47,11 +47,11 @@ External tools for live reruns:
 | Experiment | Evidence in repo | Reproducible from this repo | Command |
 | --- | --- | --- | --- |
 | `01_baseline` | Tables, JSON summary, figures, figure script, current `autoresearch/` task | Figures are reproducible. Full calibration rerun is possible with the AutoResearch extra and CIFAR-10 download. | `uv run python scripts/plot_baseline.py` |
-| `02_evaluation_protocol_calibration` | Fixed-time/fixed-step summary CSV/JSON, archived pilot JSON, figures, figure script | Figures are reproducible. The original CPU benchmark runners are not preserved as standalone launch scripts; rerun methodology is documented by the tables. | `uv run python scripts/plot_evaluation_protocol_calibration.py` |
+| `02_evaluation_protocol_calibration` | Fixed-time/fixed-step summary CSV/JSON, archived pilot JSON, figures, figure script | Figures are reproducible. The original CPU benchmark runners are not tracked as standalone launch scripts; rerun methodology is documented by the tables. | `uv run python scripts/plot_evaluation_protocol_calibration.py` |
 | `03_agent_memory_ablation` | Canonical trial JSON, statistical summary, figures, figure script | Figures are reproducible. Historical live Claude runs are not bit-for-bit reproducible and raw live directories are not included. | `uv run python scripts/plot_agent_memory_ablation.py` |
 | `04_swarm_baselines` | Historical summaries, analysis scripts, CSV/JSON, figures, figure script | Public figures are reproducible. Some archived deep-dive scripts require raw run trees that were not present when curated. New swarm runs can be launched with the current CLI. | `uv run python scripts/plot_swarm_baselines.py` |
-| `05_autoresearch_model_routing` | Processed accounting, 250 minimal raw traces, config snapshot, imported figure scripts, figures | Processed figure regeneration and raw-trace inspection are reproducible. Full original cluster run is not, because `worker_pilot` raw traces and full intermediate workspaces are absent. | see commands below |
-| `06_swebench_experimental_scaffold` | Neutral SWE-bench 100-instance scaffold, configs, prompts, imported orchestration implementation | This is a scaffold, not a completed result bundle. Imported code still refers to the original `vao.swebench_orchestration` namespace and needs namespace integration before direct execution in this repo. | see commands below |
+| `05_autoresearch_model_routing` | Processed accounting, 250 minimal raw traces, config snapshot, figure scripts, figures | Processed figure regeneration and raw-trace inspection are reproducible. The 270-record table is complete; raw JSONL coverage is 180 balanced records. | see commands below |
+| `06_swebench_experimental_scaffold` | Neutral SWE-bench 100-instance scaffold, configs, prompts, orchestration implementation | This is a scaffold, not a completed result bundle. The implementation lives under `vao_swebench_orchestration` and needs namespace cleanup before direct execution. | see commands below |
 
 ## Experiment Commands
 
@@ -84,7 +84,7 @@ Regenerate public figures from checked-in fixed-time and fixed-step summaries:
 uv run python scripts/plot_evaluation_protocol_calibration.py
 ```
 
-The current repository preserves the benchmark result tables, not the original
+The current repository tracks the benchmark result tables, not the original
 standalone CPU benchmark launch scripts that created every raw measurement.
 
 ### 03 Agent Memory Ablation
@@ -132,7 +132,7 @@ uv run agent-workflow swarm \
 
 ### 05 AutoResearch Model Routing
 
-Regenerate imported processed figures from the preserved analysis JSON:
+Regenerate processed figures from the analysis JSON:
 
 ```bash
 cd experiments/05_autoresearch_model_routing
@@ -155,7 +155,7 @@ print(Counter((row["condition"], row["backbone"], row["raw_status"]) for row in 
 PY
 ```
 
-Validate that imported JSON/JSONL raw traces parse:
+Validate that JSON/JSONL raw traces parse:
 
 ```bash
 uv run python - <<'PY'
@@ -193,11 +193,10 @@ uv run python -m json.tool \
   experiments/06_swebench_experimental_scaffold/source/study/data/verified_100/download_manifest.json
 ```
 
-The imported implementation currently preserves the original NeurIPS namespace
-expectation (`vao.swebench_orchestration.*`). Before direct execution from this
-repo, either restore that namespace package or adapt imports to the canonical
-Agent Workflow package. Historical SWE-bench run results were intentionally not
-transferred.
+The scaffold implementation currently expects the `vao.swebench_orchestration.*`
+namespace. Before direct execution, either restore that namespace package or
+adapt imports to the current runtime package. No completed SWE-bench result
+bundle is tracked yet.
 
 ## Audit Notes
 

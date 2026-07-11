@@ -1,7 +1,7 @@
 """Generate simple figures for the starting-model calibration experiment.
 
 Public-facing figures avoid internal shorthand such as q*, q3, BP, and
-candidate IDs. Raw IDs remain in the CSV/JSON artifacts for provenance.
+candidate IDs. Raw IDs remain in the CSV/JSON artifacts for auditability.
 """
 
 from __future__ import annotations

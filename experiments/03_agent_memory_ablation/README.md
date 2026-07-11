@@ -103,7 +103,7 @@ This is a probing experiment, not a confirmatory benchmark. Each trial has one
 execution, so results are best read as signal detection.
 
 The raw live-agent run directories and original historical configs are not
-included in this public tree. The preserved evidence is the canonical trial
+included in this public tree. The tracked evidence is the canonical trial
 table, statistical summary, and generated figures under `results/`.
 
 ## Evidence Files

@@ -34,5 +34,5 @@ Before posting:
 
 ## One-Line Positioning
 
-Agent Workflow helps developers measure whether a Claude Code agent team is
+AutoResearch Orchestration helps developers measure whether a Claude Code agent team is
 worth running before they scale it.

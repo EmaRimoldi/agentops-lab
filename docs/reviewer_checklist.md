@@ -1,7 +1,7 @@
 # Reviewer Checklist
 
 This checklist is for a technical reviewer who has only a few minutes and wants
-to know whether Agent Workflow is real, inspectable, and honest about its limits.
+to know whether AutoResearch Orchestration is real, inspectable, and honest about its limits.
 
 ## Product Clarity
 

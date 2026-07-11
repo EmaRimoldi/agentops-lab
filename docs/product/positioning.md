@@ -1,6 +1,6 @@
 # Positioning
 
-Agent Workflow should be presented as an evaluation harness, not as another
+AutoResearch Orchestration should be presented as an evaluation harness, not as another
 multi-agent launcher.
 
 ## Core Thesis

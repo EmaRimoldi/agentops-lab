@@ -1,10 +1,10 @@
 # Demo Script
 
-This is the shortest coherent demo of Agent Workflow.
+This is the shortest coherent demo of AutoResearch Orchestration.
 
 ## 60-Second Demo
 
-Agent Workflow measures whether a more complex AI-agent workflow is worth running.
+AutoResearch Orchestration measures whether a more complex AI-agent workflow is worth running.
 
 The benchmark is deliberately concrete: agents edit one CIFAR-10 training file,
 `autoresearch/train.py`, then run evaluations and try to reduce `val_bpb`
@@ -61,7 +61,8 @@ uv run agent-workflow baseline-calibration --help
 What to say:
 
 The public surface is one CLI, not a pile of ad hoc scripts. Historical scripts
-are still present for provenance, but the canonical route is `agent-workflow`.
+are still present for deeper inspection, but the canonical route is
+`agent-workflow`.
 
 ### 3. Show the evidence trail
 
@@ -106,7 +107,7 @@ Files:
 What to say:
 
 The repo is explicit about limits. The experiments show a path toward rigorous
-Agent Workflow evaluation on one controlled substrate, not a finished universal
+AutoResearch Orchestration evaluation on one controlled substrate, not a finished universal
 benchmark.
 
 ## Local Smoke Demo

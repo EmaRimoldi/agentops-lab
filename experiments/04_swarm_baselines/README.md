@@ -19,7 +19,7 @@ task but lets them communicate only after both processes finish.
 
 ## What Was Run
 
-The preserved model-comparison runs contain four two-agent swarm experiments:
+The model-comparison bundle contains four two-agent swarm experiments:
 
 - Haiku 4.5 run 1: 27 successful training attempts in 119.2 minutes, best
   `val_bpb = 1.041477`.
@@ -32,7 +32,7 @@ The preserved model-comparison runs contain four two-agent swarm experiments:
 
 Each swarm run used 2 agents, 120 minutes per agent, 300 seconds per training
 attempt, and 1 GPU per agent, for 2 GPUs total. The exact GPU model/type is not
-preserved in the curated artifacts.
+available in the curated artifacts.
 
 The phrase "106 successful runs" in the archived material means 106 valid
 training attempts across those four swarm experiments. It does not mean 106
@@ -40,7 +40,7 @@ separate experiments.
 
 ## Main Results
 
-The strongest preserved comparison is simple: independent parallelization
+The strongest comparison is simple: independent parallelization
 reached `val_bpb = 1.113130`, while the two Haiku swarm runs reached
 `1.041477` and `1.044341`.
 
@@ -53,9 +53,9 @@ evidence that Opus was a more efficient search worker in this setup.
 
 ![Validation BPB over time](results/figures/figure-01-validation-bpb-over-time.png)
 
-**Figure 1**: best validation BPB reached by the preserved swarm runs under the
+**Figure 1**: best validation BPB reached by the swarm runs under the
 two-hour budget. The plot uses final best values, durations, and attempt counts
-from the preserved summaries; full per-trial validation curves are not
+from the tracked summaries; full per-trial validation curves are not
 available for all four runs.
 
 ![Swarm shared memory architecture](results/figures/figure-04-swarm-memory-architecture.png)
@@ -101,16 +101,15 @@ Implementation references:
   one historical Haiku swarm run.
 - `results/analysis/model_comparison/`: Haiku/Sonnet/Opus comparison summaries,
   CSV/JSON tables, and archived analysis scripts.
-- `results/analysis/swarm_vs_independent_parallel/`: preserved comparison
+- `results/analysis/swarm_vs_independent_parallel/`: comparison
   between the independent-parallel baseline and two Haiku swarm runs.
 
 ## Completeness
 
 This is a useful historical evidence bundle, not a complete reproducibility
 bundle. The curated summaries, CSV/JSON result tables, scripts, and figures are
-preserved. The raw `results/swarm/runs/` directories were not present when the
-artifacts were moved, so some archived scripts document provenance but cannot be
-rerun inside this folder without restoring those raw runs.
+tracked. The raw `results/swarm/runs/` directories are not available here, so
+some archived scripts require those raw runs before they can be rerun.
 
 Treat the result as design evidence for blackboard coordination, not as a final
 confirmatory benchmark.

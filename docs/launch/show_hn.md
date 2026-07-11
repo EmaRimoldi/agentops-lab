@@ -11,7 +11,7 @@ Body:
 ```text
 Hi HN,
 
-I built Agent Workflow after running a controlled Claude Code agent experiment:
+I built AutoResearch Orchestration after running a controlled Claude Code agent experiment:
 does shared memory make multi-agent search better, or just more complicated?
 
 The problem: it is now easy to spawn more agents, but hard to know whether
@@ -27,7 +27,7 @@ That is a 42% lower mean validation loss in this substrate. The honest
 interpretation: shared memory did not solve the task, but it made exploratory
 agents much less destructive.
 
-Agent Workflow lets you:
+AutoResearch Orchestration lets you:
 
 - define one agent or N agents with roles, models, memory mode, and CPU/GPU assignment
 - run isolated Claude Code workers against the same task

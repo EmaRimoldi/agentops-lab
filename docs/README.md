@@ -1,4 +1,4 @@
-# Agent Workflow Docs
+# AutoResearch Orchestration Docs
 
 The documentation is organized by the questions a technical reviewer will ask.
 

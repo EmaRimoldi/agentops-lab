@@ -75,7 +75,7 @@ At 1170 optimizer updates:
 
 ## Evidence Not Used For The Decision
 
-The 585-update runs are preserved as exploratory/debugging evidence. They are
+The 585-update runs are retained as exploratory/debugging evidence. They are
 not used to rank starting models, choose the success threshold, or support later
 agent-comparison claims.
 

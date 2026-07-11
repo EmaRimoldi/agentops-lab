@@ -1,6 +1,6 @@
 # Claude Code Orchestration
 
-Agent Workflow is productized around a narrow use case: help a team design and
+AutoResearch Orchestration is productized around a narrow use case: help a team design and
 score a Claude Code agent workflow before spending serious time or quota on it.
 
 The repository is open-source and runs locally. Live Claude Code runs still
@@ -21,13 +21,13 @@ This space already has useful infrastructure:
   `claude-sub-agent`, and broad agent marketplaces provide agent templates,
   worktree helpers, and development workflows.
 
-The gap is measurement. Most tools help users run more agents. Agent Workflow
+The gap is measurement. Most tools help users run more agents. AutoResearch Orchestration
 asks whether the additional agents actually improved the result, and lets users
 define their own agent roster instead of accepting a fixed demo topology.
 
 ## Product Wedge
 
-Agent Workflow gives Claude Code a controlled evaluation loop:
+AutoResearch Orchestration gives Claude Code a controlled evaluation loop:
 
 1. Spawn isolated workers for the same task.
 2. Configure one agent or N agents with explicit roles, models, memory modes,
@@ -97,10 +97,10 @@ two-agent assumption.
 
 Short version:
 
-> Agent Workflow helps AI teams stop guessing which agent architecture to run.
+> AutoResearch Orchestration helps AI teams stop guessing which agent architecture to run.
 
 More explicit version:
 
-> Agent Workflow is a Claude Code evaluation harness that tests whether
+> AutoResearch Orchestration is a Claude Code evaluation harness that tests whether
 > memory, parallelism, or swarm coordination improves an agent workflow before
 > a team spends real money running it.

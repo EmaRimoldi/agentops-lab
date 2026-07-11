@@ -252,7 +252,7 @@ def figure_validation_bpb_over_time() -> None:
     fig.text(
         0.5,
         -0.025,
-        "The four model-comparison artifacts preserve final best values, durations, and attempt counts; raw per-trial validation curves were not preserved for all runs.",
+        "The four model-comparison artifacts track final best values, durations, and attempt counts; raw per-trial validation curves are not available for all runs.",
         ha="center",
         fontsize=9.4,
         color=MUTED,
@@ -333,7 +333,7 @@ def figure_swarm_memory_architecture() -> None:
     ax.text(
         5.0,
         0.13,
-        "Preserved setup: 1 GPU per agent, 2 GPUs total, 120 minutes per agent. Exact GPU model/type was not preserved in the curated artifacts.",
+        "Tracked setup: 1 GPU per agent, 2 GPUs total, 120 minutes per agent. Exact GPU model/type is not available in the curated artifacts.",
         ha="center",
         fontsize=9.7,
         color=MUTED,

@@ -11,13 +11,11 @@ Parameters:
 - Modes: `cnn_compact`, `mlp_flat`, `resnet_micro`
 
 Layout:
-- `manifests/`: Slurm array TSV manifests.
-- `runs/worker_pilot/`: 90 pilot worker trajectories.
-- `runs/worker_confirmation/`: 270 holdout trajectories, submitted only after pilot analysis.
-- `router/`: Z0-Z3 router decision JSONL files.
-- `accounting/`: deployment loss, confidence intervals, and residual diagnostics.
-- `slurm/`: Slurm stdout/stderr.
-- `config_snapshot/`: copied configs, prompts, and commit IDs used at launch.
+- `manifests/`: scheduler array TSV manifests.
+- `runs/worker_confirmation/`: holdout trajectories used for the checked raw bundle.
+- `router/`: router decision JSONL files.
+- `accounting/`: success, latency, token, confidence-interval, and residual diagnostics.
+- `config_snapshot/`: configs and prompts used at launch.
 
 Non-canonical earlier roots are left in place for debugging only:
 - `runs/autoresearch_cifar10/slurm_pilot`

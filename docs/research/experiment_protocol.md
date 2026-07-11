@@ -1,6 +1,6 @@
 # Experiment Protocol
 
-This protocol describes how to run a matched Agent Workflow experiment using the
+This protocol describes how to run a matched AutoResearch Orchestration experiment using the
 canonical `agent-workflow` CLI. For machine setup and Claude Code authentication, read
 [`../reproducibility.md`](../reproducibility.md) first.
 
@@ -169,7 +169,7 @@ After runs finish:
 3. Compare modes only when evaluator settings, model, and target threshold match.
 4. Move final summaries, tables, and figures into a named `experiments/<experiment>/`
    folder. Do not commit raw transient workspaces unless they are needed for
-   provenance.
+   reproducibility.
 
 ## Caveats
 

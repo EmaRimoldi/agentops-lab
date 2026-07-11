@@ -48,7 +48,7 @@ contention for poor agent decisions.
 
 | path | role |
 | --- | --- |
-| [`results/evaluator_determinism/`](results/evaluator_determinism/) | preserved appendix showing deterministic fixed-step evaluation and early memory/no-memory calibration |
+| [`results/evaluator_determinism/`](results/evaluator_determinism/) | appendix showing deterministic fixed-step evaluation and early memory/no-memory calibration |
 | [`results/fixed_time_cpu_scaling/`](results/fixed_time_cpu_scaling/) | N=1,2,4,8 fixed-time CPU scaling benchmark |
 | [`results/fixed_step_cpu_pair_benchmark/`](results/fixed_step_cpu_pair_benchmark/) | N=2 fixed-step benchmark showing quality is equalized but workers slow down |
 | [`results/figures/`](results/figures/) | current paper-style figures plus retained historical pilot plots |

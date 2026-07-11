@@ -1,6 +1,6 @@
 # Offline Demo
 
-The fastest way to inspect Agent Workflow is the offline demo:
+The fastest way to inspect AutoResearch Orchestration is the offline demo:
 
 ```bash
 uv run agent-workflow demo

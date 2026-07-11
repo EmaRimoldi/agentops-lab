@@ -1,6 +1,6 @@
 # SWE-Bench workspace
 
-This directory is the dedicated umbrella for SWE-Bench work inside `NeurIPS_2026`.
+This directory is the dedicated umbrella for SWE-bench orchestration work.
 
 ## Intended layout
 

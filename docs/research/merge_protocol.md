@@ -159,7 +159,7 @@ The merge orchestrator reads reasoning traces to:
 
 2. **Parameter parsing** — hyperparameter extraction uses regex matching of
    `ALL_CAPS_NAME = <float>` patterns. Parameters not matching this pattern will
-   not be merged (but will be preserved as-is from the base candidate).
+   not be merged (but will be retained as-is from the base candidate).
 
 3. **Evaluation is optional** — the merge produces a candidate but does not
    automatically evaluate it unless `--evaluate` is passed. Evaluation requires a

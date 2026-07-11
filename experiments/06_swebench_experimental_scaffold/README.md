@@ -1,45 +1,29 @@
 # SWE-bench Experimental Scaffold
 
-This bundle preserves the SWE-bench orchestration scaffold from `NeurIPS_2026`.
-It intentionally does not transfer historical SWE-bench results.
+This directory contains a neutral SWE-bench orchestration scaffold. It is not a
+completed result bundle.
 
-## What Was Transferred
+## Contents
 
 - Neutral 100-instance study inputs under `source/study/`.
 - SWE-bench orchestration implementation code under
   `source/implementation/vao_swebench_orchestration/`.
-- The source SWE-bench README as `source/swebench_README.md`.
-
-## Source
-
-Remote source repository:
-
-```text
-engaging:/home/erimoldi/openclaw_remote/projects/NeurIPS_2026
-```
-
-Primary source directories:
-
-```text
-swebench/studies/neutral_swebench_trial_100/
-swebench/src/vao/swebench_orchestration/
-```
+- SWE-bench workspace notes under `source/swebench_README.md`.
 
 ## Scope
 
-This is a scaffold for future SWE-bench work in Agent Workflow. It includes
-configs, prompts, neutral worker definitions, a fixed 100-instance input slice,
-and orchestration code. It does not include previous run outputs, evaluator
-reports, Slurm logs, predictions, traces, or historical failure analyses.
+This scaffold is for future SWE-bench orchestration work. It includes configs,
+prompts, neutral worker definitions, a fixed 100-instance input slice, and
+orchestration code. It does not include completed run outputs, evaluator
+reports, scheduler logs, predictions, traces, or failure analyses.
 
 The file `source/study/data/verified_100/instances_private_metadata.jsonl` is
-preserved as bookkeeping metadata and must not be injected into solver prompts.
+bookkeeping metadata and must not be injected into solver prompts.
 
-## What Is Not Included
+## Not Included
 
-- `swebench/studies/open_source_meta_loop_20260607/` result reports.
-- `swebench/studies/codex_suite_100_vs_gpt55/`.
-- `runs/`, `evaluations/`, and `slurm/` generated-output trees.
+- Completed SWE-bench result reports.
+- Generated `runs/`, `evaluations/`, and scheduler-output trees.
 - Any resolved/unresolved SWE-bench result counts.
 
 ## Read First

@@ -23,7 +23,7 @@ That is a 42% lower mean validation loss in this substrate. The honest
 interpretation is narrower: shared memory did not solve the task, but it made
 exploratory agents less destructive.
 
-Agent Workflow lets you define one agent or N agents, run them in isolated
+AutoResearch Orchestration lets you define one agent or N agents, run them in isolated
 workspaces, keep evaluation fixed-step, and preserve configs/logs/trajectories
 for later review.
 
@@ -37,7 +37,7 @@ want before trusting a multi-agent coding workflow.
 ## r/MachineLearning
 
 ```text
-I built Agent Workflow, an open-source evaluation harness for Claude Code
+I built AutoResearch Orchestration, an open-source evaluation harness for Claude Code
 agent teams.
 
 The checked-in benchmark is an AutoResearch task where agents edit a CIFAR-10

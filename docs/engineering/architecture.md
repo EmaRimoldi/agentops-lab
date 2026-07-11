@@ -1,6 +1,6 @@
-# Agent Workflow Architecture
+# AutoResearch Orchestration Architecture
 
-Agent Workflow exposes one runtime package, `agent_workflow`. The architecture is
+AutoResearch Orchestration exposes one runtime package, `agent_workflow`. The architecture is
 split between experiment modes, coordination primitives, instrumentation,
 evaluation tooling, and curated experiment evidence.
 

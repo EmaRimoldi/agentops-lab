@@ -28,7 +28,7 @@ Measuring whether parallelism, shared memory, or swarm coordination improved the
 ```
 
 ```text
-5/ So I packaged the experiment as Agent Workflow: an open-source harness for testing Claude Code agent teams before scaling them.
+5/ So I packaged the experiment as AutoResearch Orchestration: an open-source harness for testing Claude Code agent teams before scaling them.
 ```
 
 ```text

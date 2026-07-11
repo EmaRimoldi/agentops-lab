@@ -25,14 +25,14 @@ improvement threshold unless the config says otherwise.
 
 ## Lightweight Local Substrate
 
-The root-level files `prepare.py`, `train.py`, and `program.md` are retained for
-the older Agent Workflow demo/runtime path. They are useful for local workflow
-smoke tests, but they are not the full model-routing reproduction harness.
+The root-level files `prepare.py`, `train.py`, and `program.md` support the
+lightweight CLI demo/runtime path. They are useful for local workflow smoke
+tests, but they are not the full model-routing reproduction harness.
 
 ## Safe Local Checks
 
-These commands verify the imported infrastructure without launching live agents
-or rerunning expensive training:
+These commands verify the infrastructure without launching live agents or
+rerunning expensive training:
 
 ```bash
 PYTHONPATH=src:. uv run pytest tests/vao_runtime tests/autoresearch_reproduction -q

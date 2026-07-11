@@ -8,7 +8,7 @@ This repo can be used at three levels:
 4. Run local smoke tests for the runtime and analysis code.
 5. Re-run agent experiments with Claude Code and the AutoResearch substrate.
 
-Historical experiment summaries are preserved evidence bundles. New agent runs will
+Historical experiment summaries are tracked evidence bundles. New agent runs will
 not be bit-for-bit identical because Claude Code, model routing, service
 versions, and stochastic agent decisions can change over time. For serious
 reruns, pin the model, use fixed-step evaluation, and keep the generated run
@@ -44,8 +44,8 @@ uv sync --dev --extra all-experiments --frozen # all optional profiles
 ## AutoResearch Model-Routing Reproduction
 
 The AutoResearch model-routing results live under
-`experiments/05_autoresearch_model_routing/`. The runnable infrastructure that
-created those experiments is now preserved under:
+`experiments/05_autoresearch_model_routing/`. The runnable infrastructure lives
+under:
 
 - `autoresearch/benchmark/cifar10/`: CIFAR-10 benchmark, workload templates,
   verifier wrapper, and source validation.
@@ -54,10 +54,9 @@ created those experiments is now preserved under:
 - `autoresearch/prompts/`: model-generation and router prompts.
 - `autoresearch/analysis/`: pilot, threshold, routing, and accounting modules.
 - `autoresearch/scripts/`: plotting, artifact, Slurm, and campaign helpers.
-- `src/vao/`: compatibility runtime used by the imported AutoResearch harness.
+- `src/vao/`: compatibility runtime used by the AutoResearch harness.
 
-Verify the imported code without launching live agents or rerunning CIFAR-10
-campaigns:
+Verify the code without launching live agents or rerunning CIFAR-10 campaigns:
 
 ```bash
 uv run pytest tests/vao_runtime tests/autoresearch_reproduction -q
@@ -94,9 +93,9 @@ uv run python -m autoresearch.analysis.autoresearch_cifar10_pilot \
   --output-root /tmp/agent_workflow_autoresearch_smoke
 ```
 
-The historical campaign raw workspaces, Slurm logs, and verifier intermediate
-directories are not committed. The repo preserves the processed accounting,
-figures, and a minimal raw bundle for traceability.
+Historical raw workspaces, scheduler logs, and verifier intermediate
+directories are not committed. The repo tracks processed accounting, figures,
+and a minimal raw bundle for traceability.
 
 ## Repository File Audit
 
@@ -109,10 +108,10 @@ The file audit covers all committed source and experiment categories:
 | `docs/` | 31 | checked setup commands, CLI commands, and experiment rerun paths |
 | `tests/` | 30 | executed with `uv run pytest tests -q` |
 | `scripts/` | 12 | checked imports and exercised non-live figure/report commands where safe |
-| `autoresearch/` | 59 | imported benchmark, analysis, configs, prompts, scripts, and lightweight substrate; mapped Torch/Torchvision to the `autoresearch` extra |
-| `prompts/` | 6 | preserved as live-agent prompt inputs |
+| `autoresearch/` | 59 | benchmark, analysis, configs, prompts, scripts, and lightweight substrate; mapped Torch/Torchvision to the `autoresearch` extra |
+| `prompts/` | 6 | live-agent prompt inputs |
 | `.github/` | 5 | checked CI installs with `uv sync --dev --frozen` and runs `pytest` |
-| `.claude/` | 4 | preserved Claude Code project agents/commands |
+| `.claude/` | 4 | Claude Code project agents/commands |
 | `configs/` | 7 | checked live-run config paths, backend aliases, and documented required external tools |
 | top-level metadata | 7 | checked license, lockfile, package metadata, env template, and README |
 
@@ -146,7 +145,7 @@ Code evidence.
 
 ## Claude Code Setup
 
-Agent Workflow invokes Claude Code headlessly through the `claude` binary. The
+AutoResearch Orchestration invokes Claude Code headlessly through the `claude` binary. The
 current runner builds commands in this shape:
 
 ```bash
@@ -205,7 +204,7 @@ templates:
   command for Claude Code.
 
 Claude Code can run sessions in git worktrees so independent workers do not edit
-the same files. Agent Workflow also creates isolated workspaces for live
+the same files. AutoResearch Orchestration also creates isolated workspaces for live
 experiments; use the built-in `doctor` check before launching them:
 
 ```bash

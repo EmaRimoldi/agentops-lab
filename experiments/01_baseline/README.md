@@ -40,7 +40,7 @@ starting files and measured what happened.
 - **161** controlled evaluator runs.
 - **4** calibration batches.
 - **1170** optimizer updates for all decision evidence.
-- **585** optimizer-update runs preserved only as exploratory/debugging
+- **585** optimizer-update runs retained only as exploratory/debugging
   evidence.
 - Edits covered batch size, learning rate, model capacity, schedule, optimizer,
   and regularization.
@@ -79,7 +79,7 @@ the quality score is validation loss, `val_bpb`, and lower is better.
 ![Evidence scope](results/figures/figure-02-gate-diagnostics.png)
 
 **Figure 2** shows which evidence counts. The decision uses 1170-update runs.
-The 585-update runs are kept for provenance, but they are excluded from ranking,
+The 585-update runs are kept for debugging context, but they are excluded from ranking,
 threshold selection, and future agent-comparison claims.
 
 ![Starting point choice](results/figures/figure-03-category-improvement-heatmap.png)
@@ -135,7 +135,7 @@ any change.
 ## Why 585 Updates Are Not Used For Claims
 
 The 585-update runs were too permissive: too many simple edits improved the
-model. They are useful for debugging and provenance, but weak for evaluating
+model. They are useful for debugging context, but weak for evaluating
 agent workflows.
 
 All decision analysis therefore uses 1170 optimizer updates. Do not mix 585 and

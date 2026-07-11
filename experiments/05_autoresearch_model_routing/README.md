@@ -1,59 +1,42 @@
 # AutoResearch Model Routing
 
-This bundle preserves processed results from the `NeurIPS_2026` AutoResearch
-campaign. It is an evidence bundle plus runnable reproduction infrastructure,
-not a full raw run archive.
-
-## What Was Transferred
-
-- Processed accounting tables and JSON reports under `results/accounting/`.
-- Paper-facing figures under `results/figures/`.
-- Minimal raw run files under `raw/`.
-- The submitted campaign README and config snapshot under `source/`.
-- Figure/artifact helper scripts under `source/scripts/`.
-- The live AutoResearch benchmark, configs, prompts, analysis modules, and
-  compatibility runtime under top-level `autoresearch/`, `configs/models.yaml`,
-  `configs/profiles.yaml`, and `src/vao/`.
-
-## Source
-
-Remote source repository:
-
-```text
-engaging:/home/erimoldi/openclaw_remote/projects/NeurIPS_2026
-```
-
-Primary source campaign:
-
-```text
-autoresearch/campaigns/h20_delta005_20260505/
-```
+This experiment studies AutoResearch workload routing across three CIFAR-10
+workload families and three worker aliases. It contains processed accounting
+tables, public figures, config snapshots, and a minimal raw trace bundle.
 
 ## Scope
 
-The imported campaign records AutoResearch CIFAR-10 workload-routing outputs for
-three workload families and three worker aliases. The preserved processed file
-`results/accounting/threeworker_balanced_n30_sensitivity.json` records
-`run_count = 270` and `threshold = 0.05`.
+The processed routing table records:
 
-## Parameters
-
-- Task: CIFAR-10 training-script optimization. An agent proposes structured
-  edits to `solution.py`; the harness applies the edit, runs the verifier, and
-  records validation loss.
 - Workloads: `mlp_flat`, `cnn_compact`, `resnet_micro`.
 - Workers: `gpt_5_3_codex`, `gpt_5_4`, `gpt_5_4_mini`.
+- Trials: 30 per workload/worker cell.
 - Run horizon: 20 proposal/evaluation steps per run.
-- Success threshold: `0.05`, meaning at least 5% relative validation-loss
-  improvement versus the unmodified baseline:
+- Total processed records: `3 x 3 x 30 = 270`.
 
-  ```text
-  relative_improvement = (baseline_loss - best_loss) / baseline_loss
-  success = relative_improvement >= 0.05
-  ```
+The checked-in raw trace bundle covers 180 of the 270 balanced records: trials
+`011`-`030` for every workload/worker cell. Trials `001`-`010` are represented
+in processed accounting tables but do not have raw JSONL traces in this tree.
 
-- `tau_step`: the first proposal step at which the run reaches the success
-  threshold. A lower `tau_step` means the worker found a useful edit earlier.
+## Task
+
+Each AutoResearch run starts from a small CIFAR-10 training program. The worker
+proposes structured edits to the candidate solution, the harness applies the
+edit, runs a verifier, and records validation loss. Lower validation loss is
+better.
+
+## Success Threshold
+
+The main threshold is `0.05`, meaning at least 5% relative validation-loss
+improvement versus the starting candidate:
+
+```text
+relative_improvement = (baseline_loss - best_loss) / baseline_loss
+success = relative_improvement >= 0.05
+```
+
+`tau_step` is the first proposal step at which a run reaches that threshold. A
+lower `tau_step` means the worker found a useful edit earlier.
 
 ## Reader-Facing Metrics
 
@@ -67,49 +50,20 @@ Use these metrics when presenting this experiment:
 - `mean_elapsed_wall_minutes`: observed wall-clock runtime.
 - `mean_total_tokens_millions`: token usage reported by the run accounting.
 
-Do not use the imported composite deployment-cost field for product or research
-claims in this repository. It is retained only inside source accounting files
-for provenance.
+The README and current public figures use direct success, time, token, and
+improvement metrics.
 
 ## Main Observed Results
 
-- The balanced `n=30` table contains 270 processed records:
-  `3 workloads x 3 workers x 30 trials`.
-- At threshold `0.05`, the processed table records 263 successes out of 270
-  records.
-- The raw bundle covers 180 of the 270 balanced records: trials `011`-`030`
-  for every workload/worker cell. The missing 90 records are trials `001`-`010`
-  in every cell, which point to `worker_pilot` sources that were not present in
-  the inspected cluster workspace.
-
-## What Is Not Included
-
-- Full raw `runs/` directories.
-- `runs_balanced_n30/` symlink tree.
-- Cluster logs and Slurm output.
-- Provider transcripts or live-agent workspaces.
-
-The repository keeps a minimal raw bundle instead. The full run tree is larger
-and environment-bound, and `runs_balanced_n30/` contained broken absolute
-symlinks in the inspected workspace.
-
-Raw coverage is documented in `raw/README.md` and
-`raw/manifests/raw_import_summary.json`.
+- The balanced processed table contains 270 records.
+- At threshold `0.05`, 263 of 270 processed records crossed the success
+  threshold within 20 steps.
+- Raw trace coverage is 180/270 balanced records.
+- Raw traces are complete for the 180 covered records: each contains
+  `evaluations.jsonl`, `run_summary.json`, config snapshots, and prompt/session
+  metadata.
 
 ## Reproduction Code
-
-The runnable infrastructure from the newer `distribution-aware-orchestration`
-repository has been merged into this repository:
-
-- `autoresearch/benchmark/cifar10/`
-- `autoresearch/configs/`
-- `autoresearch/prompts/`
-- `autoresearch/analysis/`
-- `autoresearch/scripts/`
-- `src/vao/`
-
-The current model-routing config uses `gpt_5_3_codex`, `gpt_5_4`, and
-`gpt_5_4_mini`, matching the preserved processed result tables.
 
 Safe verification commands:
 
@@ -118,24 +72,55 @@ uv run pytest tests/vao_runtime tests/autoresearch_reproduction -q
 uv run python -m autoresearch.scripts.reproduce_main_figures_from_processed \
   --input experiments/05_autoresearch_model_routing/results/accounting/threeworker_final_analysis.json \
   --out-dir /tmp/agent_workflow_autoresearch_reproduced
+uv run python scripts/plot_autoresearch_readme_figures.py
+uv run python scripts/plot_product_evidence_assets.py
 ```
 
-## Cluster Audit For Missing Raw Traces
+Inspect raw-trace coverage:
 
-Checked on `login007` under:
-
-```text
-/home/erimoldi/openclaw_remote/projects/NeurIPS_2026/autoresearch/campaigns/h20_delta005_20260505
+```bash
+uv run python - <<'PY'
+import csv
+from collections import Counter
+path = "experiments/05_autoresearch_model_routing/raw/manifests/balanced_n30_raw_coverage.csv"
+with open(path, newline="", encoding="utf-8") as handle:
+    rows = list(csv.DictReader(handle))
+print(Counter(row["raw_status"] for row in rows))
+print(Counter((row["condition"], row["backbone"], row["raw_status"]) for row in rows))
+PY
 ```
 
-Findings:
+Validate JSON and JSONL traces:
 
-- `runs/worker_pilot/` is not present.
-- `manifests/worker_pilot_nonspark_tasks.tsv` and
-  `manifests/worker_pilot_gpt54mini_tasks.tsv` are present.
-- `runs_balanced_n30/MANIFEST.csv` contains 90 references to `worker_pilot`.
-- The corresponding `runs_balanced_n30` entries are broken symlinks in the
-  inspected workspace.
+```bash
+uv run python - <<'PY'
+import json
+from pathlib import Path
+root = Path("experiments/05_autoresearch_model_routing/raw")
+count = 0
+for path in root.rglob("*"):
+    if path.suffix == ".json":
+        json.loads(path.read_text(encoding="utf-8"))
+        count += 1
+    elif path.suffix == ".jsonl":
+        with path.open(encoding="utf-8") as handle:
+            for line in handle:
+                if line.strip():
+                    json.loads(line)
+                    count += 1
+print(f"parsed records/files: {count}")
+PY
+```
+
+## What Is Not Included
+
+- Full transient worker directories.
+- Broken or environment-specific symlink trees.
+- Cluster scheduler logs.
+- Provider-side transcripts not already captured in the raw trace bundle.
+
+This means the processed 270-record result table is available, but only the 180
+covered records can be audited step-by-step from raw JSONL traces.
 
 ## Read First
 
@@ -143,5 +128,5 @@ Findings:
 - `results/accounting/threeworker_threshold_summary.csv`
 - `results/accounting/threeworker_router_gain_summary.csv`
 - `raw/manifests/raw_run_inventory.csv`
-- `source/campaign_README.md`
+- `raw/README.md`
 - `results/figures/README.md`

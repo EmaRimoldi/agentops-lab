@@ -75,7 +75,7 @@ the quality score is validation loss, `val_bpb`, and lower is better.
 ![Evidence scope](figures/figure-02-gate-diagnostics.png)
 
 **Figure 2** shows which evidence counts. The decision uses 1170-update runs.
-The 585-update runs are kept for provenance, but they are excluded from ranking,
+The 585-update runs are kept for debugging context, but they are excluded from ranking,
 threshold selection, and future agent-comparison claims.
 
 ![Starting point choice](figures/figure-03-category-improvement-heatmap.png)
@@ -130,7 +130,7 @@ Useful failed edits:
 ## Why 1170 Updates
 
 The 585-update runs were too permissive: too many simple edits improved the
-score. They are useful for debugging and provenance, but weak for comparing
+score. They are useful for debugging context, but weak for comparing
 agent workflows. At 1170 updates, the task remains learnable while retaining
 failed edits.
 
